@@ -37,7 +37,7 @@ public class HtmlBuilder implements HttpHandler {
         if (pageName.equals("update")){
             JavaApplication1.pages.UpdatePages();                
         }
-        String response = "<html><head>" + header.GetDom() + "<style>" + css.GetDom() + "</style></head><body>" + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";        
+        String response = header.GetDom() + "<style>" + css.GetDom() + "</style></head><body>" + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";        
         t.sendResponseHeaders(200, response.length());        
         OutputStream os = t.getResponseBody();        
         os.write(response.getBytes());        
