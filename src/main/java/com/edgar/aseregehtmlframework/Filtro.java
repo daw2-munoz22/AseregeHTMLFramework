@@ -1,13 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package javaapplication1;
-
+package com.edgar.aseregehtmlframework;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Map;
-
 /**
  *
  * @author Edgar Muñoz

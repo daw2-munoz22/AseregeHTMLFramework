@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package javaapplication1;
+package com.edgar.aseregehtmlframework;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -19,14 +19,17 @@ public class HtmlBuilder implements HttpHandler {
     
     private DOMHtml header;
     private DOMHtml css;
+    private DOMHtml menu;
     private DOMHtml html;
     private DOMHtml footer;
     
     
-    public HtmlBuilder (DOMHtml header, DOMHtml css, DOMHtml html, DOMHtml footer){
+    public HtmlBuilder (DOMHtml header, DOMHtml css, DOMHtml menu ,DOMHtml html, DOMHtml footer){
         this.header = header;        
         this.css = css;        
-        this.html = html;
+        this.menu = menu;
+        
+        this.html = html;        
         this.footer = footer;
     }
     public void SetPageName(String pageName) {
@@ -34,10 +37,10 @@ public class HtmlBuilder implements HttpHandler {
     }
     public void handle(HttpExchange t) throws IOException {   
         
-        if (pageName.equals("update")){
-            JavaApplication1.pages.UpdatePages();                
+        if (pageName.equals("update")){  
+            AseregeHtmlFramework.pages.UpdatePages();            
         }
-        String response = header.GetDom() + "<style>" + css.GetDom() + "</style></head><body>" + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";        
+        String response = header.GetDom() + "<style>" + css.GetDom() + "</style></head><body>" + menu.GetDom() + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";        
         t.sendResponseHeaders(200, response.length());        
         OutputStream os = t.getResponseBody();        
         os.write(response.getBytes());        

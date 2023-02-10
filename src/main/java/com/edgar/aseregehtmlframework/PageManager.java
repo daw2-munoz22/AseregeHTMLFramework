@@ -1,5 +1,4 @@
-package javaapplication1;
-
+package com.edgar.aseregehtmlframework;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,11 +27,12 @@ public class PageManager {
     
     /*La puncion AddPage, crea la estructura de la web y hace un push al diccionario 
       */
-    public void AddPage(String headfile, String stylefile, String pagefile, String footerfile) throws IOException
+    public void AddPage(String headfile, String stylefile, String menufile, String pagefile, String footerfile) throws IOException
     {
         HtmlBuilder templatePage = new HtmlBuilder(
                 new DOMHtml(headfile),
                 new DOMHtml(stylefile),
+                new DOMHtml(menufile),
                 new DOMHtml(pagefile),
                 new DOMHtml(footerfile)
         );
@@ -48,7 +48,7 @@ public class PageManager {
                /*Recoremos la coleccion file (páginas web)
                 Llamamos a la funcion AddPage y mostramos la coleccion*/
         for (String file : webnames) {
-             AddPage("head.global", "styles.css", file, "footer.global");                    
+             AddPage("head.global", "styles.css", "menu.global",file, "footer.global");                    
         }
     }
     
