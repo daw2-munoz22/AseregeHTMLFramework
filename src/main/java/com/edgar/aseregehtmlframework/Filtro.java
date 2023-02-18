@@ -12,8 +12,10 @@ public class Filtro implements FilenameFilter {
         this.extension = extension;
     }
     public Filtro() { }
+       //Obtener clave del diccionario a partir del valor de un objeto sin determinar             
+     
 
-     public <T, E> T getKeyFromValue(Map<T, E> map, E value) {
+    public <T, E> T getKeyFromValue(Map<T, E> map, E value) {
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (value.equals(entry.getValue())) {
                 return entry.getKey();

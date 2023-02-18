@@ -1,0 +1,13 @@
+body{
+    background-image: url("images/cathedral.jpg");
+}
+h1{
+  font-family: 'Quattrocento', serif;
+}
+label{
+  font-family: 'Rokkitt', serif;
+  font-size: xx-large;
+}
+div.form-text{
+  font-size: medium;
+}

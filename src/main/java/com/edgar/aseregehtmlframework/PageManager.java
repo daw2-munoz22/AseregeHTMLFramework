@@ -13,7 +13,7 @@ import java.util.Map;
 //Esta clase, obtenmos la página principal
 public class PageManager {
     /*Defino todas las páginas de la web, guardadas en la variable pages, que 
-    será un diccionario de paginas (clave-valor)*/    
+    será un diccionario de paginas (clave-valor)*/           
     private Map<String, HtmlBuilder> pages = new HashMap<String, HtmlBuilder>();
     private String[] webnames;
     /*Creo los contructores
@@ -48,19 +48,20 @@ public class PageManager {
                /*Recoremos la coleccion file (páginas web)
                 Llamamos a la funcion AddPage y mostramos la coleccion*/
         for (String file : webnames) {
-             AddPage("head.global", "styles.css", "menu.global",file, "footer.global");                    
+             AddPage("head.global", file + ".css", "menu.global",file, "footer.global");                    
         }
     }
     
     /*Funcion para actualizar las páginas web. Para ello, 
-    la definimos a null y llamamos a la función anterior*/
-    public void UpdatePages() throws IOException{
-        //pages = null;
+    llamamos a la función anterior*/
+    public void UpdatePages() throws IOException{     
         LoadPages();       
     }
+    //obtener el array de páginas
     public String[] GetWebNames(){  
         return webnames;
     }
+    //devolver el diccionario de páginas
     public Map<String, HtmlBuilder> GetPages(){      
         return pages;      
     }   

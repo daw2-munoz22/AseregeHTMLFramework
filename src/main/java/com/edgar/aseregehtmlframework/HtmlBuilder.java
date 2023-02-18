@@ -26,7 +26,7 @@ public class HtmlBuilder implements HttpHandler {
     
     public HtmlBuilder (DOMHtml header, DOMHtml css, DOMHtml menu ,DOMHtml html, DOMHtml footer){
         this.header = header;        
-        this.css = css;        
+        this.css = css;                
         this.menu = menu;
         
         this.html = html;        
@@ -36,11 +36,9 @@ public class HtmlBuilder implements HttpHandler {
         this.pageName = pageName;        
     }
     public void handle(HttpExchange t) throws IOException {   
-        
-        if (pageName.equals("update")){  
-            AseregeHtmlFramework.pages.UpdatePages();            
-        }
-        String response = header.GetDom() + "<style>" + css.GetDom() + "</style></head><body>" + menu.GetDom() + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";        
+                
+        String response = header.GetDom() + "<style>" + css.GetDom() + "</style></head><body>" 
+                + menu.GetDom() + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";        
         t.sendResponseHeaders(200, response.length());        
         OutputStream os = t.getResponseBody();        
         os.write(response.getBytes());        
