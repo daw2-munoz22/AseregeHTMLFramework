@@ -62,7 +62,7 @@ public class MysqlManager {
         Role DBRole = null;
         try {
             conexion = DriverManager.getConnection(url, username, password);            
-            String query = "SELECT idroles, nombre, type FROM roles WHEREe type = ?;";
+            String query = "SELECT idroles, nombre, type FROM roles WHERE type = ?;";
             
             PreparedStatement statement = conexion.prepareStatement(query);        
             statement.setInt(1, permisionlevel);                                                                  
