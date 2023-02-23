@@ -1,5 +1,6 @@
 package com.edgar.aseregehtmlframework;
 import com.edgar.aseregehtmlframework.Model.Role;
+import com.edgar.aseregehtmlframework.Model.Usuario;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,7 +29,8 @@ public class MysqlManager {
         this.databaseName = databaseName;
     }  
     //creación de la tabla roles
-    public void CreateRoleTable(){                       
+    
+    protected void CreateRoleTable(){                       
         try {
             conexion = DriverManager.getConnection(url, username, password);            
             String Query = String.format("CREATE TABLE IF NOT EXISTS `%s`.`Roles` (`idroles` INT NOT NULL AUTO_INCREMENT, `nombre` VARCHAR(256) NULL, `type` INT NULL, PRIMARY KEY (`idroles`), UNIQUE INDEX `idroles_UNIQUE` (`idroles` ASC) VISIBLE);", databaseName);                                
@@ -40,13 +42,18 @@ public class MysqlManager {
         }        
     }
     //añadir los roles a la tabla
-    public void InsertRole(Role role){                       
+    public void InsertRole(String nombre, int type){
+        
+       //  Evitamos la inyecion SQL en la tabla Roles
         try {
             conexion = DriverManager.getConnection(url, username, password);            
-            String Query = String.format("INSERT INTO ROLES(nombre, type) VALUES('%s', %d%n)", role.getNombre(), role.getType());                                
-            Statement st = conexion.createStatement();
-            st.executeUpdate(Query);
             
+              
+            String query = "INSERT INTO roles (nombre,type) VALUES (?,?)";        
+            PreparedStatement statement = conexion.prepareStatement(query);        
+            statement.setString(1, nombre);       
+            statement.setInt(2, type);            
+            statement.executeUpdate();                    
          } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }        
@@ -55,9 +62,12 @@ public class MysqlManager {
         Role DBRole = null;
         try {
             conexion = DriverManager.getConnection(url, username, password);            
-            String Query = String.format("select idroles, nombre, type from roles where type = %d%n;", permisionlevel);        
-            Statement st = conexion.createStatement();
-            ResultSet resultSet = st.executeQuery(Query);
+            String query = "SELECT idroles, nombre, type FROM roles WHEREe type = ?;";
+            
+            PreparedStatement statement = conexion.prepareStatement(query);        
+            statement.setInt(1, permisionlevel);                                                                  
+                        
+            ResultSet resultSet = statement.executeQuery(query);
             
             //MIENTRAS se va ejecutando, va extrayendo los datos de la base de datos
             while (resultSet.next()) {                
@@ -74,43 +84,7 @@ public class MysqlManager {
         }    
         return null;//No hay roles o la base de datos falla
     }
-            
-            
-            
-            
-        //Seleccionar datos, los parametros son la query + nombre columna
-    public void Select(String query, String columnName) {                   
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-                    
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {                
-                String name = resultSet.getString(columnName);                
-                System.out.println("Name: " + name);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }        
-    }
     
-    //insertar datos en la base de datos
-    public void Insert(String nombreTabla, int id, String nombre, String apellido, int edad, String sexo){
-        try {
-            String Query = "INSERT INTO " + nombreTabla + " VALUES("
-                    + "\"" + id + "\", "
-                    + "\"" + nombre + "\", "
-                    + "\"" + apellido + "\", "
-                    + "\"" + edad + "\", "
-                    + "\"" + sexo + "\")";
-            Statement st = conexion.createStatement();
-            st.executeUpdate(Query);
-            
-        } catch (SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
-        }
-    }
-   
     //eliminar datos
     private void Drop(String table_name, String ID){
         try {
@@ -124,15 +98,40 @@ public class MysqlManager {
     }
     
     //CRUD del usuario
-    public void createUsuarioTable(){
+    protected void CreateUsuarioTable(){
         try {
-            conexion = DriverManager.getConnection(url, username, password);            
-            String Query = String.format("CREATE TABLE IF NOT EXISTS `%s`.`Usuarios` (`idUsuario` INT NOT NULL AUTO_INCREMENT, `nombre` VARCHAR(256) NULL, `apellido` VARCHAR(256) NULL, `edad` INT NULL, `sexo` VARCHAR(256) NULL, `password` VARCHAR(256) NULL, PRIMARY KEY (`idUsuario`), UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario` ASC) VISIBLE);", databaseName);                                
+            conexion = DriverManager.getConnection(url, username, password);  
+            
+            String query = String.format("CREATE TABLE IF NOT EXISTS `%s`.`Usuarios` (idUsers INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(256) NOT NULL, apellido VARCHAR(256) NOT NULL, edad INT NOT NULL, sexo VARCHAR(256) NOT NULL, email VARCHAR(256) NOT NULL, telefono VARCHAR(256) NULL,  passwordseguro LONGTEXT NOT NULL, `Roles_idroles` INT NOT NULL, PRIMARY KEY (`idUsers`, `Roles_idroles`), UNIQUE INDEX `idUsers_UNIQUE` (`idUsers` ASC) VISIBLE, INDEX `fk_Users_Roles_idx` (`Roles_idroles` ASC) VISIBLE, CONSTRAINT `fk_Users_Roles` FOREIGN KEY (`Roles_idroles`) REFERENCES `barcelonaweb`.`Roles` (`idroles`) ON DELETE NO ACTION ON UPDATE NO ACTION)", databaseName);
+            
             Statement st = conexion.createStatement();
-            st.executeUpdate(Query);
+            st.executeUpdate(query);
             
          } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         } 
+    }
+    //  Evitamos la inyecion SQL en la tabla Usuarios        
+    
+    public void InsertarUsuario(String nombre, String apellido, int edad, String sexo, String email, String telefono, String password, int roletype) throws Exception{
+        try{
+            conexion = DriverManager.getConnection(url, username, this.password);            
+            String query = "INSERT INTO Usuarios (nombre, apellido, edad, sexo, email, telefono, passwordseguro, Roles_idroles) VALUES (?,?,?,?,?,?,?,?)";        
+            PreparedStatement statement = conexion.prepareStatement(query);        
+            statement.setString(1, nombre);       
+            statement.setString(2, apellido);
+            statement.setInt(3, edad);
+            statement.setString(4, sexo);
+            statement.setString(5, email);
+            statement.setString(6, telefono);
+                        
+            String hashedpassword = new AES().encryptPassword(password);
+            //guardo el valor de la contraseña encriptada
+            statement.setString(7, hashedpassword);
+            statement.setInt(8, roletype);
+            statement.executeUpdate();            
+        } catch (SQLException e){
+            System.out.println("Error" + e.getMessage());
+        }
     }
 }

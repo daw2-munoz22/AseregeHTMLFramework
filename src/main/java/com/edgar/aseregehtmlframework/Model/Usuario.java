@@ -12,6 +12,7 @@ public class Usuario {
     private String sexo;
     private String password;
     
+    public Usuario(){}
     public Usuario(int idUsuario, String nombre, String apellido, int edad, String sexo, String password){
         this.idUsuario = idUsuario;
         this.nombre = nombre;

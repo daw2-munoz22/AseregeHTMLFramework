@@ -27,31 +27,19 @@ public class AseregeHtmlFramework {
             
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        }
-        
-                
-                
-        //Paths.get(htmlName),
-        /*AES crypt = new AES();
-        String rowIV = crypt.encryptPassword("P|aaw9rd0986t");*/
-        
+        }                                                 
         try {
             //pasar los parametros de la base de datos
             //MysqlManager sqlManager = new MysqlManager("localhost", 3306, "Aserege2", "1234567890");
             MysqlManager sqlManager = new MysqlManager("localhost", 3306, "root", "root", "barcelonaweb");
             sqlManager.CreateRoleTable();
+            sqlManager.CreateUsuarioTable();
             
-            Role newRole = new Role(1, "Administrador",2);
-            String name = newRole.getNombre();
+            //añadi los otros roles que faltaban e estuve comprobando a ver si funcionaban
+                        
+            sqlManager.InsertarUsuario("ADria", "Cano", 21, "Genero programador", "crossage64@elcrack.com", "+34622492239", "dumbar644&",1);
+                        
             
-            Role nuevoRol = new Role (2,"No Registrado", 1);
-            String nombre = nuevoRol.getNombre();
-            
-            Role user_registrado = new Role (3,"Registrado", 3);
-            String nombre3 = user_registrado.getNombre();
-            
-            //sqlManager.InsertRole(newRole);
-            sqlManager.SelectRole(2);
             
             //sqlManager.Select("select name from city;","Name");
             } catch (Exception ex) {

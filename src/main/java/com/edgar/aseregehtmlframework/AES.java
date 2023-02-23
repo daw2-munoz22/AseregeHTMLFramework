@@ -9,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Edgar Muñoz
  */
 
+//Esta clase sirve para el sistema de encriptación de contraseña
 public class AES {                           
     private final String ALGORITHM = "AES";    
     
