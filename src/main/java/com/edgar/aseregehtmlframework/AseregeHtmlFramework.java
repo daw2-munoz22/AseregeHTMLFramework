@@ -37,7 +37,7 @@ public class AseregeHtmlFramework {
             
             //añadi los otros roles que faltaban e estuve comprobando a ver si funcionaban
                         
-            sqlManager.InsertarUsuario("ADria", "Cano", 21, "Genero programador", "crossage64@elcrack.com", "+34622492239", "dumbar644&",1);
+            sqlManager.InsertarUsuario("Edgar", "Muñoz", 21, "Genero programador", "edgarmunozmanjon@gmail.com", "+34648401735", "P@ssw0rd543",1);            
                         
             
             
