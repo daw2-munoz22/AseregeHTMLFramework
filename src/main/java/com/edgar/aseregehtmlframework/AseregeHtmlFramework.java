@@ -69,7 +69,8 @@ public class AseregeHtmlFramework {
         //añadir la ruta del fichero .web
         for (String file : pages.GetWebNames()) {        
             //obtener el valor cuyo clave es el archivo .web SIN extensión
-            HtmlBuilder pageValue = pageCollection.get(file.split(".web")[0]);  
+            String folder = file.split(".web")[0];
+            HtmlBuilder pageValue = pageCollection.get(folder);  
             //buscar la llave a partir del diccionario 
             String key = filter.getKeyFromValue(pageCollection, pageValue); 
             //asignacion de nombre
@@ -81,6 +82,7 @@ public class AseregeHtmlFramework {
         
         server.createContext("/api/usuarios", new UsuarioApi());        
         server.createContext("/api/roles", new RolesApi());
+        
          //lanzar el servidor              
         server.setExecutor(null); // creates a default executor
         server.start();

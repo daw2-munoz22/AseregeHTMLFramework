@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 public class DOMHtml {
     private String html = "";
     public DOMHtml(String htmlName) throws FileNotFoundException, IOException{           
-        byte[] data = Files.readAllBytes(Paths.get(htmlName));
+        byte[] data = Files.readAllBytes(Paths.get("frontend/"+htmlName));
         html = new String(data);        
     }
     public String GetDom(){

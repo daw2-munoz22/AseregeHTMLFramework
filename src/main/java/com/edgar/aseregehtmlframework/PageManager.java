@@ -43,7 +43,7 @@ public class PageManager {
     /*user.dir devuelve la carpeta dónde están los ficheros del programa*/
     public void LoadPages() throws IOException{                     
         String ruta = System.getProperty("user.dir");      
-        File folder = new File(ruta);                                
+        File folder = new File(ruta + "/frontend/");                                
         webnames = folder.list(new Filtro(".web"));        
                /*Recoremos la coleccion file (páginas web)
                 Llamamos a la funcion AddPage y mostramos la coleccion*/

@@ -13,7 +13,6 @@
   <key for="edge" id="d9" yfiles.type="edgegraphics"/>
   <graph edgedefault="directed" id="G">
     <node id="n0" yfiles.foldertype="group">
-      <data key="d4"/>
       <data key="d5">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -47,7 +46,6 @@
       </data>
       <graph edgedefault="directed" id="n0:">
         <node id="n0::n0">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="124.0" width="220.81222148137948" x="307.99458000449397" y="124.83506849315074"/>
@@ -62,7 +60,6 @@
           </data>
         </node>
         <node id="n0::n1">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="173.63103561643834" width="220.81222148137948" x="307.99458000449397" y="404.83506849315074"/>
@@ -83,7 +80,6 @@
           </data>
         </node>
         <node id="n0::n2">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="256.0" width="592.6303382998171" x="539.9697507635259" y="-139.16493150684926"/>
@@ -103,7 +99,6 @@
           </data>
         </node>
         <node id="n0::n3">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="124.0" width="220.8122214813796" x="307.99458000449397" y="-7.164931506849257"/>
@@ -118,7 +113,6 @@
           </data>
         </node>
         <node id="n0::n4">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="140.0" width="222.04524434844706" x="307.9949647597823" y="256.83506849315074"/>
@@ -135,7 +129,6 @@
           </data>
         </node>
         <node id="n0::n5">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="270.0" width="592.6303382998171" x="539.9697507635259" y="124.83506849315074"/>
@@ -160,7 +153,6 @@
           </data>
         </node>
         <node id="n0::n6">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="124.0" width="220.81183672609114" x="307.9949647597823" y="-139.16493150684926"/>
@@ -175,7 +167,6 @@
           </data>
         </node>
         <node id="n0::n7">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="173.63103561643834" width="592.6303382998171" x="539.9697507635259" y="404.83506849315074"/>
@@ -193,18 +184,17 @@
       </graph>
     </node>
     <node id="n1" yfiles.foldertype="group">
-      <data key="d4"/>
       <data key="d5">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GenericGroupNode configuration="DemoGroup">
-              <y:Geometry height="422.0000000000001" width="875.038829299123" x="264.3120829578394" y="623.4661041095891"/>
+              <y:Geometry height="769.5351980787335" width="875.038829299123" x="264.3120829578394" y="623.4661041095891"/>
               <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="4.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="163.392578125" x="6.08342292488976" xml:space="preserve" y="6.086538461538453">Aseregehtmlframework.Model<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.4930478251693558" nodeRatioY="-0.4855769230769231" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="163.392578125" x="6.08342292488976" xml:space="preserve" y="11.099065356904816">Aseregehtmlframework.Model<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.4930478251693558" nodeRatioY="-0.4855769230769231" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:State autoResize="true" closed="false" closedHeight="80.0" closedWidth="100.0"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="5" topF="5.0"/>
+              <y:BorderInsets bottom="37" bottomF="37.13113043478256" left="0" leftF="0.0" right="0" rightF="0.0" top="5" topF="5.0"/>
             </y:GenericGroupNode>
             <y:GenericGroupNode configuration="DemoGroup">
               <y:Geometry height="80.0" width="100.0" x="-1415.0787110326828" y="-110.6747107390645"/>
@@ -227,7 +217,6 @@
       </data>
       <graph edgedefault="directed" id="n1:">
         <node id="n1::n0">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="188.0" width="316.9750367260911" x="279.3120829578394" y="746.4661041095891"/>
@@ -247,7 +236,6 @@
           </data>
         </node>
         <node id="n1::n1">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="236.0" width="252.9750367260911" x="626.287479783237" y="722.4661041095891"/>
@@ -269,7 +257,6 @@
           </data>
         </node>
         <node id="n1::n2">
-          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
               <y:Geometry height="380.0" width="215.0883361578678" x="909.2625760990946" y="650.4661041095891"/>
@@ -299,10 +286,30 @@
             </y:UMLClassNode>
           </data>
         </node>
+        <node id="n1::n3">
+          <data key="d5">
+            <y:UMLClassNode>
+              <y:Geometry height="236.0" width="252.9750367260911" x="311.4058936478204" y="1104.87017175354"/>
+              <y:Fill color="#607D8B" transparent="false"/>
+              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="222.86083984375" x="15.057098441170552" xml:space="preserve" y="3.0">Registro.web extends HTMLBuilder</y:NodeLabel>
+              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                <y:AttributeLabel xml:space="preserve">- idroles : integer;
+- nombre : String;
+- type : integer;</y:AttributeLabel>
+                <y:MethodLabel xml:space="preserve">+ getRoleID()
++ getNombre() 
++ getType() 
++ SetRoleID(idroles : integer)
++ SetNombre(nombre : String)
++ SetType(type : integer)</y:MethodLabel>
+              </y:UML>
+            </y:UMLClassNode>
+          </data>
+        </node>
       </graph>
     </node>
     <node id="n2" yfiles.foldertype="group">
-      <data key="d4"/>
       <data key="d5">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
