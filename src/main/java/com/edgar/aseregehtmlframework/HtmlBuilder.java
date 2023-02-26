@@ -35,8 +35,8 @@ public class HtmlBuilder implements HttpHandler {
     public void SetPageName(String pageName) {
         this.pageName = pageName;        
     }
-    public void handle(HttpExchange t) throws IOException {   
-                
+    /*Override modifica la funcion de handle que viene por herencia*/
+    @Override public void handle(HttpExchange t) throws IOException {                   
         String response = header.GetDom() + "<style>" + css.GetDom() + "</style></head><body>" 
                 + menu.GetDom() + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";        
         t.sendResponseHeaders(200, response.length());        

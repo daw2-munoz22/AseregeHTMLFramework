@@ -1,6 +1,8 @@
 package com.edgar.aseregehtmlframework;
 import com.edgar.aseregehtmlframework.Model.Role;
 import com.edgar.aseregehtmlframework.Model.Usuario;
+import com.edgar.aseregehtmlframework.api.RolesApi;
+import com.edgar.aseregehtmlframework.api.UsuarioApi;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -31,13 +33,13 @@ public class AseregeHtmlFramework {
         try {
             //pasar los parametros de la base de datos
             //MysqlManager sqlManager = new MysqlManager("localhost", 3306, "Aserege2", "1234567890");
-            MysqlManager sqlManager = new MysqlManager("localhost", 3306, "root", "root", "barcelonaweb");
-            sqlManager.CreateRoleTable();
-            sqlManager.CreateUsuarioTable();
+            //MysqlManager sqlManager = new MysqlManager("localhost", 3306, "root", "root", "barcelonaweb");
+            //sqlManager.CreateRoleTable();
+            //sqlManager.CreateUsuarioTable();
             
             //añadi los otros roles que faltaban e estuve comprobando a ver si funcionaban
                         
-            sqlManager.InsertarUsuario("Edgar", "Muñoz", 21, "Genero programador", "edgarmunozmanjon@gmail.com", "+34648401735", "P@ssw0rd543",1);            
+           // sqlManager.InsertarUsuario("Edgar", "Muñoz", 21, "M", "edgarmunozmanjon@gmail.com", "+34648401735", "P@ssw0rd543",1);            
                         
             
             
@@ -75,6 +77,10 @@ public class AseregeHtmlFramework {
                         
             server.createContext("/" + key, pageValue);            
         }   
+        
+        
+        server.createContext("/api/usuarios", new UsuarioApi());        
+        server.createContext("/api/roles", new RolesApi());
          //lanzar el servidor              
         server.setExecutor(null); // creates a default executor
         server.start();

@@ -9,11 +9,11 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private int edad;
-    private String sexo;
+    private char sexo;
     private String password;
     
     public Usuario(){}
-    public Usuario(int idUsuario, String nombre, String apellido, int edad, String sexo, String password){
+    public Usuario(int idUsuario, String nombre, String apellido, int edad, char sexo, String password){
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -33,7 +33,7 @@ public class Usuario {
     public int getEdad(){
         return edad;
     }
-    public String getSexo() {
+    public char getSexo() {
         return sexo;
     } 
     public String getPassword() {
@@ -53,7 +53,7 @@ public class Usuario {
     public void SetEdad(int edad){
         this.edad = edad;
     }
-    public void SetSexo(String sexo){
+    public void SetSexo(char sexo){
         this.sexo = sexo;        
     }
     public void SetPassword(String password){

@@ -10,8 +10,10 @@ class Usuario{
         this.passwordseguro = passwordseguro;    
     }
 }
-
-document.querySelector('#nick').classList.add('was-validated');
+let usuario = new Usuario(nombre, apellido, edad, sexo, email, telefono, passwordseguro, Roles_idroles);
+const edad = document.querySelector('#edad').classList.add('was-validated');
+const nombre = document.getElementById('nombre');
+const email = document.getElementById('email');
 // para form2
 document.querySelector('#enviar2').addEventListener('click', (e)=>{
     
@@ -21,9 +23,7 @@ document.querySelector('#enviar2').addEventListener('click', (e)=>{
     document.querySelector('#form2').classList.add('was-validated');
     if(form2.checkValidity()){
         form2.classList.remove('was-validated');
-        // const nombre = document.getElementById('nombre');
-        // const email = document.getElementById('email');
-        // let usuario = new Usuario(nombre, apellido, edad, sexo, email, telefono, passwordseguro, Roles_idroles);
+       
         // const json = JSON.stringify(person);
     }
 });

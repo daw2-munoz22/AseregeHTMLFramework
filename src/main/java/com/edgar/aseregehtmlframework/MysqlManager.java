@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 
@@ -83,6 +84,57 @@ public class MysqlManager {
             System.out.println("Error: " + e.getMessage());
         }    
         return null;//No hay roles o la base de datos falla
+    }
+    public ArrayList<Role> SelectRoles(){                       
+        ArrayList<Role> DBRole = new ArrayList<Role>();
+        try {
+            conexion = DriverManager.getConnection(url, username, password);            
+            String query = "SELECT * FROM roles;";
+            
+            PreparedStatement statement = conexion.prepareStatement(query);                                            
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            //MIENTRAS se va ejecutando, va extrayendo los datos de la base de datos
+            while (resultSet.next()) {                
+                int idroles = resultSet.getInt("idroles");
+                String name = resultSet.getString("nombre"); 
+                int type = resultSet.getInt("type");
+                //devolver el objeto tipo rol cuyos datos proceden de la DB
+                DBRole.add(new Role(idroles, name, type));
+            }
+            return DBRole;//devolver el rol
+            
+         } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }    
+        return null;//No hay roles o la base de datos falla
+    }
+    public ArrayList<Usuario> SelectUsuarios() {                       
+        ArrayList<Usuario> userlist = new ArrayList<Usuario>();         
+        try {
+            conexion = DriverManager.getConnection(url, username, password);            
+            String query = "SELECT * from usuarios;";
+            
+            PreparedStatement statement = conexion.prepareStatement(query);                    
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            //MIENTRAS se va ejecutando, va extrayendo los datos de la base de datos
+            while (resultSet.next()) {                
+                int idUsuario = resultSet.getInt("idUsers");
+                String nombre = resultSet.getString("nombre"); 
+                String apellido = resultSet.getString("apellido");
+                int edad = resultSet.getInt("edad");
+                String sexo = resultSet.getString("sexo");
+                String email = resultSet.getString("email");
+                String telefono = resultSet.getString("telefono");
+                String Roles_idroles = resultSet.getString("Roles_idroles");
+                userlist.add(new Usuario(idUsuario, nombre, apellido, edad, sexo.toCharArray()[0], null));                
+            }                     
+        } catch (SQLException e) {                                          
+             System.out.println("Error: " + e.getMessage());                             
+         }           
+        return userlist;      
+         //return null;      
     }
     
     //eliminar datos
