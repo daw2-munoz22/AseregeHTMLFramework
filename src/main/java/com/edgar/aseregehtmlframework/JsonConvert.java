@@ -15,7 +15,13 @@ public class JsonConvert{
     public static String Serialize(Object T) throws JsonProcessingException{
         return new ObjectMapper().writeValueAsString(T);
     }
-    public static Object Deserialize(String json) throws JsonProcessingException{
+    
+    public static <T> T Deserialize(String json, Class<T> clazz) throws IOException {    
+        ObjectMapper mapper = new ObjectMapper();       
+        return mapper.readValue(json, clazz);
+    }
+
+   /* public static Object Deserialize(String json) throws JsonProcessingException{
         try {
             Object object = new ObjectMapper().readValue(json, Object.class); 
             return new ObjectMapper().writeValueAsString(object);
@@ -23,7 +29,7 @@ public class JsonConvert{
             e.printStackTrace(); // Handle the exception if the JSON parsing fails
         }        
         return null;
-    }
+    }*/
     
     public static void SaveConfiguration(String json){
         File file = new File("aserege.conf");

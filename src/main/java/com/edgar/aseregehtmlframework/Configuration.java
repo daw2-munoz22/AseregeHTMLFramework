@@ -13,16 +13,5 @@ public class Configuration {
     public String username;
     public String password;
     public String databaseName;
-    public String IV;
-    
-    
-    public Configuration(String hostname, int port, String username, String password, String databaseName, String IV) {               
-        this.hostname = hostname;
-        this.port = port;
-        this.username = username;
-        this.password = password;
-        this.databaseName = databaseName;   
-        this.IV = IV;
-        
-    }   
+    public String IV;           
 }

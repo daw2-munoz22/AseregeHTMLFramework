@@ -1,4 +1,5 @@
 package com.edgar.aseregehtmlframework;
+import static com.edgar.aseregehtmlframework.JsonConvert.Deserialize;
 import com.edgar.aseregehtmlframework.Model.Role;
 import com.edgar.aseregehtmlframework.Model.Usuario;
 import com.edgar.aseregehtmlframework.api.RolesApi;
@@ -25,7 +26,7 @@ public class AseregeHtmlFramework {
     public static void main(String[] args) throws IOException, Exception {                                                   
         try {
             String connectionFile = new String(Files.readAllBytes(Paths.get("aserege.conf")));        
-            Object configuration = JsonConvert.Deserialize(connectionFile);  
+            Configuration configuration = Deserialize(connectionFile, Configuration.class);                                                            
             
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -34,12 +35,20 @@ public class AseregeHtmlFramework {
             //pasar los parametros de la base de datos
             //MysqlManager sqlManager = new MysqlManager("localhost", 3306, "Aserege2", "1234567890");
             //MysqlManager sqlManager = new MysqlManager("localhost", 3306, "root", "root", "barcelonaweb");
-            //sqlManager.CreateRoleTable();
-            //sqlManager.CreateUsuarioTable();
             
+            
+            String connectionFile = new String(Files.readAllBytes(Paths.get("aserege.conf")));                                                        
+            Configuration configuration = Deserialize(connectionFile, Configuration.class);                                       
+            MysqlManager sqlManager = new MysqlManager(configuration.hostname, configuration.port, configuration.username, configuration.password, configuration.databaseName);                        
+            sqlManager.CreateRoleTable();
+            sqlManager.CreateUsuarioTable();            
             //añadi los otros roles que faltaban e estuve comprobando a ver si funcionaban
+            sqlManager.InsertRole("Administrador", 1);
+            sqlManager.InsertarUsuario("Edgar", "Muñoz", 21, "M", "edgarmunozmanjon@gmail.com", "+34648401735", "P@ssw0rd543",1);            
+             
+            
                         
-           // sqlManager.InsertarUsuario("Edgar", "Muñoz", 21, "M", "edgarmunozmanjon@gmail.com", "+34648401735", "P@ssw0rd543",1);            
+           
                         
             
             
@@ -54,7 +63,7 @@ public class AseregeHtmlFramework {
         
 
         /*Uso este para publicar*/        
-        //HttpServer server = HttpServer.create(new InetSocketAddress(Integer.parseInt(args[0])), 0);                        
+        //HttpServer server = HttpServer.create(new InetSocketAddress(Integer.parseInt(args[0])), 0);                                
         /*Uso este para desarrollar*/
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
                         
@@ -78,8 +87,7 @@ public class AseregeHtmlFramework {
                         
             server.createContext("/" + key, pageValue);            
         }   
-        
-        
+                        
         server.createContext("/api/usuarios", new UsuarioApi());        
         server.createContext("/api/roles", new RolesApi());
         

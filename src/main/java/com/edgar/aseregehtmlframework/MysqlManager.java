@@ -48,9 +48,8 @@ public class MysqlManager {
        //  Evitamos la inyecion SQL en la tabla Roles
         try {
             conexion = DriverManager.getConnection(url, username, password);            
-            
-              
-            String query = "INSERT INTO roles (nombre,type) VALUES (?,?)";        
+                          
+            String query = "INSERT INTO Roles (nombre,type) VALUES (?,?)";        
             PreparedStatement statement = conexion.prepareStatement(query);        
             statement.setString(1, nombre);       
             statement.setInt(2, type);            
@@ -113,7 +112,7 @@ public class MysqlManager {
         ArrayList<Usuario> userlist = new ArrayList<Usuario>();         
         try {
             conexion = DriverManager.getConnection(url, username, password);            
-            String query = "SELECT * from usuarios;";
+            String query = "SELECT * from Usuarios;";
             
             PreparedStatement statement = conexion.prepareStatement(query);                    
             ResultSet resultSet = statement.executeQuery(query);
@@ -154,7 +153,7 @@ public class MysqlManager {
         try {
             conexion = DriverManager.getConnection(url, username, password);  
             
-            String query = String.format("CREATE TABLE IF NOT EXISTS `%s`.`Usuarios` (idUsers INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(256) NOT NULL, apellido VARCHAR(256) NOT NULL, edad INT NOT NULL, sexo VARCHAR(256) NOT NULL, email VARCHAR(256) NOT NULL, telefono VARCHAR(256) NULL,  passwordseguro LONGTEXT NOT NULL, `Roles_idroles` INT NOT NULL, PRIMARY KEY (`idUsers`, `Roles_idroles`), UNIQUE INDEX `idUsers_UNIQUE` (`idUsers` ASC) VISIBLE, INDEX `fk_Users_Roles_idx` (`Roles_idroles` ASC) VISIBLE, CONSTRAINT `fk_Users_Roles` FOREIGN KEY (`Roles_idroles`) REFERENCES `barcelonaweb`.`Roles` (`idroles`) ON DELETE NO ACTION ON UPDATE NO ACTION)", databaseName);
+            String query = String.format("CREATE TABLE IF NOT EXISTS `%s`.`Usuarios` (idUsers INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(256) NOT NULL, apellido VARCHAR(256) NOT NULL, edad INT NOT NULL, sexo VARCHAR(256) NOT NULL, email VARCHAR(256) NOT NULL, telefono VARCHAR(256) NULL,  passwordseguro LONGTEXT NOT NULL, `Roles_idroles` INT NOT NULL, PRIMARY KEY (`idUsers`, `Roles_idroles`), UNIQUE INDEX `idUsers_UNIQUE` (`idUsers` ASC) VISIBLE, INDEX `fk_Users_Roles_idx` (`Roles_idroles` ASC) VISIBLE, CONSTRAINT `fk_Users_Roles` FOREIGN KEY (`Roles_idroles`) REFERENCES `%s`.`Roles` (`idroles`) ON DELETE NO ACTION ON UPDATE NO ACTION)", databaseName,databaseName);
             
             Statement st = conexion.createStatement();
             st.executeUpdate(query);
