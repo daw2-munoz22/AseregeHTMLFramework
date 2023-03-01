@@ -38,11 +38,12 @@ public class HtmlBuilder implements HttpHandler {
     /*Override modifica la funcion de handle que viene por herencia*/
     @Override public void handle(HttpExchange t) throws IOException {                   
         String response = header.GetDom() + "<style>" + css.GetDom() + "</style></head><body>" 
-                + menu.GetDom() + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";        
-        t.sendResponseHeaders(200, response.length());        
-        OutputStream os = t.getResponseBody();        
-        os.write(response.getBytes());        
-        os.close();        
-    } 
-    
+                + menu.GetDom() + html.GetDom() + "<footer>" + footer.GetDom() + "</footer></body></html>";
+
+        t.getResponseHeaders().add("Transfer-Encoding", "chunked");
+        t.sendResponseHeaders(200, 0);
+        OutputStream os = t.getResponseBody();
+        os.write(response.getBytes());
+        os.close();
+    }     
 }
