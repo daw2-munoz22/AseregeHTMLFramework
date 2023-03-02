@@ -37,7 +37,12 @@
             
             <div class="p-sm-12 mt-3">
                 <label for="sexo" class="form-label">Sexo: </label>
-                <input id="sexo" type="text" class="form-control was-validated" required="">
+                <!-- <input id="sexo" type="text" class="form-control was-validated" required=""> -->
+                <select name="sexo" id="sexo">
+                    <option value="hombre">Hombre</option>
+                    <option value="mujer">Mujer</option>
+                    <option value="transexual">Transexual</option>
+                  </select>
                 <div class="valid-feedback">Todo estupendo</div>
                 <!-- mensaje si no valida -->
                 <div class="invalid-feedback">Introduce tu Sexo</div>
@@ -50,7 +55,7 @@
                 <!-- mensaje si no valida -->
                 <div class="invalid-feedback">Introduce tu Email</div>
             </div>
-            <div class="p-sm-12 mt-3">
+            <div class="p-sm-12 mt-3">                
                 <label for="telefono" class="form-label">Telefono: </label>
                 <input id="telefono" type="tel" class="form-control was-validated" value="" required="">
                 <div class="valid-feedback">Todo estupendo</div>
@@ -67,5 +72,5 @@
             <input id="enviar2" type="submit" value="Registrarse" class="mt-3 w-100 fs-5 btn btn-success">
         </form>
     </div>
-    <script src="./componentes/registro.js"></script>    
+    <script src="./componentes/registro.js" type="module"></script>       
 </body></html>

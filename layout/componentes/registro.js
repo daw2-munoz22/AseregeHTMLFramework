@@ -1,9 +1,10 @@
+import { API } from "../js/API.js";
 class Usuario{
     constructor(nombre, apellido, edad, sexo, email, telefono, pass){
         
         this.nombre = nombre;
         this.apellido = apellido;
-        this.edad = new Date(edad);       
+        this.edad = new Date(edad).getUTCFullYear();       
         this.sexo = sexo;
         this.email = email;
         this.telefono = telefono;
@@ -44,7 +45,14 @@ document.querySelector('#enviar2').addEventListener('click', (e)=>{
     if(form2.checkValidity()){
         form2.classList.remove('was-validated');       
         const json = JSON.stringify(usuario);
-        console.log(json);
+        //llamada a la clase API, que devuelve el tipo de petición (GET, POST, PUT, DELETE)
+                          
+        const peticion = new API().httpGetAsync('https://jsonplaceholder.typicode.com/posts/1', function(data) {
+            const post = JSON.parse(data);
+            console.log(`Title: ${post.title}`);
+            console.log(`Body: ${post.body}`);
+        });      
+        console.log(peticion);
     }
     
 });

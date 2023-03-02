@@ -1,0 +1,10 @@
+.header{
+    text-align: center;
+    height: 200px;
+    padding: 12px;
+}
+.avatar{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}

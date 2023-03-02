@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <link href="styles.css" rel="stylesheet" >
+    <link href="editarPerfil.css" rel="stylesheet" >
     <title>Editar Perfil</title>
 </head>
 <body>
-    <h1 class="pb-3">Regristo</h1> 
+    <h1 class="pb-3">Editar Perfil</h1> 
     <form id="form2" class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label for="nick" class="form-label">Nick:</label>
-            <input id="nick" type="text" class="form-control w-50 nick" required pattern="[A-Z_]{1,10}">
-            <!-- mensaje si valida -->
+        <div class="p-sm-12 mt-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input id="nombre" type="text" class="form-control was-validated" required="">
             <div class="valid-feedback">Todo estupendo</div>
             <!-- mensaje si no valida -->
-            <div class="invalid-feedback">Solo mayusculas, del 1 y 10, no espacios y solo _</div>
+            <div class="invalid-feedback">Introduce tu nombre</div>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -40,13 +43,13 @@
         const input = document.querySelector("input")
         //añadimos el evento keydown, comprovamos si tiene la clase nick. Si es true, añade el avatar
         input.addEventListener("keydown",(event)=>{
-            if(event.target.classList.contains('nick')){
+            if(event.target.classList.contains('nombre')){
                 router.avatar(event)
             }
         })     
         
         // //validacion
-        document.querySelector('#nick').classList.add('was-validated');
+        document.querySelector('#nombre').classList.add('was-validated');
         // para form2
         document.querySelector('#enviar').addEventListener('click', (e)=>{
             e.preventDefault();
@@ -58,5 +61,27 @@
             }
         });
     </script>
+    <!-- <div class="d-flex">
+    <div class="tabla d-flex"></div>
+    <div class="registro ps-5"></div>      
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="formEditar">
+            </form>
+            <div id="avatarE" class="w-50 ps-5 pb-4"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div> -->
 </body>
 </html>

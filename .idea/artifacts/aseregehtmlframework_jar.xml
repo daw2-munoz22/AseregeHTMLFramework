@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact name="aseregehtmlframework:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/aseregehtmlframework_jar</output-path>
+    <root id="root">
+      <element id="archive" name="aseregehtmlframework.jar">
+        <element id="module-output" name="aseregehtmlframework" />
+      </element>
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.1" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.1" />
+      <element id="library" level="project" name="Maven: com.mysql:mysql-connector-j:8.0.32" />
+      <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.21.9" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.1" />
+    </root>
+  </artifact>
+</component>
