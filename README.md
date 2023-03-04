@@ -3,7 +3,7 @@
 Se trata de una página web sobre Barcelona (para turismos, cultura..). Esta web es una SSR(Server Site Rendering), por lo cual, todas las vistas (páginas) se ejecutan en el servidor, aunque el comportamiento será de una SPA (Single Page Aplication), por lo tanto, se verá como una única página.
 El servidor AseregeHTMLFramework es un servidor que ha sido creado en el lenguaje de JAVA16 en el cual, se gestiona el control de los permisos de los usuarios, la manipulación de la Base de Datos de MySQL y, el sistema de validación del BackEnd propio. Este framework está vinculado con el FrontEnd, cuyas páginas realizadas desde el propio servidor, contiene el lenguage de marcado HTML5, los complementos para que la web que sea más bonita, se ha utilizado CSS3. La lógica del proyecto, está basada en el lenguaje de JavaScript, en la cual, se implementa el sistema de validación y la conexión al BackEnd, con el lenguaje de programación mencionado anteriormente.
 
-## Usage
+## Utilización
 
 Para lanzar el servidor, debes de ejecutar el siguiente comando: `java -jar AseregeHTMLFramework.jar`  
 
@@ -46,7 +46,7 @@ winget install EclipseAdoptium.Temurin.17.JDK
 ```
 Compilamos la solucion .pom con el editor de preferencia
 
-## Building on Linux
+## Compilar en Linux
 ```
 sudo apt update
 sudo apt-get install git
@@ -84,7 +84,7 @@ npm install
 ```
 Compilamos la solucion .pom con el editor de preferencia
 
-## Building on Mac OS X
+## Compilar en Mac OS X
 
 
 Para instalar Adoptium Temurin OpenJDK en macOS, puedes seguir los siguientes pasos:
