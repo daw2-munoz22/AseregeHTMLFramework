@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="es"><head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <link href="styles.css" rel="stylesheet">
-    <link href="registro.css" rel="stylesheet">    
-</head>
-<body>   
-    <div class="container-fluid">
+import { API } from "../js/API.js";
+import { Usuario} from "../modelo/Usuario.js";
+
+export const login = {
+    template: `
+    <div id="templatepage" class="container-fluid">
         <form id="form2" class="w-lg-25 m-sm-8 m-lg-5 card p-5 shadow needs-validation" novalidate="">
             <h1>Iniciar session</h1>
             <div class="p-sm-12 mt-3">
@@ -32,5 +25,25 @@
             <input id="enviar2" type="submit" value="Iniciar session" class="mt-3 w-100 fs-5 btn btn-success">
         </form>
     </div>
-    <script src="./componentes/login.js"></script>    
-</body></html>
+    `,
+    init: () => {
+        document.getElementById('body').innerHTML += login.template;
+    },
+    unload: ()=> {
+        const child = document.getElementById('templatepage');
+        document.getElementById('body').removeChild(child);        
+    },
+    script: () => {
+        document.querySelector('#form2').classList.add('was-validated');
+        if (form2.checkValidity()) {
+            form2.classList.remove('was-validated');      
+            
+            const nombre = document.getElementById("nick").value;
+            const password = document.getElementById("pass").value;
+
+            API.login(nombre, password);                
+            // const json = JSON.stringify(usuario);
+            // console.log(json);
+        }
+    }
+}

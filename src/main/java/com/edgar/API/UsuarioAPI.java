@@ -39,7 +39,8 @@ public class UsuarioAPI implements  API {
 
     @Override
     public String POST() throws JsonProcessingException{
-       /* try{
+       System.out.println("HE LLEGADO AL POST");
+        /* try{
             URL url = new URL("https://barcelonaweb.edgarmunoz4.repl.co");
             Map<Object, Usuario> params = new LinkedHashMap<>();
 

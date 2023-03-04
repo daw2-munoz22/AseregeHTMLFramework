@@ -34,6 +34,7 @@ public class RolesAPI implements API {
     public String GET() throws JsonProcessingException {
         //Utilizar las APIs GET
         //almaceno los roles de la base de datos en una lista de roles. En este caso, se define nulo, debido a que NO está definida
+
         ArrayList<Role> roles = null;
         try {
             //almacenar los datos en la variable roles
@@ -46,6 +47,7 @@ public class RolesAPI implements API {
 
     @Override
     public String POST() { //Utilizar las APIs POST
+        System.out.println("HE LLEGADO AL POST");
         return null;
     }
 

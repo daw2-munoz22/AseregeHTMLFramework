@@ -9,14 +9,13 @@
     <link href="styles.css" rel="stylesheet">
     <link href="registro.css" rel="stylesheet">    
 </head>
-<body>   
-  <p class=\"ejemplo\">MAIN PAGE<ul><li>PEPE</li></ul></p>
- <div class="card" style="width: 18rem;">
-        <img src="" class="card-img-top" alt="card">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
+<body id="body">      
+    <script type="module">
+        import{registro} from "./componentes/registro.js"        
+        import{login} from "./componentes/login.js"        
+        login.init();
+        login.script(); 
+        
+        login.unload();            
+    </script>        
 </body></html>

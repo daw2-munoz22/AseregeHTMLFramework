@@ -4,6 +4,7 @@ import com.edgar.API.UsuarioAPI;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.sql.SQLOutput;
 
 /**
  *
@@ -30,78 +31,84 @@ class PageManager implements Runnable {
             String recurso = partes[1];
 
             //si el método es GET
-            if (metodo.equals("GET")) {
 
-                if (recurso.startsWith("/api/")) {
+            switch(metodo) {
+                case "GET":
+                    if (recurso.startsWith("/api/")) {
 
-                    String json = "{}";
+                        String json = "{}";
 
-                    if (recurso.equals("/api/roles")) {
-                        try {
-                            json = new RolesAPI().GET();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                        if (recurso.equals("/api/roles")) {
+                            try {
+                                json = new RolesAPI().GET();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                         }
-                    }
-                    if (recurso.equals("/api/usuarios")) {
-                        try {
-                            json = new UsuarioAPI().GET();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                        if (recurso.equals("/api/usuarios")) {
+                            try {
+                                json = new UsuarioAPI().GET();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                         }
-                    }
 
 
-                    byte[] contenido = json.getBytes(); //guarda los datos en un byte array (0 y 1)
-                    String respuesta = "HTTP/1.1 200 OK\r\n";
-                    respuesta += "Content-Type: " + obtenerTipoContenido(recurso) + "\r\n";
-                    respuesta += "Content-Length: " + contenido.length + "\r\n";
-                    respuesta += "\r\n";
-                    cliente.getOutputStream().write(respuesta.getBytes());
-                    cliente.getOutputStream().write(contenido);
-
-                    //si no es una api
-                } else{
-                    File archivo = new File("layout" + recurso);
-                    if (archivo.exists()) {
-                        byte[] contenido = Files.readAllBytes(archivo.toPath());
+                        byte[] contenido = json.getBytes(); //guarda los datos en un byte array (0 y 1)
                         String respuesta = "HTTP/1.1 200 OK\r\n";
                         respuesta += "Content-Type: " + obtenerTipoContenido(recurso) + "\r\n";
                         respuesta += "Content-Length: " + contenido.length + "\r\n";
                         respuesta += "\r\n";
                         cliente.getOutputStream().write(respuesta.getBytes());
                         cliente.getOutputStream().write(contenido);
-                    } else {
-                        String respuesta = "HTTP/1.1 404 Not Found\r\n\r\n";
-                        cliente.getOutputStream().write(respuesta.getBytes());
-                    }
-                }
-            } else if (metodo.equals("POST")) {
-                // Procesar los datos del cliente y guardarlos en ua base de datos
-                if(recurso.startsWith("/api")){
-                    String json = "{}";
-                    if (recurso.equals("/api/roles")) {
-                        try {
-                            json = new RolesAPI().POST();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+
+                        //si no es una api
+                    } else{
+                        File archivo = new File("layout" + recurso);
+                        if (archivo.exists()) {
+                            byte[] contenido = Files.readAllBytes(archivo.toPath());
+                            String respuesta = "HTTP/1.1 200 OK\r\n";
+                            respuesta += "Content-Type: " + obtenerTipoContenido(recurso) + "\r\n";
+                            respuesta += "Content-Length: " + contenido.length + "\r\n";
+                            respuesta += "\r\n";
+                            cliente.getOutputStream().write(respuesta.getBytes());
+                            cliente.getOutputStream().write(contenido);
+                        } else {
+                            String respuesta = "HTTP/1.1 404 Not Found\r\n\r\n";
+                            cliente.getOutputStream().write(respuesta.getBytes());
                         }
                     }
-                    if (recurso.equals("/api/usuarios")) {
-                        try {
-                            json = new UsuarioAPI().POST();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                    break;
+                case "POST":
+                    // Procesar los datos del cliente y guardarlos en ua base de datos
+                    if(recurso.startsWith("/api")){
+                        String json = "{}";
+                        
+                        if (recurso.startsWith("/api/roles")) {
+                            try {
+                                json = new RolesAPI().POST();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        if (recurso.startsWith("/api/usuarios")) {
+                            try {
+                                json = new UsuarioAPI().POST();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
-                }
-            } else if (metodo.equals("PUT")) {
-                // Actualizar un archivo o una base de datos con los datos del cliente
-            } else if (metodo.equals("DELETE")) {
-                // Eliminar un archivo o un registro de una base de datos
-            } else {
-                String respuesta = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";
-                cliente.getOutputStream().write(respuesta.getBytes());
+                    break;
+                case "PUT":
+                    // Actualizar un archivo o una base de datos con los datos del cliente
+                    break;
+                case "DELETE":
+                    // Eliminar un archivo o un registro de una base de datos
+                    break;
+                default:
+                    String respuesta = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";
+                    cliente.getOutputStream().write(respuesta.getBytes());
             }
 
             lector.close();
