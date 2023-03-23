@@ -1,0 +1,23 @@
+Aserege Framework Licencia de usuario final (EULA)
+
+Versión 1.0, 2023
+
+Este acuerdo de licencia de usuario final (en adelante, "Acuerdo") es un acuerdo legal entre usted (en adelante, "Licenciatario") y Edgar Muñoz (en adelante, "Licenciante") para el software Aserege Framework (en adelante, "Software").
+
+Al adquirir, instalar o utilizar el Software, el Licenciatario acepta los términos y condiciones de este Acuerdo. Si no acepta los términos y condiciones de este Acuerdo, no utilice ni instale el Software.
+
+Concesión de licencia El Licenciante otorga al Licenciatario una licencia no exclusiva, intransferible y limitada para utilizar el Software en un solo dispositivo a la vez. La licencia es válida de manera permanente y no se puede transferir ni sublicenciar.
+
+Restricciones de uso El Licenciatario no podrá modificar, descompilar, desensamblar ni realizar ingeniería inversa del Software. El Licenciatario no podrá revender ni transferir la licencia del Software a terceros sin la autorización previa y por escrito del Licenciante.
+
+Propiedad intelectual El Software es propiedad exclusiva del Licenciante y está protegido por las leyes de propiedad intelectual. El Licenciatario reconoce que el Licenciante conserva todos los derechos de propiedad intelectual sobre el Software, incluidos los derechos de autor, patentes y marcas comerciales.
+
+Precio y pago El Licenciatario pagará al Licenciante la cantidad de 2000€ para obtener la licencia completa del Software. Además, el Licenciatario pagará una tarifa cada tres meses para mantener la versión de demostración del Software.
+
+Garantía limitada El Licenciante garantiza que el Software se ajusta a las especificaciones del Licenciante. El Licenciante no garantiza que el Software sea libre de errores o que funcionará sin interrupciones. El Licenciatario acepta que el uso del Software es bajo su propio riesgo.
+
+Limitación de responsabilidad El Licenciante no será responsable de ningún daño especial, incidental, indirecto o consecuente que surja del uso o la imposibilidad de usar el Software, incluso si el Licenciante ha sido informado de la posibilidad de dichos daños.
+
+Término y terminación Este Acuerdo entrará en vigor en la fecha de adquisición, instalación o uso del Software y continuará vigente hasta su terminación. El Licenciante podrá rescindir este Acuerdo de inmediato si el Licenciatario incumple alguna de las condiciones establecidas en este Acuerdo.
+
+Ley aplicable Este Acuerdo se regirá e interpretará de acuerdo con las leyes del España, sin dar efecto a los principios de conflicto de leyes
