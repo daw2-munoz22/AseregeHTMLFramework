@@ -129,11 +129,12 @@ public class MySQL {
                 String nombre = resultSet.getString("nombre"); 
                 String apellido = resultSet.getString("apellido");
                 int edad = resultSet.getInt("edad");
-                String sexo = resultSet.getString("sexo");
+                char sexo = resultSet.getString("sexo").toCharArray()[0];
                 String email = resultSet.getString("email");
                 String telefono = resultSet.getString("telefono");
+                String passwordseguro = resultSet.getString("telefono");
                 String Roles_idroles = resultSet.getString("Roles_idroles");
-                userlist.add(new Usuario(idUsuario, nombre, apellido, edad, sexo.toCharArray()[0], null));                
+                userlist.add(new Usuario(idUsuario, nombre, apellido, edad, sexo, email, telefono,  null));
             }
             conexion.close();
         } catch (SQLException e) {                                          
@@ -174,8 +175,8 @@ public class MySQL {
         } 
     }
     //  Evitamos la inyecion SQL en la tabla Usuarios        
-    
-    public void InsertarUsuario(String nombre, String apellido, int edad, String sexo, String email, String telefono, String password, int roletype) throws Exception{
+
+    public void InsertarUsuario(String nombre, String apellido, int edad, char sexo, String email, String telefono, String passwordseguro, int roletype) throws Exception{
         try{
             conexion = DriverManager.getConnection(url, username, this.password);            
             String query = "INSERT INTO Usuarios (nombre, apellido, edad, sexo, email, telefono, passwordseguro, Roles_idroles) VALUES (?,?,?,?,?,?,?,?)";        
@@ -183,7 +184,9 @@ public class MySQL {
             statement.setString(1, nombre);       
             statement.setString(2, apellido);
             statement.setInt(3, edad);
-            statement.setString(4, sexo);
+
+            String sexuality = String.valueOf(sexo);
+            statement.setString(4, sexuality);
             statement.setString(5, email);
             statement.setString(6, telefono);
                         

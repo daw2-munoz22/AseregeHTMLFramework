@@ -43,6 +43,18 @@
         /*esto falla*/
         let imageRAW = await Loadimage("https://api.multiavatar.com/Edgar");
         console.log(imageRAW);
+
+        /*
+            import multiavatar from '@multiavatar/multiavatar/esm'
+            //Detectamos si el usuario está tecleando. Si es así, comprovamos si tiene esa clase y genera un avatar random (mediante el texto introducido)
+            main.addEventListener("keydown",(event)=>{
+                console.log("aaa")
+                if(event.target.classList.contains('nicke')){
+                    let svgCode = multiavatar(event.target.value)
+                    document.querySelector('#avatarE').innerHTML = svgCode
+                }
+            })
+        */
     </script>
 </body>
 

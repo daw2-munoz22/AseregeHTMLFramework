@@ -46,7 +46,7 @@ public class RolesAPI implements API {
     }
 
     @Override
-    public String POST() { //Utilizar las APIs POST
+    public String POST(String jsonObject) { //Utilizar las APIs POST
         System.out.println("HE LLEGADO AL POST");
         return null;
     }

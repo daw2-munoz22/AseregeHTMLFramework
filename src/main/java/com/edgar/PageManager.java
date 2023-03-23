@@ -1,6 +1,9 @@
 package com.edgar;
 import com.edgar.API.RolesAPI;
 import com.edgar.API.UsuarioAPI;
+import com.edgar.Model.Usuario;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -82,29 +85,125 @@ class PageManager implements Runnable {
                 case "POST":
                     // Procesar los datos del cliente y guardarlos en ua base de datos
                     if(recurso.startsWith("/api")){
-                        String json = "{}";
+                        String json = "";
                         
                         if (recurso.startsWith("/api/roles")) {
                             try {
-                                json = new RolesAPI().POST();
+                                // Leer el cuerpo de la solicitud
+                                StringBuilder body = new StringBuilder();
+                                while (lector.ready()) {
+                                    body.append((char) lector.read());
+                                }
+
+                                int startIndex = body.indexOf("Content-Length: "); // encuentra la posición del inicio del JSON
+                                String resultPeticion = body.substring(startIndex); // extrae el substring desde el inicio del JSON hasta el final
+
+                                int jsonStart = resultPeticion.indexOf("{"); // encuentra la posición del inicio del JSON
+                                String jsonbody = resultPeticion.substring(jsonStart); // extrae el substring desde el inicio del JSON hasta el final
+
+                                json = new RolesAPI().POST(jsonbody);
+                                json = "{'message': 'Rol creado correctamente.'}";
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        if (recurso.equals("/api/usuarios")) {
+                            try {
+                                // Leer el cuerpo de la solicitud
+                                StringBuilder body = new StringBuilder();
+                                while (lector.ready()) {
+                                    body.append((char) lector.read());
+                                }
+
+                                int startIndex = body.indexOf("Content-Length: "); // encuentra la posición del inicio del JSON
+                                String resultPeticion = body.substring(startIndex); // extrae el substring desde el inicio del JSON hasta el final
+
+                                int jsonStart = resultPeticion.indexOf("{"); // encuentra la posición del inicio del JSON
+                                String jsonbody = resultPeticion.substring(jsonStart); // extrae el substring desde el inicio del JSON hasta el final
+
+                                json = new UsuarioAPI().POST(jsonbody);
+                                json = "{'message': 'Usuario creado correctamente.'}";
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                        byte[] contenido = json.getBytes();
+                        String respuesta = "HTTP/1.1 200 OK\r\n";
+                        respuesta += "Content-Type: " + obtenerTipoContenido(recurso) + "\r\n";
+                        respuesta += "Content-Length: " + contenido.length + "\r\n";
+                        respuesta += "\r\n";
+                        cliente.getOutputStream().write(respuesta.getBytes());
+                        cliente.getOutputStream().write(contenido);
+
+                    }
+                    break;
+                case "PUT":
+                    // Actualizar un archivo o una base de datos con los datos del cliente
+                    if (recurso.startsWith("/api/")) {
+                        String json = "{}";
+                        if (recurso.equals("/api/roles")) {
+                            try {
+                                // procesar los datos del cliente y actualizar la base de datos
+                                json = new RolesAPI().PUT();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        if (recurso.equals("/api/usuarios")) {
+                            try {
+                                // procesar los datos del cliente y actualizar la base de datos
+                                json = new UsuarioAPI().PUT();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        byte[] contenido = json.getBytes();
+                        String respuesta = "HTTP/1.1 200 OK\r\n";
+                        respuesta += "Content-Type: " + obtenerTipoContenido(recurso) + "\r\n";
+                        respuesta += "Content-Length: " + contenido.length + "\r\n";
+                        respuesta += "\r\n";
+                        cliente.getOutputStream().write(respuesta.getBytes());
+                        cliente.getOutputStream().write(contenido);
+                    }
+                    break;
+                case "DELETE":
+                    if (recurso.startsWith("/api")) {
+                        String json = "{}";
+
+                        if (recurso.startsWith("/api/roles")) {
+                            try {
+                                json = new RolesAPI().DELETE();
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
                         if (recurso.startsWith("/api/usuarios")) {
                             try {
-                                json = new UsuarioAPI().POST();
+                                json = new UsuarioAPI().DELETE();
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
+
+                        byte[] contenido = json.getBytes();
+                        String respuesta = "HTTP/1.1 200 OK\r\n";
+                        respuesta += "Content-Type: " + obtenerTipoContenido(recurso) + "\r\n";
+                        respuesta += "Content-Length: " + contenido.length + "\r\n";
+                        respuesta += "\r\n";
+                        cliente.getOutputStream().write(respuesta.getBytes());
+                        cliente.getOutputStream().write(contenido);
+                    } else {
+                        File archivo = new File("layout" + recurso);
+                        if (archivo.exists()) {
+                            archivo.delete(); // eliminar el archivo correspondiente
+                            String respuesta = "HTTP/1.1 200 OK\r\n\r\n";
+                            cliente.getOutputStream().write(respuesta.getBytes());
+                        } else {
+                            String respuesta = "HTTP/1.1 404 Not Found\r\n\r\n";
+                            cliente.getOutputStream().write(respuesta.getBytes());
+                        }
                     }
-                    break;
-                case "PUT":
-                    // Actualizar un archivo o una base de datos con los datos del cliente
-                    break;
-                case "DELETE":
-                    // Eliminar un archivo o un registro de una base de datos
                     break;
                 default:
                     String respuesta = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";

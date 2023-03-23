@@ -15,7 +15,7 @@
     <form id="form2" class="needs-validation" novalidate>
         <div class="p-sm-12 mt-3">
             <label for="nombre" class="form-label">Nombre:</label>
-            <input id="nombre" type="text" class="form-control was-validated" required="">
+            <input id="nombre" type="text" class="form-control was-validated nombreE" required="">
             <div class="valid-feedback">Todo estupendo</div>
             <!-- mensaje si no valida -->
             <div class="invalid-feedback">Introduce tu nombre</div>
@@ -31,7 +31,7 @@
             <!-- mensaje si no valida -->
             <div class="invalid-feedback">Minimo 6 y maximo 16</div>
         </div>
-        <div id="avatar" class="w-25"></div>
+        <div id="avatar" class="w-25 main"></div>
         <button id="enviar" type="submit" class="btn btn-primary">Registrarse</button>
     </form>
     <script>
@@ -60,6 +60,15 @@
                 form2.classList.remove('was-validated')
             }
         });
+
+        const main = document.querySelector('.main')
+        main.addEventListener("keydown",(event)=>{
+            console.log("aaa")
+            if(event.target.classList.contains('nombreE')){
+                let svgCode = multiavatar(event.target.value)
+                document.querySelector('#avatar').innerHTML = svgCode
+            }
+        })
     </script>
     <!-- <div class="d-flex">
     <div class="tabla d-flex"></div>

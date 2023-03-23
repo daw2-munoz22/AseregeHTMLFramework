@@ -5,11 +5,13 @@ import com.edgar.JsonConvert;
 import com.edgar.Managers.MySQL;
 import com.edgar.Model.Usuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static com.edgar.JsonConvert.Deserialize;
 
@@ -38,26 +40,43 @@ public class UsuarioAPI implements  API {
     }
 
     @Override
-    public String POST() throws JsonProcessingException{
-       System.out.println("HE LLEGADO AL POST");
-        /* try{
-            URL url = new URL("https://barcelonaweb.edgarmunoz4.repl.co");
-            Map<Object, Usuario> params = new LinkedHashMap<>();
+    public String POST(String jsonObject) throws Exception {
+        Usuario usuario = new ObjectMapper().readValue(jsonObject, Usuario.class);
 
-            for(Map.Entry<Object, Usuario>){
+        sqlManager.InsertarUsuario(usuario.getNombre(),
 
-            }
-            //params.put();
-        }catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+                usuario.getApellido(),
+                usuario.getEdad(),
+                usuario.getSexo(),
+                usuario.getEmail(),
+                usuario.getTelefono(),
+                usuario.getPassword(), 1);
         return null;
-        */
-        return "";
     }
 
+    /*
+
+    @Override
+    public String POST(HttpServletRequest request) throws JsonProcessingException {
+        // Obtener los datos del cuerpo de la solicitud y convertirlos en un objeto Usuario
+        String requestBody = request.getReader().lines().collect(Collectors.joining());
+        Usuario usuario = JsonConvert.Deserialize(requestBody, Usuario.class);
+
+        // Agregar el nuevo objeto Usuario a la base de datos
+        try {
+            sqlManager.InsertUsuario(usuario);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return "Error al agregar el usuario";
+        }
+
+        // Devolver una respuesta indicando que la operación se realizó correctamente
+        return "Usuario agregado correctamente";
+    }
+    */
     @Override
     public String PUT() {
+
         return null;
     }
 

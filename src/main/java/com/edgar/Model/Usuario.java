@@ -1,28 +1,31 @@
 package com.edgar.Model;
-
 /**
  *
  * @author Edgar Muñoz
  */
 public class Usuario {
-    private int idUsuario;
+    private int idUsers;
     private String nombre;
     private String apellido;
     private int edad;
     private char sexo;
-    private String password;
-    
+    private String email;
+    private String telefono;
+    private String passwordseguro;
+
     public Usuario(){}
-    public Usuario(int idUsuario, String nombre, String apellido, int edad, char sexo, String password){
-        this.idUsuario = idUsuario;
+    public Usuario(int idUsers, String nombre, String apellido, int edad, char sexo, String email, String telefono, String passwordseguro){
+        this.idUsers = idUsers;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.sexo = sexo;
-        this.password = password;
+        this.email= email;
+        this.telefono = telefono;
+        this.passwordseguro = passwordseguro;
     }
     public int getIdUsuario(){
-        return idUsuario;
+        return idUsers;
     }
     public String getNombre() {
         return nombre;
@@ -37,16 +40,21 @@ public class Usuario {
         return sexo;
     } 
     public String getPassword() {
-        return password;
+        return passwordseguro;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getTelefono() {
+        return telefono;
     }
     
-    public void SetIdUsuario(int idUsuario){
-        this.idUsuario = idUsuario;        
+    public void SetIdUsuario(int idUsers){
+        this.idUsers = idUsers;
     }
     public void SetNombre(String nombre){
         this.nombre = nombre;        
     }
-    
     public void SetApellido(String apellido){
         this.apellido = apellido;        
     }
@@ -56,7 +64,11 @@ public class Usuario {
     public void SetSexo(char sexo){
         this.sexo = sexo;        
     }
-    public void SetPassword(String password){
-        this.password = password;        
+    public void SetTelefono(String telefono){
+        this.telefono = telefono;
     }
+    public void SetEmail(String email){
+        this.email = email;
+    }
+    public void SetPassword(String passwordseguro){ this.passwordseguro = passwordseguro; }
 }
