@@ -31,7 +31,7 @@ public class MySQL {
     }  
     //creación de la tabla roles
     
-    protected void CreateRoleTable() throws SQLException {
+    public void CreateRoleTable() throws SQLException {
         try {
             conexion = DriverManager.getConnection(url, username, password);            
             String Query = String.format("CREATE TABLE IF NOT EXISTS `%s`.`Roles` (`idroles` INT NOT NULL AUTO_INCREMENT, `nombre` VARCHAR(256) NULL, `type` INT NULL, PRIMARY KEY (`idroles`), UNIQUE INDEX `idroles_UNIQUE` (`idroles` ASC) VISIBLE);", databaseName);                                
@@ -159,7 +159,7 @@ public class MySQL {
     }
     
     //CRUD del usuario
-    protected void CreateUsuarioTable() throws SQLException {
+    public void CreateUsuarioTable() throws SQLException {
         try {
             conexion = DriverManager.getConnection(url, username, password);  
             

@@ -4,9 +4,13 @@ import com.edgar.Configuration;
 import com.edgar.JsonConvert;
 import com.edgar.Managers.MySQL;
 import com.edgar.Model.Usuario;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -19,7 +23,7 @@ import static com.edgar.JsonConvert.Deserialize;
  *
  * @author Edgar Muñoz
  */
-public class UsuarioAPI implements  API {
+public class UsuarioAPI implements API {
 
     MySQL sqlManager;
     public UsuarioAPI() throws Exception {
@@ -41,17 +45,21 @@ public class UsuarioAPI implements  API {
 
     @Override
     public String POST(String jsonObject) throws Exception {
-        Usuario usuario = new ObjectMapper().readValue(jsonObject, Usuario.class);
+        /*ERROR EN ESTE METODO*/
 
-        sqlManager.InsertarUsuario(usuario.getNombre(),
-
-                usuario.getApellido(),
-                usuario.getEdad(),
-                usuario.getSexo(),
-                usuario.getEmail(),
-                usuario.getTelefono(),
-                usuario.getPassword(), 1);
-        return null;
+        Usuario usuario = JsonConvert.Deserialize(jsonObject, Usuario.class);
+        try{
+            sqlManager.InsertarUsuario(usuario.getNombre(),
+                    usuario.getApellido(),
+                    usuario.getEdad(),
+                    usuario.getSexo(),
+                    usuario.getEmail(),
+                    usuario.getTelefono(),
+                    usuario.getPassword(), 1);
+        }catch (SQLException e){
+            e.getMessage();
+        }
+        return usuario.toString();
     }
 
     /*

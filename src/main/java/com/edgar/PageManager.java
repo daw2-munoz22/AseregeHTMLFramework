@@ -1,13 +1,17 @@
 package com.edgar;
+import com.edgar.API.ConnectAPI;
 import com.edgar.API.RolesAPI;
 import com.edgar.API.UsuarioAPI;
+import com.edgar.Managers.MySQL;
 import com.edgar.Model.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.sql.SQLException;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 /**
  *
@@ -127,7 +131,26 @@ class PageManager implements Runnable {
                                 throw new RuntimeException(e);
                             }
                         }
+                        if (recurso.equals("/api/usuarios/createTable")) {
+                            try {
+                                // Leer el cuerpo de la solicitud
+                                StringBuilder body = new StringBuilder();
+                                while (lector.ready()) {
+                                    body.append((char) lector.read());
+                                }
 
+                                int startIndex = body.indexOf("Content-Length: "); // encuentra la posición del inicio del JSON
+                                String resultPeticion = body.substring(startIndex); // extrae el substring desde el inicio del JSON hasta el final
+
+                                int jsonStart = resultPeticion.indexOf("{"); // encuentra la posición del inicio del JSON
+                                String jsonbody = resultPeticion.substring(jsonStart); // extrae el substring desde el inicio del JSON hasta el final
+
+                                json = new ConnectAPI().POST(jsonbody);
+                                json = "{'message': 'DB creada correctamente.'}";
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                         byte[] contenido = json.getBytes();
                         String respuesta = "HTTP/1.1 200 OK\r\n";
                         respuesta += "Content-Type: " + obtenerTipoContenido(recurso) + "\r\n";

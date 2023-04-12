@@ -5,6 +5,7 @@ import com.edgar.Managers.MySQL;
 import com.edgar.Model.Role;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -47,6 +48,21 @@ public class RolesAPI implements API {
 
     @Override
     public String POST(String jsonObject) { //Utilizar las APIs POST
+       /* try {
+            // Convertir el JSON recibido a un objeto Role
+            Role role = JsonConvert.Deserialize(jsonObject, Role.class);
+
+            // Insertar el nuevo role en la base de datos
+            int id = sqlManager.InsertRole(role);
+
+            // Si el id es mayor que cero, significa que la inserción fue exitosa
+            if (id > 0) {
+                // Devolver el objeto Role insertado como JSON
+                return JsonConvert.Serialize(sqlManager.SelectRoleById(id));
+            }
+        } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+        }*/
         System.out.println("HE LLEGADO AL POST");
         return null;
     }

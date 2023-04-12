@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import static com.edgar.JsonConvert.Deserialize;
 
@@ -19,10 +18,10 @@ import static com.edgar.JsonConvert.Deserialize;
  *
  * @author Edgar Muñoz
  */
-public class UsuarioAPI implements  API {
+public class ConnectAPI implements  API {
 
     MySQL sqlManager;
-    public UsuarioAPI() throws Exception {
+    public ConnectAPI() throws Exception {
         String connectionFile = new String(Files.readAllBytes(Paths.get("aserege.conf")));
         Configuration configuration = Deserialize(connectionFile, Configuration.class);
         sqlManager = new MySQL(configuration.hostname, configuration.port, configuration.username, configuration.password, configuration.databaseName);
@@ -30,28 +29,18 @@ public class UsuarioAPI implements  API {
 
     @Override
     public String GET() throws JsonProcessingException {
-        ArrayList<Usuario> usuario = null;
-        try {
-            usuario = sqlManager.SelectUsuarios(); //en la variable usuario, guardo los usuarios seleccionados
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return JsonConvert.Serialize(usuario);
+        return null;
     }
 
     @Override
     public String POST(String jsonObject) throws Exception {
-        Usuario usuario = new ObjectMapper().readValue(jsonObject, Usuario.class);
-
-        sqlManager.InsertarUsuario(usuario.getNombre(),
-
-                usuario.getApellido(),
-                usuario.getEdad(),
-                usuario.getSexo(),
-                usuario.getEmail(),
-                usuario.getTelefono(),
-                usuario.getPassword(), 1);
-        return usuario.toString();
+        try{
+            sqlManager.CreateRoleTable();
+            sqlManager.CreateUsuarioTable();
+        } catch (Exception e){
+            return "Error: " + e.getMessage();
+        }
+      return "OK";
     }
 
     /*

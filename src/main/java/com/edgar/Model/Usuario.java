@@ -1,9 +1,13 @@
 package com.edgar.Model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author Edgar Muñoz
  */
 public class Usuario {
+    @JsonProperty("idUsuarios")
     private int idUsers;
     private String nombre;
     private String apellido;
@@ -70,5 +74,7 @@ public class Usuario {
     public void SetEmail(String email){
         this.email = email;
     }
-    public void SetPassword(String passwordseguro){ this.passwordseguro = passwordseguro; }
+    public void SetPassword(String passwordseguro){
+        this.passwordseguro = passwordseguro;
+    }
 }
