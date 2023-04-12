@@ -37,3 +37,4 @@ replay_pid*
 /Model/bin/*
 /Model/obj/*
 /AseregeBlazor/wwwroot/node_modules/*
+/AseregeBarcelonaWeb/wwwroot/node_modules/*
