@@ -36,3 +36,4 @@ replay_pid*
 /AseregeEdgar/obj/*
 /Model/bin/*
 /Model/obj/*
+/AseregeBlazor/wwwroot/node_modules/*

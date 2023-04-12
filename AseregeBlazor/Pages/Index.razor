@@ -1,0 +1,24 @@
+﻿@page "/"
+@using Newtonsoft.Json;
+@using System.Reflection;
+Ayuda web - https://puntocomnoesunlenguaje.blogspot.com/2013/05/clase-file-java.html
+@foreach (string classname in GetAllClasses())
+{
+    <p>@classname</p>
+    <br />
+}
+
+@code {    
+    public static List<string> GetAllClasses()
+    {
+        List<string> list = new List<string>();
+        #if DEBUG                        
+        foreach (Type type in Assembly.LoadFrom("bin/Debug/net5.0/Model.dll").GetTypes())
+        {                
+            object instance = Activator.CreateInstance(type);
+            list.Add(JsonConvert.SerializeObject(instance, Formatting.Indented));
+        }                    
+       #endif       
+       return list;
+    }   
+}
