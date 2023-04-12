@@ -1,0 +1,51 @@
+img {
+    width: 25%;
+}
+
+body {
+    background-color: #85C1E9;
+}
+
+header {
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    border: 2ps solid;
+}
+
+a.nav-link {
+    color: azure;
+}
+
+a.nav-link:active {
+    background-color: azure;
+    color: azure;
+}
+
+a.nav-link.active {
+    color: tomato;
+}
+
+a.nav-link:hover {
+    color: tomato;
+
+}
+
+a.nav-link:focus {
+    color: azure;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    float: right;
+}
+.carousel {
+    height: 100px; /* Cambia la altura del carrusel aquí */
+}
+.carousel-item img {
+    height: 50%; /* Ajusta la altura de las imágenes del carrusel */
+}

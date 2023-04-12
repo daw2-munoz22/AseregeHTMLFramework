@@ -9,17 +9,15 @@ namespace AseregeBarcelonaWeb.Controllers.API
 {
     //Api para el Login
     [ApiController] //propiedad de inyector de dependencias
-    [Route("api/passwordrestore")]//definir ruta del login
-    public class PasswordRestoreAPI : ControllerBase //la clase hereda del codigo interno de ASP NET
+    //definir ruta del login 
+	[Route("api/passwordrestore")] public class PasswordRestoreAPI : ControllerBase //la clase hereda del codigo interno de ASP NET
     {
-        [HttpGet]
-        public IActionResult Get([FromBody] Authorize model) //la función get, obtiene del body un JSON del tipo Autorize       
+        [HttpGet] public IActionResult Get([FromBody] Authorize model) //la función get, obtiene del body un JSON del tipo Autorize       
         {
             return Ok();
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] MailRestore model)
+        [HttpPost] public IActionResult Post([FromBody] MailRestore model)
         {
             MySQLManager result = new MySQLManager();
             List<User> users = result.SelectUsers();
@@ -33,17 +31,14 @@ namespace AseregeBarcelonaWeb.Controllers.API
 
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Authorize model)
+        [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] Authorize model)
         {
             // TODO: Handle PUT request
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            // TODO: Handle DELETE request
+        [HttpDelete("{id}")] public IActionResult Delete(int id)
+        {            
             return Ok();
         }
 

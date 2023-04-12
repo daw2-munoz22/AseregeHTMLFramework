@@ -1,0 +1,72 @@
+﻿<style type="text/css">
+
+	.bounceIn {
+		opacity: 0;
+		animation-delay: 0.5s;
+		animation-duration: 0.5s;
+		animation-name: bounceIn;
+		animation-fill-mode: forwards;
+	}
+
+	.bounceOut {
+		animation-duration: 0.5s;
+		animation-name: bounceOut;
+		animation-fill-mode: forwards;
+	}
+
+	.backInDown {
+		opacity: 0;
+		animation-delay: 0.5s;
+		animation-duration: 0.5s;
+		animation-name: backInDown;
+		animation-fill-mode: forwards;
+	}
+
+	.backOutDown {
+		animation-duration: 0.5s;
+		animation-name: backOutDown;
+		animation-fill-mode: forwards;
+	}
+
+	.rotateIn {
+		opacity: 0;
+		animation-delay: 0.5s;
+		animation-duration: 0.5s;
+		animation-name: rotateIn;
+		animation-fill-mode: forwards;
+	}
+
+	.rotateOut {
+		animation-duration: 0.5s;
+		animation-name: rotateOut;
+		animation-fill-mode: forwards;
+	}
+</style>
+<MudCarousel Class="mud-width-full" Style="height:200px;" TData="object" AutoCycle="false">
+	<MudCarouselItem Color="@Color.Primary" Transition="Transition.Slide">
+		<div class="d-flex" style="height:100%">			
+			<img Class="mx-auto my-auto" src="images/campnou.jpg" alt="Campnou" width="500" height="600">
+		</div>
+	</MudCarouselItem>
+	<MudCarouselItem Color="@Color.Secondary" Transition="Transition.Fade">
+		<div class="d-flex" style="height:100%">
+			<img Class="mx-auto my-auto" src="images/campnou2.jpg" alt="Girl in a jacket" width="500" height="600">
+		</div>
+	</MudCarouselItem>
+	<MudCarouselItem Color="@Color.Tertiary" Transition="Transition.Custom" CustomTransitionEnter="bounceIn" CustomTransitionExit="bounceOut">
+		<div class="d-flex" style="height:100%">
+			<img Class="mx-auto my-auto" src="images/cathedral.jpg" alt="Girl in a jacket" width="500" height="600">
+		</div>
+	</MudCarouselItem>
+	<MudCarouselItem Transition="Transition.Custom" CustomTransitionEnter="backInDown" CustomTransitionExit="backOutDown">
+		<div class="d-flex" style="background-color:lightgray; height:100%">
+			<img Class="mx-auto my-auto" src="images/Montserrat.jpg" alt="Girl in a jacket" width="500" height="600">
+		</div>
+	</MudCarouselItem>
+	<MudCarouselItem Transition="Transition.Custom" CustomTransitionEnter="rotateIn" CustomTransitionExit="rotateOut">
+		<div class="d-flex" style="background-color:lightgray; height:100%">
+			
+			<img Class="mx-auto my-auto" src="images/plazaEspaña.jpg" alt="Girl in a jacket" width="500" height="600">			
+		</div>
+	</MudCarouselItem>
+</MudCarousel>
