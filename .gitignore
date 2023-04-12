@@ -26,3 +26,13 @@ replay_pid*
 /build/*
 /dist/*
 /layout/node_modules/*
+/Aserege.API/bin/*
+/Aserege.API/obj/*
+/Aserege.Managers/bin/*
+/Aserege.Managers/obj/*
+/AseregeAPIServer/bin/*
+/AseregeAPIServer/obj/*
+/AseregeEdgar/bin/*
+/AseregeEdgar/obj/*
+/Model/bin/*
+/Model/obj/*
