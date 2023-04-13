@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AseregeBarcelonaWeb.Manager
 {
@@ -236,6 +237,39 @@ namespace AseregeBarcelonaWeb.Manager
             using (MySqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
+                {
+                    User user = new User();
+
+
+                    user.ID = (int)reader[0];
+                    user.Nombre = (string)reader[1];
+                    user.Apellido = (string)reader[2];
+                    user.Edad = (int)reader[3];
+                    user.Sexo = reader[4].ToString().ToArray()[0];
+                    user.Email = (string)reader[5];
+                    user.Telefono = (string)reader[6];
+                    user.Passwordseguro = (string)reader[7];
+                    user.Roles_idroles = (int)reader[8];
+
+                    Users.Add(user);
+                }
+
+            }
+            return Users;
+        }
+
+
+        public async Task<List<User>> SelectUsersAsync()
+        {
+            string query = "SELECT * FROM usuarios;";
+            connection.Open();
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+
+            List<User> Users = new List<User>();
+            using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
                 {
                     User user = new User();
 

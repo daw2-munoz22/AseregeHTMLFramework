@@ -45,28 +45,44 @@
 <MudCarousel Class="mud-width-full" Style="height:200px;" TData="object" AutoCycle="false">
 	<MudCarouselItem Color="@Color.Primary" Transition="Transition.Slide">
 		<div class="d-flex" style="height:100%">			
-			<img Class="mx-auto my-auto" src="images/campnou.jpg" alt="Campnou" width="500" height="600">
+			<img Class="mx-auto my-auto" src="@Image1" style="width: 100%; height: 100%; object-fit: cover" alt="Campnou">
 		</div>
 	</MudCarouselItem>
 	<MudCarouselItem Color="@Color.Secondary" Transition="Transition.Fade">
 		<div class="d-flex" style="height:100%">
-			<img Class="mx-auto my-auto" src="images/campnou2.jpg" alt="Girl in a jacket" width="500" height="600">
+			<img Class="mx-auto my-auto" src="@Image2" style="width: 100%; height: 100%; object-fit: cover" alt="Campnou 2">
 		</div>
 	</MudCarouselItem>
 	<MudCarouselItem Color="@Color.Tertiary" Transition="Transition.Custom" CustomTransitionEnter="bounceIn" CustomTransitionExit="bounceOut">
 		<div class="d-flex" style="height:100%">
-			<img Class="mx-auto my-auto" src="images/cathedral.jpg" alt="Girl in a jacket" width="500" height="600">
+			<img Class="mx-auto my-auto" src="@Image3" style="width: 100%; height: 100%; object-fit: cover" alt="Cathedral">
 		</div>
 	</MudCarouselItem>
 	<MudCarouselItem Transition="Transition.Custom" CustomTransitionEnter="backInDown" CustomTransitionExit="backOutDown">
 		<div class="d-flex" style="background-color:lightgray; height:100%">
-			<img Class="mx-auto my-auto" src="images/Montserrat.jpg" alt="Girl in a jacket" width="500" height="600">
+			<img Class="mx-auto my-auto" src="@Image4" style="width: 100%; height: 100%; object-fit: cover" alt="Montserrat">
 		</div>
 	</MudCarouselItem>
 	<MudCarouselItem Transition="Transition.Custom" CustomTransitionEnter="rotateIn" CustomTransitionExit="rotateOut">
-		<div class="d-flex" style="background-color:lightgray; height:100%">
-			
-			<img Class="mx-auto my-auto" src="images/plazaEspaña.jpg" alt="Girl in a jacket" width="500" height="600">			
+		<div class="d-flex" style="background-color:lightgray; height:100%">			
+			<img Class="mx-auto my-auto" src="@Image5" style="width: 100%; height: 100%; object-fit: cover" alt="Plaza de España">
 		</div>
 	</MudCarouselItem>
 </MudCarousel>
+
+@code
+{	
+	[Parameter] public string Image1 { get; set; }
+	[Parameter] public string Image2 { get; set; }
+	[Parameter] public string Image3 { get; set; }
+	[Parameter] public string Image4 { get; set; }
+	[Parameter] public string Image5 { get; set; }
+
+	private List<string> myList = new List<string>();
+
+	protected override Task OnInitializedAsync()
+	{
+		
+		return base.OnInitializedAsync();
+	}	
+}

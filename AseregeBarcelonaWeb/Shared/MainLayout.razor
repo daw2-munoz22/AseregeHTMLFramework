@@ -4,30 +4,25 @@
 <MudSnackbarProvider/>
 
 <MudLayout>
-    <MudAppBar Elevation="1">
+    <MudAppBar style="background-color:black;" Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
-                
-        <MudBadge Color="Color.Success" Overlap="true" Bordered="true">
-            <MudAvatar>
-                <img style="border-radius:16px;" src="images/avatar5.png" alt="Multiavatar" width="48" height="48">
-            </MudAvatar>
-        </MudBadge>
-               
-        <MudMenu Label="Open Menu">
-            <MudMenuItem>Enlist</MudMenuItem>
-            <MudMenuItem>Barracks</MudMenuItem>
-            <MudMenuItem>Armory</MudMenuItem>
-        </MudMenu>
 
-        <MudMenu Label="Open Dense Menu" Dense="true">
-            <MudMenuItem>Dense Stuff</MudMenuItem>
-            <MudMenuItem>Stuff is Dense</MudMenuItem>
-            <MudMenuItem>Soo Dense</MudMenuItem>
-        </MudMenu>
-
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        <MudMenu  Color="Color.Warning" Label="Home" />
+        <MudMenu Color="Color.Warning" Label="Transportes" />
+        <MudMenu Color="Color.Warning" Label="Quienes somos" />
+                                     
        
+        <MudMenu>
+            <ActivatorContent>
+                <MudAvatar Image="images/avatar5.png" />
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>                
+                <MudMenuItem Icon="@Icons.Material.Filled.Logout">Cerrar Sesión</MudMenuItem>
+            </ChildContent>
+        </MudMenu>
+
     </MudAppBar>
     <MudDrawer @bind-Open="ChangeSidebar" Elevation="2">
         <MudDrawerHeader>
@@ -37,7 +32,7 @@
         <NavMenu />
 
     </MudDrawer>
-    <MudMainContent>@Body</MudMainContent>
+    <MudMainContent Class="px-4">@Body</MudMainContent>
 </MudLayout>
 @code {
     bool ChangeSidebar = true;
@@ -46,4 +41,6 @@
     {
         ChangeSidebar = !ChangeSidebar;
     }
+
+
 }

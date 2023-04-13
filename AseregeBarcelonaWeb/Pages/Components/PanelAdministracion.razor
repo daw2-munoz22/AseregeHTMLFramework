@@ -1,0 +1,76 @@
+﻿<h3>PanelAdministracion</h3>
+@if (!Loading)
+{
+    <MudTable Items="@UserList.ToArray()" Dense="true" Hover="true" Bordered="true" Striped="true">
+        <HeaderContent>
+            <MudTh>Id</MudTh>
+            <MudTh>Nombre</MudTh>
+            <MudTh>Apellido</MudTh>
+            <MudTh>Edad</MudTh>
+            <MudTh>Sexo</MudTh>
+            <MudTh>Email</MudTh>
+            <MudTh>Telefono</MudTh>
+            <MudTh>Contraseña</MudTh>
+            <MudTh>Rol</MudTh>
+            <MudTh>Editar</MudTh>
+            <MudTh>Borrar</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.ID</MudTd>
+            <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
+            <MudTd DataLabel="Apellido">@context.Apellido</MudTd>
+            <MudTd DataLabel="Edad">@context.Edad</MudTd>
+            <MudTd DataLabel="Sexo">@context.Sexo</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
+            <MudTd DataLabel="Telefono">@context.Telefono</MudTd>
+            <MudTd DataLabel="Contraseña">SECRETO ***</MudTd>
+            <MudTd DataLabel="Rol">@context.Roles_idroles</MudTd>
+            <MudTd DataLabel="Editar">
+                <MudFab OnClick="OnEdit" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" />
+            </MudTd>
+            <MudTd DataLabel="Borrar">
+                <MudFab OnClick="OnDelete" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever" />
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
+else
+{
+    <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
+}
+@code 
+{
+    private List<User> UserList;
+    private bool Loading = true;
+
+    private async Task LoadUsers()
+    {
+        await Task.Yield();
+
+        using (Manager.MySQLManager mySQLManager = new Manager.MySQLManager())
+        {
+            UserList = await mySQLManager.SelectUsersAsync();
+        }
+        Loading = false;
+        StateHasChanged();
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        Loading = true;
+        _ = LoadUsers();           
+        return base.OnInitializedAsync();        
+    }
+    private Task OnDelete()
+    {
+        return Task.CompletedTask;
+    }
+    private Task OnEdit()
+    {
+        return Task.CompletedTask;
+    }
+
+}
