@@ -1,5 +1,8 @@
-﻿using Model.Data;
+﻿using Microsoft.VisualBasic;
+using Model.Data;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using Org.BouncyCastle.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +34,7 @@ namespace AseregeBarcelonaWeb.Manager
                 AseregeConfiguration config = PostJsonManager.GetJsonResult<AseregeConfiguration>(File.ReadAllText("aserege.json"));
 
                 BuildConnection(config.hostname, config.databaseName, config.username, config.password);
+                CreateTables();
             }
         }
         //función que recibe los paramentos y construye la cadena de conexión
@@ -291,23 +295,24 @@ namespace AseregeBarcelonaWeb.Manager
             return Users;
         }
 
-
-
-
-
-
-        /*ESTO NO HECHO*/
-        public void UpdateUser(int id, string name, string email, string password)
+     
+        public async Task UpdateUserAsync(string nombre, string apellido, int edad, char sexo, string email, string telefono, string passwordseguro, int Roles_idroles, int idUsers)
         {
-            string query = "UPDATE users SET name=@name, email=@email, password=@password WHERE id=@id";
+            string query = "UPDATE usuarios SET nombre = '@nombre', apellido= '@apellido', edad=@edad, sexo='@sexo', email='@email, telefono='@telefono', passwordseguro='@passwordseguro', Roles_idroles=@idroles WHERE idUsers = @idUsers;";
             MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", id);
-            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@nombre", nombre);
+            command.Parameters.AddWithValue("@apellido", apellido);
+            command.Parameters.AddWithValue("@edad", edad);
+            command.Parameters.AddWithValue("@sexo", sexo);
             command.Parameters.AddWithValue("@email", email);
-            command.Parameters.AddWithValue("@password", password);
+            command.Parameters.AddWithValue("@telefono", telefono);
+            command.Parameters.AddWithValue("@passwordseguro", passwordseguro);
+            command.Parameters.AddWithValue("@Roles_idroles", Roles_idroles);
+            command.Parameters.AddWithValue("@idUsers", idUsers);
+
             try
             {
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -315,19 +320,26 @@ namespace AseregeBarcelonaWeb.Manager
             }
         }
 
-        public void DeleteUser(int id)
-        {
-            string query = "DELETE FROM users WHERE id=@id";
+
+        //Función para la query de eliminar usuarios
+        //CACA// public async void DeleteUserAsync(int id)
+        //GOOD private void DeleteUser(int id)
+        //GOOD private Task DeleteUserAsync(int id)
+        public async Task DeleteUserAsync(int id)
+        {            
+            string query = "DELETE FROM usuarios WHERE idUsers=@id;";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@id", id);
             try
             {
-                command.ExecuteNonQuery();
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();                
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine("Error deleting the user: " + ex.Message);
+                Console.WriteLine(ex.Message);
+                await Task.FromException(ex); //devolver el estado del error (excepcion)                
             }
-        }
+        }     
     }
 }

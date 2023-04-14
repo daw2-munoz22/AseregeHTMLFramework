@@ -1,7 +1,7 @@
 ﻿{
-  "hostname": "localhost",
+  "hostname": "sql.freedb.tech",
   "port": 3306,
-  "username": "root",
-  "password": "root",
-  "databaseName": "barcelonaweb"
+  "username": "freedb_aserege",
+  "password": "bdej&$yd27$qSYw",
+  "databaseName": "freedb_aserege"
 }
