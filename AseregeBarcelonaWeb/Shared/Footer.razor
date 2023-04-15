@@ -1,0 +1,41 @@
+﻿<h3>Footer</h3>
+<MudPaper Elevation="25" style="background-color:aquamarine;">
+    <MudToolBar>
+        <p>Edgar Muñoz Manjón</p>        
+        <MudSpacer />
+        
+        <MudLink OnClick="Count" Target="_blank" Href="@mailURL">
+            <MudIconButton Icon="@Icons.Material.Filled.Email" Color="Color.Primary" aria-label="Gmail" />
+        </MudLink>
+
+        <MudLink OnClick="Count" Target="_blank" Href="https://github.com/daw2-munoz22">
+            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Primary" aria-label="Github" />
+        </MudLink>
+
+        <MudLink OnClick="Count" Target="_blank" Href="https://www.linkedin.com/in/edgar-mu%C3%B1oz-98aab3226/">
+            <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Primary" aria-label="Linkedin" />
+        </MudLink>              
+    </MudToolBar>
+</MudPaper>
+@code 
+{
+    private string mailURL { get; set; } = string.Empty;
+    protected override Task OnInitializedAsync()
+    {
+        Manager.MySQLManager conectarse = new Manager.MySQLManager();
+
+        /*LUEGO EN JS*/
+        Authorize authorize = new Authorize();
+        authorize.Name = "Edgar";
+        authorize.Password = "P@ssw0rd";
+        bool EsValido = conectarse.Login(authorize);
+        /*ACABA AQUI*/
+        
+        User users = conectarse.GetUser(authorize);
+
+        mailURL = $"mailto:edgarmunozmanjon@gmail.com?subject={users.Email}&body=";
+
+        conectarse.Dispose();
+        return base.OnInitializedAsync();
+    }
+}

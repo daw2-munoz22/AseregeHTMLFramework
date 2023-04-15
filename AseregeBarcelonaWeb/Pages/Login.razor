@@ -1,0 +1,39 @@
+﻿@page "/login"
+<MudPaper Class="pa-16 ma-2" Square="false" Elevation="3">
+	<MudTextField @bind-Value="Name" Label="Nombre de usuario" Variant="Variant.Text" />
+
+	<MudTextField @bind-Value="Password" Class="mt-2"
+				  Label="Contraseña"
+				  Variant="Variant.Text" 
+				  InputType="@PasswordInput"
+				  Adornment="Adornment.End"
+				  AdornmentIcon="@PasswordInputIcon"
+				  OnAdornmentClick="ButtonTestclick" 
+				  AdornmentAriaLabel="Show Password" />
+</MudPaper>
+@code 
+{
+    public string Name { get; set; } = "";
+    public string Password { get; set; } = "";
+
+    bool isShow = false;
+
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+    
+    void ButtonTestclick()
+    {
+        isShow = !isShow;
+        switch (isShow)
+        {
+            case false:                
+                PasswordInputIcon = Icons.Material.Filled.Visibility;
+                PasswordInput = InputType.Text;
+                break;
+            case true:                
+                PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+                PasswordInput = InputType.Password;
+                break;
+        }
+    }
+}

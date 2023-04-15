@@ -1,51 +1,70 @@
 ﻿<h3>PanelAdministracion</h3>
-@if (!Loading)
+    
+@if (user != null)
 {
-    <MudTable Items="@UserList.ToArray()" Dense="true" Hover="true" Bordered="true" Striped="true">
-        <HeaderContent>
-            <MudTh>Id</MudTh>
-            <MudTh>Nombre</MudTh>
-            <MudTh>Apellido</MudTh>
-            <MudTh>Edad</MudTh>
-            <MudTh>Sexo</MudTh>
-            <MudTh>Email</MudTh>
-            <MudTh>Telefono</MudTh>
-            <MudTh>Contraseña</MudTh>
-            <MudTh>Rol</MudTh>
-            <MudTh>Editar</MudTh>
-            <MudTh>Borrar</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="Id">@context.ID</MudTd>
-            <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
-            <MudTd DataLabel="Apellido">@context.Apellido</MudTd>
-            <MudTd DataLabel="Edad">@context.Edad</MudTd>
-            <MudTd DataLabel="Sexo">@context.Sexo</MudTd>
-            <MudTd DataLabel="Email">@context.Email</MudTd>
-            <MudTd DataLabel="Telefono">@context.Telefono</MudTd>
-            <MudTd DataLabel="Contraseña">SECRETO ***</MudTd>
-            <MudTd DataLabel="Rol">@context.Roles_idroles</MudTd>
-            <MudTd DataLabel="Editar">
-                <MudFab OnClick="@((async) => OnEditUser(@context))" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" />
-            </MudTd>
-            <MudTd DataLabel="Borrar">
-                <MudFab OnClick="@((async) => OnDelete(@context.ID))" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever" />
-            </MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager />
-        </PagerContent>
-    </MudTable>
+    @if (user.Roles_idroles == 1)
+    {               
+        @if (!Loading)
+        {
+            <MudTable Items="@UserList.ToArray()" Dense="true" Hover="true" Bordered="true" Striped="true">
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>Nombre</MudTh>
+                    <MudTh>Apellido</MudTh>
+                    <MudTh>Edad</MudTh>
+                    <MudTh>Sexo</MudTh>
+                    <MudTh>Email</MudTh>
+                    <MudTh>Telefono</MudTh>
+                    <MudTh>Contraseña</MudTh>
+                    <MudTh>Rol</MudTh>
+                    <MudTh>Editar</MudTh>
+                    <MudTh>Borrar</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Id">@context.ID</MudTd>
+                    <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
+                    <MudTd DataLabel="Apellido">@context.Apellido</MudTd>
+                    <MudTd DataLabel="Edad">@context.Edad</MudTd>
+                    <MudTd DataLabel="Sexo">@context.Sexo</MudTd>
+                    <MudTd DataLabel="Email">@context.Email</MudTd>
+                    <MudTd DataLabel="Telefono">@context.Telefono</MudTd>
+                    <MudTd DataLabel="Contraseña">SECRETO ***</MudTd>
+                    <MudTd DataLabel="Rol">@context.Roles_idroles</MudTd>
+                    <MudTd DataLabel="Editar">
+                        <MudFab OnClick="@((async) => OnEditUser(@context))" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" />
+                    </MudTd>
+                    <MudTd DataLabel="Borrar">
+                        <MudFab OnClick="@((async) => OnDelete(@context.ID))" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever" />
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        else
+        {
+            <MudText Typo="Typo.h4">Connectando con la base de datos ...</MudText>
+            <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
+            
+        }                   
+    }
 }
 else
-{
-    <MudText Typo="Typo.h4">Connectando con la base de datos ...</MudText>
-    <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
+{        
+    <MudAlert Severity="Severity.Error" Variant="Variant.Filled">Acceso denegado</MudAlert>
+    <MudButton Href="/login"
+           Target="_blank"
+           Variant="Variant.Filled"
+           EndIcon="@Icons.Custom.Brands.GitHub"
+           Color="Color.Primary"
+           Disabled="false">Iniciar sesion</MudButton>
 }
 @code 
 {
     private List<User> UserList;
     private bool Loading = true;
+    private User user;        
 
     private async Task LoadUsers()
     {        
@@ -97,6 +116,7 @@ else
         //DialogService.Show<EditUserDialog>("Simple Dialog", closeOnEscapeKey);
         //mod user
         /*abro ventana para personalizaar*/
+
         //update
         //state has changed
         return Task.CompletedTask;
@@ -106,7 +126,44 @@ else
     {
         Loading = true;
         _ = LoadUsers();
+
         return base.OnInitializedAsync();
     }
 
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {        
+        if (firstRender)
+        {
+            string nombre = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
+            string Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
+
+
+            Authorize UserAuthorize = new Authorize()
+            {
+                Name = nombre, 
+                Password = Password
+            };
+
+            //Comprobar si el usuario es correcto (autenticado) o no. Si es true, tiene los permisos , en caso contrario, se comprueba si el usuario existe para poder acceder a la web
+            //Pd: El usuario que NO sea administrador, tiene Acceso denegado al panel de administración
+            bool IsNull = String.IsNullOrWhiteSpace(UserAuthorize.Name) | String.IsNullOrWhiteSpace(UserAuthorize.Password);
+            if (!IsNull)
+            {
+                Manager.MySQLManager mySQLManager = new Manager.MySQLManager();
+                {
+                    bool EsValido = mySQLManager.Login(UserAuthorize);
+                    user = mySQLManager.GetUser(UserAuthorize);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error");
+            }
+
+            StateHasChanged();
+        }
+
+        await Task.CompletedTask;
+    }
 }

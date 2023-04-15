@@ -1,4 +1,4 @@
-import { puerto } from "../settings/config";
+//import { puerto } from "../settings/config";
 
 export class API {    
     async generatePasswordHash(input) {

@@ -17,7 +17,20 @@ namespace AseregeBarcelonaWeb.Controllers.API
         [HttpPost] public IActionResult Post([FromBody] Authorize model)
         {
             MySQLManager result = new MySQLManager();
-            return Ok(result.Login(model)); //devuelve si es true (iniciar sesion) or false
+            User user = result.GetUser(model);
+  
+            bool validated = result.Login(model);
+                         
+            if (validated)
+            {
+                result.Dispose();
+                return Ok("Inicio de sesión exitoso");
+            }
+            else
+            {
+                result.Dispose();
+                return Ok("Nombre de usuario o contraseña incorrectos");
+            }                                                                                                  
         }
 
         [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] Authorize model)

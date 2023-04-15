@@ -48,7 +48,7 @@ export const login = {
                 const nombre = document.getElementById("nick").value;
                 const password = document.getElementById("pass").value;
     
-                new API().login(nombre, password);                                
+                //new API().login(nombre, password);                                
                 // const json = JSON.stringify(usuario);
                 // console.log(json);
             }

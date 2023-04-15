@@ -101,7 +101,7 @@ namespace AseregeBarcelonaWeb.Manager
         {
             CreateTables();
             //el @  representa los parametros
-            string query = "INSERT INTO Usuarios (nombre, apellido, edad,sexo,email,telefono,passwordseguro, Roles_idroles) " +
+            string query = "INSERT INTO usuarios (nombre, apellido, edad,sexo,email,telefono,passwordseguro, Roles_idroles) " +
                 "VALUES (@nombre, @apellido, @edad, @sexo, @email, @telefono, @passwordseguro, @Roles_idroles)";
             MySqlCommand command = new MySqlCommand(query, connection);
 
@@ -215,7 +215,7 @@ namespace AseregeBarcelonaWeb.Manager
             {
                 while (reader.Read())
                 {
-                    bool Valid = Convert.ToBoolean(reader[0]);
+                    bool Valid = Convert.ToBoolean(reader[0]);                    
 
                     if (Valid)
                     {
