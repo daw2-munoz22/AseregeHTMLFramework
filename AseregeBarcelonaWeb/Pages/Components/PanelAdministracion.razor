@@ -31,7 +31,7 @@
                     <MudTd DataLabel="Contraseña">SECRETO ***</MudTd>
                     <MudTd DataLabel="Rol">@context.Roles_idroles</MudTd>
                     <MudTd DataLabel="Editar">
-                        <MudFab OnClick="@((async) => OnEditUser(@context))" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" />
+                        <MudFab OnClick="@(async(e) => await OnEditUser(@context))" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" />
                     </MudTd>
                     <MudTd DataLabel="Borrar">
                         <MudFab OnClick="@((async) => OnDelete(@context.ID))" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever" />
@@ -109,17 +109,31 @@ else
         return Task.CompletedTask;
     }
 
-    private Task OnEditUser(User user)
+    private async Task OnEditUser(User user)
     {
 
-        DialogOptions closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
-        //DialogService.Show<EditUserDialog>("Simple Dialog", closeOnEscapeKey);
-        //mod user
-        /*abro ventana para personalizaar*/
+        //creación del dialogo (ficha para editar perfil)        
 
-        //update
-        //state has changed
-        return Task.CompletedTask;
+        DialogOptions options = new DialogOptions() 
+        {
+            CloseOnEscapeKey = true 
+        };
+
+        DialogParameters parameter = new DialogParameters()
+        {
+               {
+                   "User", user
+               }
+        };
+
+        DialogResult result = await DialogService.Show<EditUserDialog>("Editar usuario", parameter, options).Result;
+        if (!result.Cancelled)
+        {
+            //En la variable UserInfo (es de clase User), 
+            //almaceno los datos del result.Data (if true) convertido en un objeto User. En caso contrario, crear una nueva instancia de ese Objeto.
+            User UserInfo = (User)(result.Data ?? default(User)); 
+
+        }       
     }
 
     protected override Task OnInitializedAsync()

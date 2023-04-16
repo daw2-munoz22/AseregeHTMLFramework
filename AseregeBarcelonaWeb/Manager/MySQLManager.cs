@@ -305,8 +305,8 @@ namespace AseregeBarcelonaWeb.Manager
             command.Parameters.AddWithValue("@edad", edad);
             command.Parameters.AddWithValue("@sexo", sexo);
             command.Parameters.AddWithValue("@email", email);
-            command.Parameters.AddWithValue("@telefono", telefono);
-            command.Parameters.AddWithValue("@passwordseguro", passwordseguro);
+            command.Parameters.AddWithValue("@telefono", telefono);            
+            command.Parameters.AddWithValue("@passwordseguro", GeneratePasswordHash(passwordseguro));
             command.Parameters.AddWithValue("@Roles_idroles", Roles_idroles);
             command.Parameters.AddWithValue("@idUsers", idUsers);
 
