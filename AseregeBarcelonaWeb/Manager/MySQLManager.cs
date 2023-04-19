@@ -21,7 +21,12 @@ namespace AseregeBarcelonaWeb.Manager
 
         public MySQLManager()
         {
-            if (!File.Exists("aserege.json")) //si no existe el fichero, muestra por consola el mensaje
+            #if DEBUG
+            string CONFIG_DB_NAME = "aserege.json";
+            #else
+            string CONFIG_DB_NAME = "aserege_release.json";
+            #endif
+            if (!File.Exists(CONFIG_DB_NAME)) //si no existe el fichero, muestra por consola el mensaje
             {
                 Console.WriteLine("Necesitas aserege.json para realizar una conexion con la base de datos");
             }
@@ -33,8 +38,7 @@ namespace AseregeBarcelonaWeb.Manager
 
                 AseregeConfiguration config = PostJsonManager.GetJsonResult<AseregeConfiguration>(File.ReadAllText("aserege.json"));
 
-                BuildConnection(config.hostname, config.databaseName, config.username, config.password);
-                CreateTables();
+                BuildConnection(config.hostname, config.databaseName, config.username, config.password);                
             }
         }
         //función que recibe los paramentos y construye la cadena de conexión

@@ -24,7 +24,9 @@ namespace AseregeBarcelonaWeb
 			services.AddControllers(); //añadir controladores adicionales
             services.AddServerSideBlazor(); //añadir el servidor de blazor
 
-            services.AddCors(options =>
+			services.AddScoped<AseregeBarcelonaWeb.Pages.Index>();
+
+			services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", builder =>
 				{

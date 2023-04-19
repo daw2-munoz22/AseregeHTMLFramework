@@ -8,11 +8,16 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
 
-        <MudMenu Color="Color.Warning" Class="pr-4" Label="Home" />
-        <MudMenu Color="Color.Warning" Class="pr-4" Label="Transportes" />
-        <MudMenu Color="Color.Warning" Class="pr-4" Label="Visitas" />
-        <MudMenu Color="Color.Warning" Class="pr-4" Label="Quienes somos" />
-                                     
+        
+        <MudChipSet @bind-SelectedChip="selected" SelectedValuesChanged="SelectedValuesChanged" Filter="true" Mandatory="true">
+            <MudChip Text="blue" Color="Color.Info">Home</MudChip>
+            <MudChip Text="pink" Color="Color.Secondary">Transportes</MudChip>            
+            <MudChip Text="red" Color="Color.Error">Visitas</MudChip>
+            <MudChip Text="orange" Color="Color.Warning">Quienes somos</MudChip>            
+        </MudChipSet>
+
+                   
+       
        
         <MudMenu>
             <ActivatorContent>
@@ -33,11 +38,58 @@
         <NavMenu />
 
     </MudDrawer>
-    <MudMainContent Class="px-4">@Body</MudMainContent>
+    <MudMainContent Class="px-4">      
+        
+        Pasos aqui
+        @Body
+        <MainPage></MainPage>
+        <Transportes></Transportes>
+        <VerPerfil></VerPerfil>
+        <PanelAdministracion></PanelAdministracion>
+        <Footer></Footer>
+        
+        
+    </MudMainContent>
+    
 </MudLayout>
-@code {
+@code 
+{    
+    MudChip selected;
+
     bool ChangeSidebar = true;
 
+    public string SelectedPage { get; set; } = "<MainPage></MainPage>";
+    private void SwapPage(string eleccion)
+    {
+        switch (eleccion)
+        {
+            case "Home":
+                SelectedPage = "<MainPage></MainPage>";
+                break;
+            case "Tansportes":
+                SelectedPage = "<Transportes></Transportes>";
+                break;
+            case "Visitas":
+                break;
+            case "Quienes_somos?":
+                break;
+            case "perfil":
+                SelectedPage = "<VerPerfil></VerPerfil>";
+                break;
+            case "admin":
+                SelectedPage = "<PanelAdministracion></PanelAdministracion>";
+                break;
+        }        
+    }
+
+
+    private void SelectedValuesChanged()
+    {
+        SelectedPage = "<Transportes></Transportes>";
+        StateHasChanged();
+    }
+
+    
     void DrawerToggle()
     {
         ChangeSidebar = !ChangeSidebar;
@@ -45,8 +97,7 @@
 
     private async Task CloseSession()
     {
-         string nombre = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Name");          
-         string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");              
-    }
-
+        string nombre = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Name");
+        string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");                
+    }                
 }

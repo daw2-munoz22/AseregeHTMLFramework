@@ -1,3 +1,4 @@
+using AseregeBarcelonaWeb.Manager;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -7,7 +8,11 @@ namespace AseregeBarcelonaWeb
 	{
 		public static void Main(string[] args)
 		{
-			CreateHostBuilder(args).Build().Run();
+            MySQLManager manager = new MySQLManager();
+			manager.CreateTables();
+			manager.Dispose();
+			
+            CreateHostBuilder(args).Build().Run();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
