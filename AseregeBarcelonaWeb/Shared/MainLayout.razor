@@ -24,8 +24,9 @@
                 <Multiavatar Width="48px" Height="48px" AvatarId="Pepe" />                
             </ActivatorContent>
             <ChildContent>
-                <MudMenuItem Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>                
+                <MudMenuItem OnClick="@(async(e) => await ShowProfile())" Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>                
                 <MudMenuItem OnClick="@(async(e) => await CloseSession())" Icon="@Icons.Material.Filled.Logout">Cerrar Sesión</MudMenuItem>
+                <MudMenuItem OnClick="@(async(e) => await AuthorizeAsync())" Icon="@Icons.Material.Filled.Login">Iniciar Sesión</MudMenuItem>
             </ChildContent>
         </MudMenu>
 
@@ -35,69 +36,109 @@
             <MudText Typo="Typo.h5" Class="mt-1">Aserege Framework</MudText>
         </MudDrawerHeader>                
       
-        <NavMenu />
+        <MudPaper Width="250px" Class="d-inline-flex py-3" Elevation="0">
+            <MudNavMenu Class="mud-width-full">
+                <MudText Typo="Typo.h6" Class="px-4">Barcelona Web</MudText>
+                <MudDivider Class="my-2" />
+                <MudNavLink Href="/api" Icon="@Icons.Material.Filled.Dashboard">Peticiones JSON</MudNavLink>
+                <MudNavLink Href="/servers" Icon="@Icons.Material.Filled.Storage">Servers</MudNavLink>
+                <MudNavLink Href="/billing" Icon="@Icons.Material.Filled.Receipt" Disabled="true">Billing</MudNavLink>
+                <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="true">
+                    <MudNavLink OnClick="@(async(e) => await TravelTo("admin"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Users</MudNavLink>
+                    <MudNavLink Href="/security" Icon="@Icons.Material.Filled.Security" IconColor="Color.Info">Security</MudNavLink>
+                </MudNavGroup>
+            </MudNavMenu>
+        </MudPaper>
 
     </MudDrawer>
-    <MudMainContent Class="px-4">      
+    <MudMainContent Class="px-4">     
+        @switch (SelectedPage)
+        {
+        case "blue":               
+            <MainPage></MainPage>        
+            break;
+        case "login":
+            <Login></Login>
+            break;
+        case "pink":                 
+            <Transportes></Transportes>
+            break;
+        case "red":
+            <div>Visitas</div>
+            break;
+        case "orange":
+            <div>QUIENES SOMOS</div>
+            break;
+        case "profile":
+            <VerPerfil></VerPerfil>
+            break;
+        case "admin":                
+            <PanelAdministracion></PanelAdministracion>
+            break;       
+        default:                
+            <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />
+            <MudText style="font-family: 'Quattrocento', serif;" Align="Align.Center" Typo="Typo.h4"></MudText>                              
+            break;
+        }
         
-        Pasos aqui
-        @Body
-        <MainPage></MainPage>
-        <Transportes></Transportes>
-        <VerPerfil></VerPerfil>
-        <PanelAdministracion></PanelAdministracion>
-        <Footer></Footer>
-        
-        
+        <Footer></Footer>                
     </MudMainContent>
     
 </MudLayout>
-@code 
-{    
-    MudChip selected;
-
+@code
+{
+    MudChip selected;    
     bool ChangeSidebar = true;
 
-    public string SelectedPage { get; set; } = "<MainPage></MainPage>";
-    private void SwapPage(string eleccion)
-    {
-        switch (eleccion)
-        {
-            case "Home":
-                SelectedPage = "<MainPage></MainPage>";
-                break;
-            case "Tansportes":
-                SelectedPage = "<Transportes></Transportes>";
-                break;
-            case "Visitas":
-                break;
-            case "Quienes_somos?":
-                break;
-            case "perfil":
-                SelectedPage = "<VerPerfil></VerPerfil>";
-                break;
-            case "admin":
-                SelectedPage = "<PanelAdministracion></PanelAdministracion>";
-                break;
-        }        
-    }
-
+    public string SelectedPage { get; set; } = "blue";
+    void DrawerToggle() => ChangeSidebar = !ChangeSidebar;
 
     private void SelectedValuesChanged()
     {
-        SelectedPage = "<Transportes></Transportes>";
+        SelectedPage = selected.Text;
         StateHasChanged();
     }
 
-    
-    void DrawerToggle()
+    private async Task TravelTo(string page)
     {
-        ChangeSidebar = !ChangeSidebar;
+        SelectedPage = page;
+        await Task.CompletedTask;
     }
 
+    private async Task AuthorizeAsync()
+    {
+        using (Manager.MySQLManager manager = new Manager.MySQLManager())
+        {
+            string Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
+            string Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
+            if (Name == null | Password == null)
+            {
+                await TravelTo("login");                
+                StateHasChanged(); 
+                
+                
+                SelectedPage = "MainPage";                
+            }
+            User currentUser = manager.GetUser(new Authorize() { Name = Name, Password = Password });            
+        }
+        await Task.CompletedTask;
+    }
+    private Task AuthorizeUser()
+    {      
+        _= AuthorizeAsync();
+        return Task.CompletedTask;
+
+    }
+    
+    private async Task ShowProfile()
+    {
+        await TravelTo("profile");        
+        await Task.CompletedTask;
+    }
     private async Task CloseSession()
     {
         string nombre = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Name");
-        string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");                
-    }                
-}
+        string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");         
+
+    }      
+}   
