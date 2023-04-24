@@ -1,14 +1,9 @@
-﻿using Microsoft.VisualBasic;
-using Model.Data;
+﻿using Model.Data;
 using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
-using Org.BouncyCastle.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AseregeBarcelonaWeb.Manager
@@ -18,6 +13,7 @@ namespace AseregeBarcelonaWeb.Manager
         private MySqlConnection connection;     //preprar el objeto para conectar a nuestra base de datos   
         private string database; //definir nombre de la base de datos                
         public void Dispose() => connection.Close(); //funcion para cerrar la base de datos
+        public async Task DisposeAsync() => await connection.CloseAsync(); //funcion para cerrar la base de datos
 
         public MySQLManager()
         {
@@ -49,23 +45,7 @@ namespace AseregeBarcelonaWeb.Manager
             connection = new MySqlConnection(connectionString);
         }
 
-        //generar el sistema de cifrado
-        public string GeneratePasswordHash(string input)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] inputBytes = Encoding.UTF8.GetBytes(input); //los bytes del texto, estan representados en la codificación UTF-8
-                byte[] hashBytes = sha256.ComputeHash(inputBytes); //el texto, se convierte en la clave segura que se guardara en la base de datos
-
-                StringBuilder builder = new StringBuilder(); //convierte el hash anterior (binario) a un texto
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    builder.Append(hashBytes[i].ToString("x2")); // por cada ciclo, añade cada letra al "ArrayList"
-                    //el 2 es el espacio
-                }
-                return builder.ToString(); //convertimos a un texto normal
-            }
-        }
+       
 
         public void CreateTables()
         {
@@ -75,8 +55,10 @@ namespace AseregeBarcelonaWeb.Manager
                 $"PRIMARY KEY (idroles)," +
                 $"UNIQUE INDEX idroles_UNIQUE (idroles ASC) VISIBLE);" +
 
-                $"CREATE TABLE IF NOT EXISTS {database}.Usuarios (idUsers INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(256) NOT NULL," +
-                $"apellido VARCHAR(256) NOT NULL, edad INT NOT NULL, sexo VARCHAR(256) NOT NULL," +
+                $"CREATE TABLE IF NOT EXISTS {database}.Usuarios (idUsers INT NOT NULL AUTO_INCREMENT," +
+                $"nombre VARCHAR(256) NOT NULL," +
+                $"apellido VARCHAR(256) NOT NULL, edad INT NOT NULL, " +
+                $"sexo VARCHAR(256) NOT NULL," +
                 $"email VARCHAR(256) NOT NULL," +
                 $"telefono VARCHAR(256) NULL," +
                 $"passwordseguro LONGTEXT NOT NULL," +
@@ -85,7 +67,13 @@ namespace AseregeBarcelonaWeb.Manager
                 $"UNIQUE INDEX idUsers_UNIQUE (idUsers ASC) VISIBLE," +
                 $"INDEX fk_Users_Roles_idx (Roles_idroles ASC) VISIBLE," +
                 $"CONSTRAINT fk_Users_Roles FOREIGN KEY (Roles_idroles)" +
-                $"REFERENCES {database}.Roles (idroles) ON DELETE NO ACTION ON UPDATE NO ACTION)";
+                $"REFERENCES {database}.Roles (idroles) ON DELETE NO ACTION ON UPDATE NO ACTION);" +
+
+                $"CREATE TABLE IF NOT EXISTS {database}.Resources (idResources INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+                $"name VARCHAR(255) NOT NULL," +
+                $"data LONGBLOB NOT NULL," +
+                $"format VARCHAR(255) NOT NULL," +
+                $"date DATETIME NOT NULL);";                
 
 
             MySqlCommand command = new MySqlCommand(query, connection);//preparar la query
@@ -116,8 +104,8 @@ namespace AseregeBarcelonaWeb.Manager
                 command.Parameters.AddWithValue("@edad", user.Edad);
                 command.Parameters.AddWithValue("@sexo", user.Sexo);
                 command.Parameters.AddWithValue("@email", user.Email);
-                command.Parameters.AddWithValue("@telefono", user.Telefono);
-                command.Parameters.AddWithValue("@passwordseguro", GeneratePasswordHash(user.Passwordseguro));
+                command.Parameters.AddWithValue("@telefono", user.Telefono);                
+                command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(user.Passwordseguro));
                 command.Parameters.AddWithValue("@Roles_idroles", user.Roles_idroles);
 
                 try
@@ -179,7 +167,7 @@ namespace AseregeBarcelonaWeb.Manager
 
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@Nombre", user.Name);
-            command.Parameters.AddWithValue("@passwordseguro", GeneratePasswordHash(user.Password));
+            command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(user.Password));
 
             using (MySqlDataReader reader = command.ExecuteReader())
             {
@@ -213,7 +201,7 @@ namespace AseregeBarcelonaWeb.Manager
 
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@Nombre", permision.Name);
-            command.Parameters.AddWithValue("@passwordseguro", GeneratePasswordHash(permision.Password));
+            command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(permision.Password));
 
             using (MySqlDataReader reader = command.ExecuteReader())
             {
@@ -298,7 +286,7 @@ namespace AseregeBarcelonaWeb.Manager
             }
             return Users;
         }
-
+       
      
         public async Task UpdateUserAsync(string nombre, string apellido, int edad, char sexo, string email, string telefono, string passwordseguro, int Roles_idroles, int idUsers)
         {
@@ -310,7 +298,7 @@ namespace AseregeBarcelonaWeb.Manager
             command.Parameters.AddWithValue("@sexo", sexo);
             command.Parameters.AddWithValue("@email", email);
             command.Parameters.AddWithValue("@telefono", telefono);            
-            command.Parameters.AddWithValue("@passwordseguro", GeneratePasswordHash(passwordseguro));
+            command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(passwordseguro));
             command.Parameters.AddWithValue("@Roles_idroles", Roles_idroles);
             command.Parameters.AddWithValue("@idUsers", idUsers);
 
@@ -326,7 +314,7 @@ namespace AseregeBarcelonaWeb.Manager
 
 
         //Función para la query de eliminar usuarios
-        //CACA// public async void DeleteUserAsync(int id)
+        //CACA public async void DeleteUserAsync(int id)
         //GOOD private void DeleteUser(int id)
         //GOOD private Task DeleteUserAsync(int id)
         public async Task DeleteUserAsync(int id)
@@ -344,6 +332,57 @@ namespace AseregeBarcelonaWeb.Manager
                 Console.WriteLine(ex.Message);
                 await Task.FromException(ex); //devolver el estado del error (excepcion)                
             }
-        }     
+        }
+
+        public async Task<string> InsertFile(Picture picture)
+        {
+            CreateTables();
+
+            string query = "INSERT INTO Resources (name, data, format, date) VALUES (@name, @data, @format, @date)";
+            MySqlCommand command = new MySqlCommand(query, connection);
+
+            
+            command.Parameters.AddWithValue("@name", picture.Name);
+            command.Parameters.AddWithValue("@data", Convert.FromBase64String(picture.Data));
+            command.Parameters.AddWithValue("@format", picture.Format);
+            command.Parameters.AddWithValue("@date", picture.Date);
+
+            try
+            {
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
+                await DisposeAsync();
+                return "OK";
+            }
+            catch (MySqlException ex)
+            {
+                await DisposeAsync();
+                return $"Error inserting the Resource File: {ex.Message}";
+            }
+        }
+
+        //esta funcion permite obtener la imagen o video cuyo identificador sea el que el usuario le pida
+        public async Task<string> SelectPicturesByIDAsync(int id)
+        {
+            string query = "SELECT format, data FROM Resources where idResources=@id;";
+            connection.Open();
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+            
+            string file64 = $"data://";
+
+            using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync()) //leer de manera asincronica
+                {
+                    string header = (string)reader[0];// tipo de fichero
+                    byte[] file = (byte[])reader[1];//datos
+                    file64 = $"data:{header};base64,{Convert.ToBase64String(file)}"; //fichero en texto HTML base64
+                }
+
+            }
+            return file64;
+        }
     }
 }

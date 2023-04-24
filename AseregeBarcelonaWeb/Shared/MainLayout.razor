@@ -21,7 +21,7 @@
        
         <MudMenu>
             <ActivatorContent>
-                <Multiavatar Width="48px" Height="48px" AvatarId="Pepe" />                
+                <Multiavatar Width="48px" Height="48px" AvatarId="@MultiAvatarUserName" />                
             </ActivatorContent>
             <ChildContent>
                 <MudMenuItem OnClick="@(async(e) => await ShowProfile())" Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>                
@@ -40,7 +40,7 @@
             <MudNavMenu Class="mud-width-full">
                 <MudText Typo="Typo.h6" Class="px-4">Barcelona Web</MudText>
                 <MudDivider Class="my-2" />
-                <MudNavLink Href="/api" Icon="@Icons.Material.Filled.Dashboard">Peticiones JSON</MudNavLink>
+                <MudNavLink OnClick="@(async(e) => await TravelTo("api"))" Icon="@Icons.Material.Filled.Dashboard">Peticiones JSON</MudNavLink>
                 <MudNavLink Href="/servers" Icon="@Icons.Material.Filled.Storage">Servers</MudNavLink>
                 <MudNavLink Href="/billing" Icon="@Icons.Material.Filled.Receipt" Disabled="true">Billing</MudNavLink>
                 <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="true">
@@ -64,7 +64,7 @@
             <Transportes></Transportes>
             break;
         case "red":
-            <div>Visitas</div>
+            <Visitas></Visitas>
             break;
         case "orange":
             <div>QUIENES SOMOS</div>
@@ -74,7 +74,10 @@
             break;
         case "admin":                
             <PanelAdministracion></PanelAdministracion>
-            break;       
+            break;
+        case "api":
+            <Api></Api>
+            break;
         default:                
             <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />
             <MudText style="font-family: 'Quattrocento', serif;" Align="Align.Center" Typo="Typo.h4"></MudText>                              
@@ -91,6 +94,8 @@
     bool ChangeSidebar = true;
 
     public string SelectedPage { get; set; } = "blue";
+    private string MultiAvatarUserName { get; set; } = "NADIE";
+
     void DrawerToggle() => ChangeSidebar = !ChangeSidebar;
 
     private void SelectedValuesChanged()
@@ -112,11 +117,11 @@
             string Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
             string Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
             if (Name == null | Password == null)
-            {
+            {                
                 await TravelTo("login");                
                 StateHasChanged(); 
-                
-                
+
+                /*REDIRECT*/
                 SelectedPage = "MainPage";                
             }
             User currentUser = manager.GetUser(new Authorize() { Name = Name, Password = Password });            
@@ -129,7 +134,7 @@
         return Task.CompletedTask;
 
     }
-    
+
     private async Task ShowProfile()
     {
         await TravelTo("profile");        
@@ -139,6 +144,14 @@
     {
         string nombre = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Name");
         string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");         
-
     }      
+    /*protected override async Task OnInitializedAsync()
+    {
+
+    }*/
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        string Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
+        MultiAvatarUserName = Name;        
+    }
 }   

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using MudBlazor.Services;
 
 namespace AseregeBarcelonaWeb
@@ -16,18 +17,19 @@ namespace AseregeBarcelonaWeb
 
 		public IConfiguration Configuration { get; }
             
+
         public void ConfigureServices(IServiceCollection services)
 		{
             services.AddControllersWithViews();   //añadir controlador de vistas         
             services.AddRazorPages(); //añadir controlador de paginas 
             services.AddMvc(); //añadir el Modelo - Vista - Controlador (APIs)
 			services.AddControllers(); //añadir controladores adicionales
-            services.AddServerSideBlazor(); //añadir el servidor de blazor
-
-			services.AddScoped<AseregeBarcelonaWeb.Pages.Index>();
+            services.AddServerSideBlazor(); //añadir el servidor de blazor			
+            
+            services.AddScoped<AseregeBarcelonaWeb.Pages.Index>();
 
 			services.AddCors(options =>
-            {
+            {                
                 options.AddPolicy("AllowAll", builder =>
 				{
 					builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();

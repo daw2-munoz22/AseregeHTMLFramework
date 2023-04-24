@@ -1,0 +1,63 @@
+﻿@using System.IO;
+<h3>Visitas</h3>
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d79965.21656046658!2d2.07023247507779!3d41.39017125657571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona!5e0!3m2!1ses!2ses!4v1681565921119!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<img src="@PictureImage" />
+<MudPaper Class="pa-2 pt-2 mt-4" Elevation="3"><iframe src="@VideoUrl" /></MudPaper>
+
+<InputFile OnChange="HandleSeleccionArchivo" multiple />
+
+@code
+{
+    public string VideoUrl { get; set; } = "https://www.youtube.com/embed/u5-kia2bzpQ";
+    private string PictureImage { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        using (Manager.MySQLManager manager = new Manager.MySQLManager())
+        {
+            PictureImage = await manager.SelectPicturesByIDAsync(3);
+        };
+        await Task.CompletedTask;
+    }
+    //Esta función almacena los archivos y lo guarda en un MemoryStream. Luego, accede a la primera posición y escribe los bytes a partir de esa posición
+    //Crea una instancia a la base de datos y guardo el hash del archivo. Una vez acabado, saltará a la instrucción Task.CompletedTask; 
+    // para comprobar que se ha acabado la tarea    
+    private async Task HandleSeleccionArchivo(InputFileChangeEventArgs e)
+    {        
+        foreach (IBrowserFile file in e.GetMultipleFiles())
+        {
+            if (file.ContentType.StartsWith("image/"))
+            {
+                using (Manager.MySQLManager manager = new Manager.MySQLManager())
+                {       
+                    using (MemoryStream ms = new MemoryStream())
+                    {                        
+                        ms.Position = 0;                    
+                        await file.OpenReadStream(8388608, default).CopyToAsync(ms);
+
+
+                        ms.Position = 0;               
+                        DateTime Date = DateTime.Now;
+                        //escribir en la base de datos el stream procesado en la RAM                        
+                        
+                        Picture picture = new Picture()
+                        {                                                                
+                            Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name),
+                            Format = file.ContentType,
+                            Date = file.LastModified.ToLocalTime().DateTime,
+                                Data = Convert.ToBase64String(ms.ToArray()),
+                            Authorize = new Authorize()
+                            {
+                                Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
+                                Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
+                            }
+                        };
+                        await manager.InsertFile(picture);
+                        await Task.CompletedTask;
+                    }
+                }                                
+            }
+        }
+    }    
+}
+
