@@ -1,8 +1,8 @@
 ﻿using AseregeBarcelonaWeb.Manager;
 using Microsoft.AspNetCore.Mvc;
-using Model.Data;
+using AseregeBarcelonaWeb.Model.Data;
 
-namespace AseregeBarcelonaWeb.Controllers.API
+namespace AseregeBarcelonaWeb.API
 {
     [ApiController]
     [Route("api/roles")] public class RolesAPI : ControllerBase

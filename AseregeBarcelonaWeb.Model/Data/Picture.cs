@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Model.Data
+namespace AseregeBarcelonaWeb.Model.Data
 {
     public class Picture
     {

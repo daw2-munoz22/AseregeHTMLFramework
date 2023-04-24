@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Model.Data;
+using AseregeBarcelonaWeb.Model.Data;
 using AseregeBarcelonaWeb.Manager;
 
-namespace AseregeBarcelonaWeb.Controllers.API
+namespace AseregeBarcelonaWeb.API
 {
     //Api para el Login
     [ApiController] //propiedad de inyector de dependencias

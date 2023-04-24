@@ -1,4 +1,4 @@
-﻿namespace Model.Data
+﻿namespace AseregeBarcelonaWeb.Model.Data
 {
     public class MailRestore
     {

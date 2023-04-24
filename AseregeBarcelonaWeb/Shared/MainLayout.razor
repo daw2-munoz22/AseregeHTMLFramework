@@ -23,10 +23,20 @@
             <ActivatorContent>
                 <Multiavatar Width="48px" Height="48px" AvatarId="@MultiAvatarUserName" />                
             </ActivatorContent>
-            <ChildContent>
-                <MudMenuItem OnClick="@(async(e) => await ShowProfile())" Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>                
-                <MudMenuItem OnClick="@(async(e) => await CloseSession())" Icon="@Icons.Material.Filled.Logout">Cerrar Sesión</MudMenuItem>
-                <MudMenuItem OnClick="@(async(e) => await AuthorizeAsync())" Icon="@Icons.Material.Filled.Login">Iniciar Sesión</MudMenuItem>
+            <ChildContent>                                                               
+                @if (loginState)
+                {                    
+                    <MudMenuItem OnClick="@(async(e) => await ShowProfile())" Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>
+                    <MudMenuItem OnClick="@(async(e) => await CloseSession())" Icon="@Icons.Material.Filled.Logout">Cerrar Sesión</MudMenuItem>
+                    
+                }
+                else
+                {
+                    <MudMenuItem OnClick="@(async(e) => await RegisterAsync())" Icon="@Icons.Material.Filled.Login">Registrarse</MudMenuItem>
+                    <MudMenuItem OnClick="@(async(e) => await AuthorizeAsync())" Icon="@Icons.Material.Filled.Login">Iniciar Sesión</MudMenuItem>
+                }
+
+                
             </ChildContent>
         </MudMenu>
 
@@ -56,6 +66,9 @@
         {
         case "blue":               
             <MainPage></MainPage>        
+            break;
+        case "register":
+            <Register></Register>
             break;
         case "login":
             <Login></Login>
@@ -93,9 +106,14 @@
     MudChip selected;    
     bool ChangeSidebar = true;
 
-    public string SelectedPage { get; set; } = "blue";
+    public string SelectedPage { get; set; } = "Blue";
     private string MultiAvatarUserName { get; set; } = "NADIE";
 
+    bool loginState { get; set; } = false;
+    private async Task<bool> GetLoginSessionState()
+    {        
+        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name") != null || await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password") != null;        
+    }
     void DrawerToggle() => ChangeSidebar = !ChangeSidebar;
 
     private void SelectedValuesChanged()
@@ -123,6 +141,8 @@
 
                 /*REDIRECT*/
                 SelectedPage = "MainPage";                
+                //*OPTENER EL EVENTO DE LOGIN*/
+                // EJECUTASR StateHasChanged
             }
             User currentUser = manager.GetUser(new Authorize() { Name = Name, Password = Password });            
         }
@@ -145,13 +165,27 @@
         string nombre = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Name");
         string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");         
     }      
-    /*protected override async Task OnInitializedAsync()
-    {
-
-    }*/
+    protected override async Task OnInitializedAsync()
+    {        
+        await TravelTo("blue");
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        loginState = await GetLoginSessionState();
         string Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
-        MultiAvatarUserName = Name;        
+        if(Name == null)
+        {
+            Name = "NADIE";
+        }
+
+        MultiAvatarUserName = Name;
+        await Task.CompletedTask;
+    }
+
+
+    private async Task RegisterAsync()
+    {
+        await TravelTo("register");
+        await Task.CompletedTask;
     }
 }   

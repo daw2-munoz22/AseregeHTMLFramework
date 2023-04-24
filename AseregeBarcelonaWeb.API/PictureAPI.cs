@@ -1,10 +1,9 @@
 ﻿using AseregeBarcelonaWeb.Manager;
+using AseregeBarcelonaWeb.Model.Data;
 using Microsoft.AspNetCore.Mvc;
-using Model.Data;
-using System.IO;
 using System.Threading.Tasks;
 
-namespace AseregeBarcelonaWeb.Controllers.API
+namespace AseregeBarcelonaWeb.API
 {
     [ApiController]
     [Route("api/picture")] public class PictureAPI : ControllerBase

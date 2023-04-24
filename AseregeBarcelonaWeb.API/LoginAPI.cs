@@ -1,8 +1,8 @@
 ﻿using AseregeBarcelonaWeb.Manager;
 using Microsoft.AspNetCore.Mvc;
-using Model.Data;
+using AseregeBarcelonaWeb.Model.Data;
 
-namespace AseregeBarcelonaWeb.Controllers.API
+namespace AseregeBarcelonaWeb.API
 {
     //Api para el Login
     [ApiController] //propiedad de inyector de dependencias

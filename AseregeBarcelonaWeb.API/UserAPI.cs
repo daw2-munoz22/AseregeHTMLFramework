@@ -1,10 +1,9 @@
 ﻿using AseregeBarcelonaWeb.Manager;
+using AseregeBarcelonaWeb.Model.Data;
 using Microsoft.AspNetCore.Mvc;
-using Model.Data;
 using Newtonsoft.Json;
-using System;
 
-namespace AseregeBarcelonaWeb.Controllers.API
+namespace AseregeBarcelonaWeb.API
 {
     [ApiController]
     [Route("api/users")] public class UserAPI : ControllerBase
