@@ -11,8 +11,16 @@
         
         <MudChipSet @bind-SelectedChip="selected" SelectedValuesChanged="SelectedValuesChanged" Filter="true" Mandatory="true">
             <MudChip Text="blue" Color="Color.Info">Home</MudChip>
-            <MudChip Text="pink" Color="Color.Secondary">Transportes</MudChip>            
-            <MudChip Text="red" Color="Color.Error">Visitas</MudChip>
+
+            @if (currentUser != null)
+            {
+                @if (currentUser.Roles_idroles == 1 || currentUser.Roles_idroles == 2)
+                {
+                    <MudChip Text="pink" Color="Color.Secondary">Transportes</MudChip>
+                    <MudChip Text="red" Color="Color.Error">Visitas</MudChip>
+                }             
+            }
+            
             <MudChip Text="orange" Color="Color.Warning">Quienes somos</MudChip>            
         </MudChipSet>
 
@@ -71,7 +79,19 @@
             <Register></Register>
             break;
         case "login":
-            <Login></Login>
+                <MudPaper Class="pa-16 ma-2" Square="false" Elevation="3">
+                    <MudTextField @bind-Value="Name" Label="Nombre de usuario" Variant="Variant.Text" />
+
+                    <MudTextField @bind-Value="Password" Class="mt-2"
+                          Label="Contraseña"
+                          Variant="Variant.Text"
+                          InputType="@PasswordInput"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@PasswordInputIcon"
+                          OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
+
+                    <MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="async(e) => await LoginAsync()">Iniciar Sesión</MudButton>
+                </MudPaper>
             break;
         case "pink":                 
             <Transportes></Transportes>
@@ -103,7 +123,12 @@
 </MudLayout>
 @code
 {
-    MudChip selected;    
+    /// <summary>
+    /// /ROUTER REAL PAGE
+    /// </summary>
+
+    private User currentUser = new User();
+    private MudChip selected;    
     bool ChangeSidebar = true;
 
     public string SelectedPage { get; set; } = "Blue";
@@ -125,9 +150,8 @@
     private async Task TravelTo(string page)
     {
         SelectedPage = page;
-        await Task.CompletedTask;
-    }
-
+        await Task.CompletedTask;        
+    }    
     private async Task AuthorizeAsync()
     {
         using (Manager.MySQLManager manager = new Manager.MySQLManager())
@@ -136,23 +160,19 @@
             string Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
             if (Name == null | Password == null)
             {                
-                await TravelTo("login");                
-                StateHasChanged(); 
+                currentUser.Nombre = "";
+                currentUser.Passwordseguro = "";                
+                await TravelTo("login");  
 
-                /*REDIRECT*/
-                SelectedPage = "MainPage";                
-                //*OPTENER EL EVENTO DE LOGIN*/
-                // EJECUTASR StateHasChanged
+                StateHasChanged();               
             }
-            User currentUser = manager.GetUser(new Authorize() { Name = Name, Password = Password });            
+            else
+            {
+                currentUser = manager.GetUser(new Authorize() { Name = Name, Password = Password });
+            }
+
         }
         await Task.CompletedTask;
-    }
-    private Task AuthorizeUser()
-    {      
-        _= AuthorizeAsync();
-        return Task.CompletedTask;
-
     }
 
     private async Task ShowProfile()
@@ -163,7 +183,8 @@
     private async Task CloseSession()
     {
         string nombre = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Name");
-        string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");         
+        string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");
+        StateHasChanged();
     }      
     protected override async Task OnInitializedAsync()
     {        
@@ -172,13 +193,17 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         loginState = await GetLoginSessionState();
-        string Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
-        if(Name == null)
+        
+        if (!loginState)
         {
-            Name = "NADIE";
-        }
-
-        MultiAvatarUserName = Name;
+            if (currentUser.Nombre == null)
+            {
+                currentUser.Nombre = "NADIE";            
+                await jsRuntime.InvokeVoidAsync("localStorage.setItem", "Name", currentUser.Nombre);            
+            }
+            currentUser.Nombre = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
+            MultiAvatarUserName = currentUser.Nombre;
+        }                
         await Task.CompletedTask;
     }
 
@@ -188,4 +213,60 @@
         await TravelTo("register");
         await Task.CompletedTask;
     }
+
+
+    /// <summary>
+    /// /LOGIN CODE
+    /// </summary>
+
+    public string Name { get; set; } = "";
+    public string Password { get; set; } = "";
+
+    bool isShow = false;
+
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick()
+    {
+        isShow = !isShow;
+        switch (isShow)
+        {
+            case false:
+                PasswordInputIcon = Icons.Material.Filled.Visibility;
+                PasswordInput = InputType.Text;
+                break;
+            case true:
+                PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+                PasswordInput = InputType.Password;
+                break;
+        }
+    }
+    //Esta funcion se encarga de validar el usuario logeado (comprovar si existe en la base de datos) de manera asincrona
+    private async Task LoginAsync()
+    {
+
+        Manager.MySQLManager manager = new MySQLManager();
+        
+        //este authorize permite autenticar el usuario 
+        //En el apartado del Password, genera el hash de la contraseña intruducida y comprueba si su valor corresponde a la de la base de datos
+        //Si el usuario es valido (existe), alamacena en el localStorage el perfil
+        Authorize authorize = new Authorize()                    
+        {                        
+                Name = Name,
+                Password = CryptographyManager.GeneratePasswordHash(this.Password) 
+        };
+        currentUser = manager.GetUser(authorize);
+        await manager.DisposeAsync();
+        if (currentUser != null)
+        {            
+            await jsRuntime.InvokeVoidAsync("localStorage.setItem", "Name", authorize.Name);
+            await jsRuntime.InvokeVoidAsync("localStorage.setItem", "Password", authorize.Password);
+            MultiAvatarUserName = currentUser.Nombre;
+            await TravelTo("blue");
+        }       
+        
+        StateHasChanged();
+    }
+
 }   

@@ -11,7 +11,7 @@
     private static List<string> GetAllClasses()
     {
         #if DEBUG                            
-        foreach (Type type in System.Reflection.Assembly.LoadFrom("bin/Debug/net5.0/Model.dll").GetTypes())
+        foreach (Type type in System.Reflection.Assembly.LoadFrom("bin/Debug/net5.0/AseregeBarcelonaWeb.Model.dll").GetTypes())
         {
             object instance = Activator.CreateInstance(type);
             list.Add(Newtonsoft.Json.JsonConvert.SerializeObject(instance, Newtonsoft.Json.Formatting.Indented));                

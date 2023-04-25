@@ -21,21 +21,11 @@
     private string mailURL { get; set; } = string.Empty;
     protected override Task OnInitializedAsync()
     {
-        Manager.MySQLManager conectarse = new Manager.MySQLManager();
+       
 
-        /*LUEGO EN JS*/
-        Authorize authorize = new Authorize();
-        authorize.Name = "Edgar";
-        authorize.Password = "P@ssw0rd";
-        
-        bool EsValido = conectarse.Login(authorize);
-        /*ACABA AQUI*/
-        
-        User users = conectarse.GetUser(authorize);
-
-        mailURL = $"mailto:edgarmunozmanjon@gmail.com?subject={users.Email}&body=";
-
-        conectarse.Dispose();
+        /*LUEGO EN JS*/                   
+     //   mailURL = $"mailto:edgarmunozmanjon@gmail.com?subject={users.Email}&body=";
+                
         return base.OnInitializedAsync();
     }
 }

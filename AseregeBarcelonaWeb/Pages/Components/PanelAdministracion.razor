@@ -46,20 +46,22 @@
         {
             <MudText Typo="Typo.h4">Connectando con la base de datos ...</MudText>
             <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
-            
-        }                   
+
+        }
+
     }
-}
-else
-{        
-    <MudAlert Severity="Severity.Error" Variant="Variant.Filled">Acceso denegado</MudAlert>
-    <MudButton Href="/login"
+    else
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Filled">Acceso denegado</MudAlert>
+        <MudButton Href="/login"
            Target="_blank"
            Variant="Variant.Filled"
            EndIcon="@Icons.Custom.Brands.GitHub"
            Color="Color.Primary"
            Disabled="false">Iniciar sesion</MudButton>
+    }
 }
+
 @code 
 {
     private List<User> UserList;

@@ -159,15 +159,14 @@ namespace AseregeBarcelonaWeb.Manager
 
         }
         public User GetUser(Authorize user)
-        {
-            //string query = "SELECT * FROM usuarios WHERE Roles_idroles = 1;";
+        {        
             string query = "SELECT * FROM usuarios WHERE Nombre = @Nombre AND passwordseguro = @passwordseguro;";
 
             connection.Open();
 
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@Nombre", user.Name);
-            command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(user.Password));
+            command.Parameters.AddWithValue("@passwordseguro",user.Password);
 
             using (MySqlDataReader reader = command.ExecuteReader())
             {
@@ -201,7 +200,7 @@ namespace AseregeBarcelonaWeb.Manager
 
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@Nombre", permision.Name);
-            command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(permision.Password));
+            command.Parameters.AddWithValue("@passwordseguro", permision.Password);
 
             using (MySqlDataReader reader = command.ExecuteReader())
             {

@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital@1&family=Quattrocento&family=Rokkitt&family=Sofia+Sans+Condensed:ital@1&family=Tangerine:wght@700&display=swap');
+ul>li{
+  display: block;
+  text-decoration: none;
+}
+ul>li:hover{
+  background-color: tomato;
+}
+p{color:black;}
+.ejemplo
+{
+  color: red;
+}
