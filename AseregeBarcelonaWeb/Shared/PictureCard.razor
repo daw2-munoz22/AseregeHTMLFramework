@@ -1,0 +1,19 @@
+﻿<MudPaper Class="d-flex align-center justify-center mud-width-full py-8" Elevation="3">
+    <MudGrid>
+    <MudItem xs="12" lg="12">
+            <img Class="m-4 m-md-4" src="@Image" alt="@Altered" style="width: 80vw; max-width: 90%;" />
+    </MudItem>
+        <MudItem xs="12" lg="12">
+            <MudText Class="m-4" Typo="Typo.body1">@Text</MudText>
+        </MudItem>
+    </MudGrid>
+    
+    
+</MudPaper>
+
+@code 
+{
+    [Parameter] public string Image { get; set; }
+    [Parameter] public string Text { get; set; }    
+    [Parameter] public string Altered { get; set; }
+}

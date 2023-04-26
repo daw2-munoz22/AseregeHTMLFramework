@@ -1,29 +1,79 @@
 ﻿<MudLink Target="_blank" Href="https://www.trenscat.cat/">Transportes</MudLink>
 <CarousellStyles Image1="images/campnou.jpg" Image2="images/parc.jpg" Image3="images/cathedral.jpg" Image4="images/Montserrat.jpg" Image5="images/plazaEspaña.jpg"></CarousellStyles>
-<p>
-	El Camp Nou es el estadio del FC Barcelona, ubicado en el distrito de Les Corts de la ciudad de Barcelona, España.
-	Se inauguró el 24 de septiembre de 1957 y su aforo actualmente es de 99 354 espectadores,
-	siendo el estadio con mayor capacidad de Europa y el tercero a nivel mundial.
-</p>
 
-<p>
-	El monasterio de Santa María de Montserrat es una abadía benedictina situada en la montaña de Montserrat,
-	perteneciente a la comarca del Bages, provincia de Barcelona, España. A una altura de 720 metros sobre el nivel del mar.
-</p>
+@if (!EditorEnabled)
+{
+    <MudFab OnClick="async(e) => await SeeText()" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Edit" />
+    <MudGrid>         
+		<MudItem xs="12" sm="12" md="12" lg="6">
+            <PictureCard Altered="campnou" Image="images/campnou.jpg" Text="El Camp Nou es el estadio del FC Barcelona, ubicado en el distrito de Les Corts de la ciudad de Barcelona, España. Se inauguró el 24 de septiembre de 1957 y su aforo actualmente es de 99 354 espectadores, siendo el estadio con mayor capacidad de Europa y el tercero a nivel mundial." />
+        </MudItem>
+        <MudItem xs="12" sm="12" md="12" lg="6">
+            <PictureCard Altered="Montserrat" Image="images/Montserrat.jpg" Text=" El monasterio de Santa María de Montserrat es una abadía benedictina situada en la montaña de Montserrat, perteneciente a la comarca del Bages, provincia de Barcelona, España. A una altura de 720 metros sobre el nivel del mar." />
+        </MudItem>      
+        <MudItem xs="12" sm="12" md="12" lg="6">
+            <PictureCard Altered="plazaEspaña" Image="images/plazaEspaña.jpg" Text="La plaza de España de Barcelona (en catalán y oficialmente Plaça d'Espanya) es uno de los espacios más emblemáticos de la capital catalana. Fue construida durante la Exposición Internacional de 1929, según un proyecto elaborado por Josep Puig i Cadafalch y Guillem Busquets y finalizado por Antoni Darder." />
+        </MudItem>
+        <MudItem xs="12" sm="12" md="12" lg="6">
+            <PictureCard Altered="cathedral" Image="images/cathedral.jpg" Text="Es una basílica católica de Barcelona (España), diseñada por el arquitecto Antoni Gaudí. Iniciada en 1882, todavía está en construcción. Es la obra maestra de Gaudí y el máximo exponente de la arquitectura modernista catalana." />
+        </MudItem>
+        <MudItem xs="12" sm="12" md="12" lg="6">
+            <PictureCard Altered="parc güell" Image="images/parc.jpg" Text="Es un parque público con jardines y elementos arquitectónicos situado en la parte superior de la ciudad de Barcelona (España), en las estribaciones de la sierra de Collserola. El parque se halla en la ladera sur del monte Carmelo (barrio de La Salud, en el distrito de Gracia) y colindante a la ladera norte donde se encuentra el parque del Carmelo (barrio de El Carmelo, del distrito de Horta-Guinardó). Ideado como urbanización, el parque fue diseñado por el arquitecto Antoni Gaudí, máximo exponente del modernismo catalán, por encargo del empresario Eusebi Güell. Construido entre 1900 y 1914, fue inaugurado como parque público en 1926." />
+        </MudItem>        
+    </MudGrid>
+}
+else
+{
+    <MudFab OnClick="async(e) => await SeeText()" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Edit" />
+    <InputFile OnChange="HandleSeleccionArchivo" multiple />
+}
 
-<p>
-	Es un parque público con jardines y elementos arquitectónicos situado en la parte superior de la ciudad de Barcelona (España), en las estribaciones de la sierra de Collserola.
-	El parque se halla en la ladera sur del monte Carmelo (barrio de La Salud, en el distrito de Gracia) y colindante a la ladera norte donde se encuentra el parque del Carmelo (barrio de El Carmelo, del distrito de Horta-Guinardó).
-	Ideado como urbanización, el parque fue diseñado por el arquitecto Antoni Gaudí, máximo exponente del modernismo catalán, por encargo del empresario Eusebi Güell. Construido entre 1900 y 1914, fue inaugurado como parque público en 1926.
-</p>
 
-<p>
-	La plaza de España de Barcelona (en catalán y oficialmente Plaça d'Espanya) es uno de los espacios más emblemáticos de la capital catalana.
-	Fue construida durante la Exposición Internacional de 1929, según un proyecto elaborado por Josep Puig i Cadafalch y Guillem Busquets
-	y finalizado por Antoni Darder.
-</p>
 
-<p>
-	Es una basílica católica de Barcelona (España), diseñada por el arquitecto Antoni Gaudí.
-	Iniciada en 1882, todavía está en construcción. Es la obra maestra de Gaudí y el máximo exponente de la arquitectura modernista catalana.
-</p>
+@code
+{
+    private bool EditorEnabled = false;
+    private async Task SeeText()
+    {
+        EditorEnabled = !EditorEnabled;
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+    private async Task HandleSeleccionArchivo(InputFileChangeEventArgs e)        
+    {
+        foreach (IBrowserFile file in e.GetMultipleFiles())
+        {
+            if (file.ContentType.StartsWith("image/"))
+            {
+                using (Manager.MySQLManager manager = new Manager.MySQLManager())
+                {
+                    using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+                    {
+                        ms.Position = 0;
+                        await file.OpenReadStream(8388608, default).CopyToAsync(ms);
+
+
+                        ms.Position = 0;
+                        DateTime Date = DateTime.Now;
+                        //escribir en la base de datos el stream procesado en la RAM
+
+                        Picture picture = new Picture()
+                        {
+                            Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name),
+                            Format = file.ContentType,
+                            Date = file.LastModified.ToLocalTime().DateTime,
+                            Data = Convert.ToBase64String(ms.ToArray()),
+                            Authorize = new Authorize()
+                            {
+                                Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
+                                Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
+                            }
+                        };
+                        await manager.InsertFile(picture);
+                        await Task.CompletedTask;
+                    }
+                }
+            }
+        }
+    }
+}
