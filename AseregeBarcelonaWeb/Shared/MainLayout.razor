@@ -3,13 +3,12 @@
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
-<MudLayout>
-    <MudAppBar style="background-color:black;" Elevation="1">
+<MudLayout Style="background-color: #b5f3f3; ">
+    <MudAppBar Class="pb-sm-2" style="background-color:black;" Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
-
-        
         <MudChipSet @bind-SelectedChip="selected" SelectedValuesChanged="SelectedValuesChanged" Filter="true" Mandatory="true">
+
             <MudChip Text="blue" Color="Color.Info">Home</MudChip>
 
             @if (currentUser != null)
@@ -18,32 +17,31 @@
                 {
                     <MudChip Text="pink" Color="Color.Secondary">Transportes</MudChip>
                     <MudChip Text="red" Color="Color.Error">Visitas</MudChip>
-                }             
+                }
             }
-            
-            <MudChip Text="orange" Color="Color.Warning">Quienes somos</MudChip>            
-        </MudChipSet>
 
-                   
-       
-       
+            <MudChip Text="orange" Color="Color.Warning">Quienes somos</MudChip>
+
+        </MudChipSet>
         <MudMenu>
             <ActivatorContent>
                 <Multiavatar Width="48px" Height="48px" AvatarId="@MultiAvatarUserName" />                
             </ActivatorContent>
             <ChildContent>                                                               
-                @if (loginState)
+                @if (currentUser.Nombre == null)
                 {                    
-                    <MudMenuItem OnClick="@(async(e) => await ShowProfile())" Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>
-                    <MudMenuItem OnClick="@(async(e) => await CloseSession())" Icon="@Icons.Material.Filled.Logout">Cerrar Sesión</MudMenuItem>
-                    
-                }
-                else
-                {
                     <MudMenuItem OnClick="@(async(e) => await RegisterAsync())" Icon="@Icons.Material.Filled.Login">Registrarse</MudMenuItem>
                     <MudMenuItem OnClick="@(async(e) => await AuthorizeAsync())" Icon="@Icons.Material.Filled.Login">Iniciar Sesión</MudMenuItem>
                 }
-
+                else
+                {
+                    <MudMenuItem OnClick="@(async(e) => await TravelTo("profile"))" Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>
+                    <MudMenuItem OnClick="@(async(e) => await CloseSession())" Icon="@Icons.Material.Filled.Logout">Cerrar Sesión</MudMenuItem>
+                }
+                
+                
+                
+                                    
                 
             </ChildContent>
         </MudMenu>
@@ -97,7 +95,7 @@
             <Visitas></Visitas>
             break;
         case "orange":
-            <div>QUIENES SOMOS</div>
+            <QuienesSomos></QuienesSomos>
             break;
         case "profile":
             <VerPerfil></VerPerfil>
@@ -123,24 +121,25 @@
     /// <summary>
     /// /ROUTER REAL PAGE
     /// </summary>
+    bool ChangeSidebar = true;
+    void DrawerToggle() => ChangeSidebar = !ChangeSidebar;
+    public string SelectedPage { get; set; } = "Blue";
 
     private User currentUser = new User();
-    private MudChip selected;    
-    bool ChangeSidebar = true;
-
-    public string SelectedPage { get; set; } = "Blue";
-    private string MultiAvatarUserName { get; set; } = "NADIE";
-
-    bool loginState { get; set; } = false;
-    private async Task<bool> GetLoginSessionState()
-    {        
-        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name") != null || await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password") != null;        
-    }
-    void DrawerToggle() => ChangeSidebar = !ChangeSidebar;
+    private MudChip selected;            
+    private string MultiAvatarUserName { get; set; } = "UKNOWN";
 
     private void SelectedValuesChanged()
     {
-        SelectedPage = selected.Text;
+        if (selected != null)
+        {
+            SelectedPage = selected.Text;
+        }
+        else
+        {
+            StateHasChanged();
+            SelectedPage = "blue";            
+        }
         StateHasChanged();
     }
 
@@ -151,56 +150,42 @@
     }    
     private async Task AuthorizeAsync()
     {
-        using (Manager.MySQLManager manager = new Manager.MySQLManager())
-        {
-            string Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
-            string Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
-            if (Name == null | Password == null)
-            {                
-                currentUser.Nombre = "";
-                currentUser.Passwordseguro = "";                
-                await TravelTo("login");  
-
-                StateHasChanged();               
-            }
-            else
-            {
-                currentUser = manager.GetUser(new Authorize() { Name = Name, Password = Password });
-            }
-
-        }
+        await TravelTo("login");      
         await Task.CompletedTask;
     }
 
-    private async Task ShowProfile()
-    {
-        await TravelTo("profile");        
-        await Task.CompletedTask;
-    }
     private async Task CloseSession()
     {
         string nombre = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Name");
         string Password = await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");
+        currentUser = new User();
+        await RefreshPermisions();
         StateHasChanged();
     }      
     protected override async Task OnInitializedAsync()
     {        
         await TravelTo("blue");
     }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private async Task RefreshPermisions()
     {
-        loginState = await GetLoginSessionState();
-        
-        if (!loginState)
+        if (currentUser.Nombre == null || currentUser.Passwordseguro == null)
         {
-            if (currentUser.Nombre == null)
-            {
-                currentUser.Nombre = "NADIE";            
-                await jsRuntime.InvokeVoidAsync("localStorage.setItem", "Name", currentUser.Nombre);            
-            }
-            currentUser.Nombre = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
+            MultiAvatarUserName = "UKNOWN";
+            currentUser = new User();
+        }
+        else
+        {
             MultiAvatarUserName = currentUser.Nombre;
-        }                
+            currentUser.Nombre = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
+            currentUser.Passwordseguro = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
+        }
+        await Task.CompletedTask;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {        
+        await RefreshPermisions();
+        StateHasChanged();
+
         await Task.CompletedTask;
     }
 
@@ -210,6 +195,11 @@
         await TravelTo("register");
         await Task.CompletedTask;
     }
+
+
+
+
+
 
 
     /// <summary>
@@ -241,28 +231,32 @@
     }
     //Esta funcion se encarga de validar el usuario logeado (comprovar si existe en la base de datos) de manera asincrona
     private async Task LoginAsync()
-    {
-
-        Manager.MySQLManager manager = new MySQLManager();
-        
+    {        
         //este authorize permite autenticar el usuario 
         //En el apartado del Password, genera el hash de la contraseña intruducida y comprueba si su valor corresponde a la de la base de datos
         //Si el usuario es valido (existe), alamacena en el localStorage el perfil
         Authorize authorize = new Authorize()                    
-        {                        
-                Name = Name,
-                Password = CryptographyManager.GeneratePasswordHash(this.Password) 
+        {                                        
+            Name = Name,                
+            Password = CryptographyManager.GeneratePasswordHash(this.Password) 
         };
-        currentUser = manager.GetUser(authorize);
+
+        Manager.MySQLManager manager = new MySQLManager();
+        User userValidator = manager.GetUser(authorize);
         await manager.DisposeAsync();
-        if (currentUser != null)
-        {            
+        if (userValidator != null)
+        {
+            currentUser = userValidator;
             await jsRuntime.InvokeVoidAsync("localStorage.setItem", "Name", authorize.Name);
             await jsRuntime.InvokeVoidAsync("localStorage.setItem", "Password", authorize.Password);
             MultiAvatarUserName = currentUser.Nombre;
             await TravelTo("blue");
-        }       
-        
+        }
+        else
+        {
+            SnackbarService.Add("Usuario o contraseña erronios!.", Severity.Error);
+        }
+
         StateHasChanged();
     }
 
