@@ -2,9 +2,13 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using static Org.BouncyCastle.Bcpg.Attr.ImageAttrib;
 
 namespace AseregeBarcelonaWeb.Manager
 {
@@ -73,6 +77,7 @@ namespace AseregeBarcelonaWeb.Manager
                 $"name VARCHAR(255) NOT NULL," +
                 $"data LONGBLOB NOT NULL," +
                 $"format VARCHAR(255) NOT NULL," +
+                $"textinfo LONGTEXT NOT NULL," +
                 $"date DATETIME NOT NULL);";                
 
 
@@ -165,8 +170,8 @@ namespace AseregeBarcelonaWeb.Manager
             connection.Open();
 
             MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@Nombre", user.Name);
-            command.Parameters.AddWithValue("@passwordseguro",user.Password);
+            command.Parameters.AddWithValue("@Nombre", user.Name);                        
+            command.Parameters.AddWithValue("@passwordseguro", user.Password);
 
             using (MySqlDataReader reader = command.ExecuteReader())
             {
@@ -337,7 +342,7 @@ namespace AseregeBarcelonaWeb.Manager
         {
             CreateTables();
 
-            string query = "INSERT INTO Resources (name, data, format, date) VALUES (@name, @data, @format, @date)";
+            string query = "INSERT INTO Resources (name, data, format, date, textinfo) VALUES (@name, @data, @format, @date, @textinfo)";
             MySqlCommand command = new MySqlCommand(query, connection);
 
             
@@ -345,6 +350,7 @@ namespace AseregeBarcelonaWeb.Manager
             command.Parameters.AddWithValue("@data", Convert.FromBase64String(picture.Data));
             command.Parameters.AddWithValue("@format", picture.Format);
             command.Parameters.AddWithValue("@date", picture.Date);
+            command.Parameters.AddWithValue("@textinfo", picture.TextInfo);
 
             try
             {
@@ -361,27 +367,62 @@ namespace AseregeBarcelonaWeb.Manager
         }
 
         //esta funcion permite obtener la imagen o video cuyo identificador sea el que el usuario le pida
-        public async Task<string> SelectPicturesByIDAsync(int id)
+        public async Task<Picture> SelectPicturesByIDAsync(int id)
         {
-            string query = "SELECT format, data FROM Resources where idResources=@id;";
-            connection.Open();
+            string query = "SELECT format, data, name, textinfo FROM Resources where idResources=@id;";
+            await connection.OpenAsync();
 
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@id", id);
-            
-            string file64 = $"data://";
 
+
+            Picture picture = new Picture();
+            picture.Name = "NO RESOURCE";
+            picture.Data = "data://";
+            using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+            {
+
+                while (await reader.ReadAsync()) //leer de manera asincronica
+                {
+                    string format = (string)reader[0];// tipo de fichero
+                    byte[] file = (byte[])reader[1];//datos
+                    string name = (string)reader[2];//datos
+                    string textinfo = (string)reader[3];//datos
+                    
+                    string file64 = $"data:{format};base64,{Convert.ToBase64String(file)}"; //fichero en texto uri base64                    
+                    picture = new Picture()
+                    {
+                        Name = name,
+                        Data = file64,
+                        Format = format,
+                        TextInfo = textinfo
+                    };                   
+                }
+            }
+            await connection.CloseAsync(); 
+            return picture;                                
+        }
+        public async Task<long> SelectCountImages()
+        {
+            string query = "SELECT count(*) as Count FROM Resources;";
+            await connection.OpenAsync();
+            MySqlCommand command = new MySqlCommand(query, connection);
+            
+            long Count = -1;
             using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync()) //leer de manera asincronica
                 {
-                    string header = (string)reader[0];// tipo de fichero
-                    byte[] file = (byte[])reader[1];//datos
-                    file64 = $"data:{header};base64,{Convert.ToBase64String(file)}"; //fichero en texto HTML base64
+                    Count = (Int64)reader[0];// tipo de fichero
+                  
                 }
 
             }
-            return file64;
+            await DisposeAsync();
+            await Task.CompletedTask;
+            return Count;
+            
         }
+
     }
 }

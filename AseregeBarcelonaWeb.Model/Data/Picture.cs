@@ -10,5 +10,6 @@ namespace AseregeBarcelonaWeb.Model.Data
         public string Data { get; set; }
         public string Format { get; set; }
         public DateTime Date { get; set; }
+        public string TextInfo { get; set; }
     }
 }

@@ -10,7 +10,7 @@
 @code
 {
     public string VideoUrl { get; set; } = "https://www.youtube.com/embed/u5-kia2bzpQ";
-    private string PictureImage { get; set; }
+    private Picture PictureImage { get; set; }
     protected override async Task OnInitializedAsync()
     {
         using (Manager.MySQLManager manager = new Manager.MySQLManager())
