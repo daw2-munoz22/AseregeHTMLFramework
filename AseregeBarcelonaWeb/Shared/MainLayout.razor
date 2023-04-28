@@ -7,24 +7,26 @@
     <MudAppBar Class="pb-sm-2" style="background-color:black;" Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
-        <MudChipSet @bind-SelectedChip="selected" SelectedValuesChanged="SelectedValuesChanged" Filter="true" Mandatory="true">
+        <MudChipSet Class="d-none d-sm-block" @bind-SelectedChip="selected" SelectedValuesChanged="SelectedValuesChanged" Filter="true" Mandatory="true">
 
-            <MudChip Text="blue" Color="Color.Info">Home</MudChip>
+            <MudChip Value="0" Text="blue" Color="Color.Info">Home</MudChip>
 
             @if (currentUser != null)
             {
                 @if (currentUser.Roles_idroles == 1 || currentUser.Roles_idroles == 2)
                 {
-                    <MudChip Text="pink" Color="Color.Secondary">Transportes</MudChip>
-                    <MudChip Text="red" Color="Color.Error">Visitas</MudChip>
+                    <MudChip Value="1" Text="pink" Color="Color.Secondary">Transportes</MudChip>
+                    <MudChip Value="2" Text="red" Color="Color.Error">Visitas</MudChip>
                 }
             }
 
-            <MudChip Text="orange" Color="Color.Warning">Quienes somos</MudChip>
+            <MudChip Value="3" Text="orange" Color="Color.Warning">Quienes somos</MudChip>
 
-        </MudChipSet>
+        </MudChipSet>	
         <MudMenu>
+
             <ActivatorContent>
+              
                 <Multiavatar Width="48px" Height="48px" AvatarId="@MultiAvatarUserName" />                
             </ActivatorContent>
             <ChildContent>                                                               
@@ -59,6 +61,19 @@
                 <MudNavLink OnClick="@(async(e) => await TravelTo("api"))" Icon="@Icons.Material.Filled.Dashboard">Peticiones JSON</MudNavLink>                            
                 <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="true">
                     <MudNavLink OnClick="@(async(e) => await TravelTo("admin"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Panel de Administracion</MudNavLink>                    
+                </MudNavGroup>
+                <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="true">
+                    <MudNavLink OnClick="@(async(e) => await TravelTo("blue"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Info">Home</MudNavLink>
+                    
+                    @if (currentUser != null)
+                    {
+                        @if (currentUser.Roles_idroles == 1 || currentUser.Roles_idroles == 2)
+                        {
+                            <MudNavLink OnClick="@(async(e) => await OnVirtualClick("pink"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Secondary">Transportes</MudNavLink>
+                            <MudNavLink OnClick="@(async(e) => await OnVirtualClick("red"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Error">Visistas</MudNavLink>
+                        }                      
+                    }                
+                    <MudNavLink OnClick="@(async(e) => await TravelTo("orange"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Warning">Quienes Somos?</MudNavLink>
                 </MudNavGroup>
             </MudNavMenu>
         </MudPaper>
@@ -118,6 +133,13 @@
 </MudLayout>
 @code
 {
+    private async Task OnVirtualClick(string id)
+    {    
+        await TravelTo(id);   
+        
+        SelectedValuesChanged();
+
+    }
     /// <summary>
     /// /ROUTER REAL PAGE
     /// </summary>
