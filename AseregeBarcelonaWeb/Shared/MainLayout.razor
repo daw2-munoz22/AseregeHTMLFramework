@@ -135,6 +135,7 @@
 {
     private async Task OnVirtualClick(string id)
     {    
+ 
         await TravelTo(id);   
         
         SelectedValuesChanged();
@@ -151,6 +152,7 @@
     private MudChip selected;            
     private string MultiAvatarUserName { get; set; } = "UKNOWN";
 
+    
     private void SelectedValuesChanged()
     {
         if (selected != null)
