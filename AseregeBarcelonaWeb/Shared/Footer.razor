@@ -19,6 +19,11 @@
 @code 
 {
     private string mailURL { get; set; } = string.Empty;
+    private async Task Count()
+    {
+        await Task.CompletedTask;
+
+    }
     protected override Task OnInitializedAsync()
     {
        

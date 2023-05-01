@@ -12,200 +12,45 @@
   <key attr.name="description" attr.type="string" for="edge" id="d8"/>
   <key for="edge" id="d9" yfiles.type="edgegraphics"/>
   <graph edgedefault="directed" id="G">
-    <node id="n0" yfiles.foldertype="group">
+    <node id="n0">
+      <data key="d4"/>
       <data key="d5">
-        <y:ProxyAutoBoundsNode>
-          <y:Realizers active="0">
-            <y:GenericGroupNode configuration="DemoGroup">
-              <y:Geometry height="764.2814684931507" width="897.4320504436695" x="264.3120829578394" y="-170.8153643835616"/>
-              <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
-              <y:BorderStyle hasColor="false" type="line" width="4.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="182.728515625" x="9.591153095868776" xml:space="preserve" y="4.0">Aseregehtmlframework.Controller<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.48931266930891626" nodeRatioY="-0.5" offsetX="0.0" offsetY="4.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
-              <y:State autoResize="true" closed="false" closedHeight="80.0" closedWidth="100.0"/>
-              <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="29" leftF="28.68249704665459" right="14" rightF="14.144044338165713" top="10" topF="9.65043287671233"/>
-            </y:GenericGroupNode>
-            <y:GenericGroupNode configuration="DemoGroup">
-              <y:Geometry height="80.0" width="100.0" x="-1430.0787110326828" y="-125.6747107390645"/>
-              <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
-              <y:BorderStyle hasColor="false" type="line" width="4.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="4.0" x="0.0" y="0.0">
-                <y:LabelModel>
-                  <y:SmartNodeLabelModel distance="4.0"/>
-                </y:LabelModel>
-                <y:ModelParameter>
-                  <y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.5" nodeRatioY="-0.5" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-                </y:ModelParameter>
-              </y:NodeLabel>
-              <y:State autoResize="true" closed="true" closedHeight="80.0" closedWidth="100.0"/>
-              <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
-            </y:GenericGroupNode>
-          </y:Realizers>
-        </y:ProxyAutoBoundsNode>
+        <y:SVGNode>
+          <y:Geometry height="40.0" width="40.0" x="35.0" y="146.0"/>
+          <y:Fill color="#CCCCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="18.0" y="18.0"/>
+          <y:SVGNodeProperties usingVisualBounds="false"/>
+          <y:SVGModel svgBoundsPolicy="5">
+            <y:SVGContent refid="1"/>
+          </y:SVGModel>
+        </y:SVGNode>
       </data>
-      <graph edgedefault="directed" id="n0:">
-        <node id="n0::n0">
-          <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="124.0" width="220.81222148137948" x="307.99458000449397" y="124.83506849315074"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="30.72998046875" x="95.04112050631474" xml:space="preserve" y="3.0">AES</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">- Algorithm : String</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ encryptPassword(password:String)</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
-        </node>
-        <node id="n0::n1">
-          <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="173.63103561643834" width="220.81222148137948" x="307.99458000449397" y="404.83506849315074"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="84.8818359375" x="67.96519277193974" xml:space="preserve" y="3.0">HTMLBuilder</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">- pageName: String
-- header: DOMHtml
-- css: DOMHtml
-- menu: DOMHtml
-- html: DOMHtml
-- footer: DOMHtml</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ setPageName(pageName: String)
-+ handle(t : HttpExchange)</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
-        </node>
-        <node id="n0::n2">
-          <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="256.0" width="592.6303382998171" x="539.9697507635259" y="-139.16493150684926"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="88.53173828125" x="252.04930000928357" xml:space="preserve" y="3.0">PageManager</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">-  pages: Map&lt;String, HtmlBuilder&gt;
-- webnames : String[]</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ AddPage(headfile : String, stylefile : String, menufile : String, pagefile : String, footerfile : String)
-+ LoadPages()
-+ UpdatePages()
-+ GetWebNames()
-+ GetPages()</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
-        </node>
-        <node id="n0::n3">
-          <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="124.0" width="220.8122214813796" x="307.99458000449397" y="-7.164931506849257"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="63.21728515625" x="78.7974681625648" xml:space="preserve" y="3.0">DOMHtml</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">- html : String</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ getDOM()</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
-        </node>
-        <node id="n0::n4">
-          <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="140.0" width="222.04524434844706" x="307.9949647597823" y="256.83506849315074"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="83.4599609375" x="69.29264170547353" xml:space="preserve" y="3.0">JsonConvert</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve"/>
-                <y:MethodLabel xml:space="preserve">+ Serialize(T: Object)
-+ Deserialize(json : String)
-# SaveConfiguration(json : String)</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
-        </node>
-        <node id="n0::n5">
-          <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="270.0" width="592.6303382998171" x="539.9697507635259" y="124.83506849315074"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="94.3017578125" x="249.16429024365857" xml:space="preserve" y="3.0">MysqlManager</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve"># conexion: java.sql.Connection
-- url: String
-- username: String
-- password: String
-- databaseName: String</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ CreateRoleTable()
-+ InsertRole(role: Role)
-+ SelectRole(permisionlevel: integer)
-+ Select(query: String, columnName: String)
-+ Insert(nombreTabla : String, id : integer, nombre : String,  apellido : String,  edad : integer , sexo : String)
-+ Drop(table_name : String,  ID : String)
-+ CreateUsuarioTable()</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
-        </node>
-        <node id="n0::n6">
-          <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="124.0" width="220.81183672609114" x="307.9949647597823" y="-139.16493150684926"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="153.55712890625" x="33.62735390992057" xml:space="preserve" y="3.0">AseregeHtmlFramework</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve"># pages : PageManager</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ main(args : String[])</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
-        </node>
-        <node id="n0::n7">
-          <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="173.63103561643834" width="592.6303382998171" x="539.9697507635259" y="404.83506849315074"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="36.49365234375" x="278.06834297803357" xml:space="preserve" y="3.0">Filtro</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">- extension : String</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ getKeyFromValue(map : Map&lt;Object&lt;T&gt;, Object&lt;E&gt;&gt;, value : Object&lt;E&gt;)
-@+ accept(ruta : File, nombre : String)</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
-        </node>
-      </graph>
     </node>
     <node id="n1" yfiles.foldertype="group">
+      <data key="d4"/>
       <data key="d5">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GenericGroupNode configuration="DemoGroup">
-              <y:Geometry height="769.5351980787335" width="875.038829299123" x="264.3120829578394" y="623.4661041095891"/>
+              <y:Geometry height="1767.364846703416" width="2354.1599661906243" x="-1702.674084672479" y="146.0"/>
               <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="4.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="163.392578125" x="6.08342292488976" xml:space="preserve" y="11.099065356904816">Aseregehtmlframework.Model<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.4930478251693558" nodeRatioY="-0.4855769230769231" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="127.375" x="4.0" xml:space="preserve" y="4.000000000000114">Aseregehtmlframework<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.5" nodeRatioY="-0.5" offsetX="4.0" offsetY="4.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:State autoResize="true" closed="false" closedHeight="80.0" closedWidth="100.0"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
-              <y:BorderInsets bottom="37" bottomF="37.13113043478256" left="0" leftF="0.0" right="0" rightF="0.0" top="5" topF="5.0"/>
+              <y:BorderInsets bottom="0" bottomF="0.0" left="21" leftF="21.166282472572902" right="448" rightF="447.6551361934405" top="4" topF="4.0"/>
             </y:GenericGroupNode>
             <y:GenericGroupNode configuration="DemoGroup">
-              <y:Geometry height="80.0" width="100.0" x="-1415.0787110326828" y="-110.6747107390645"/>
+              <y:Geometry height="80.0" width="100.0" x="-1400.0787110326828" y="-95.6747107390645"/>
               <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="4.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="4.0" x="0.0" y="0.0">
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="2.0">
                 <y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
-                  <y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.5" nodeRatioY="-0.5" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+                  <y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.48" nodeRatioY="-0.475" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
                 </y:ModelParameter>
               </y:NodeLabel>
               <y:State autoResize="true" closed="true" closedHeight="80.0" closedWidth="100.0"/>
@@ -217,134 +62,592 @@
       </data>
       <graph edgedefault="directed" id="n1:">
         <node id="n1::n0">
+          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
-              <y:Geometry height="188.0" width="316.9750367260911" x="279.3120829578394" y="746.4661041095891"/>
+              <y:Geometry height="124.0" width="226.41465481663562" x="-1657.839277187091" y="172.0"/>
               <y:Fill color="#607D8B" transparent="false"/>
               <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="89.20458984375" x="113.88522344117055" xml:space="preserve" y="3.0">Configuration</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="30.72998046875" x="97.84233717394281" xml:space="preserve" y="3.0">AES</y:NodeLabel>
               <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">+ hostname : String
-+ port : integer
-+ username : String
-+ password : String
-+ databaseName : String
-+ IV : String</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve"/>
+                <y:AttributeLabel xml:space="preserve">- Algorithm : String</y:AttributeLabel>
+                <y:MethodLabel xml:space="preserve">+ encryptPassword(password:String)</y:MethodLabel>
               </y:UML>
             </y:UMLClassNode>
           </data>
         </node>
         <node id="n1::n1">
+          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
-              <y:Geometry height="236.0" width="252.9750367260911" x="626.287479783237" y="722.4661041095891"/>
+              <y:Geometry height="124.0" width="281.10091039981216" x="-1415.1746223704556" y="172.0"/>
               <y:Fill color="#607D8B" transparent="false"/>
               <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="32.1708984375" x="110.40206914429555" xml:space="preserve" y="3.0">Role</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="57.4599609375" x="111.82047473115608" xml:space="preserve" y="3.0">Program</y:NodeLabel>
               <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">- idroles : integer;
-- nombre : String;
-- type : integer;</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ getRoleID()
-+ getNombre() 
-+ getType() 
-+ SetRoleID(idroles : integer)
-+ SetNombre(nombre : String)
-+ SetType(type : integer)</y:MethodLabel>
+                <y:AttributeLabel xml:space="preserve"/>
+                <y:MethodLabel xml:space="preserve"> + void Main(args : strings[])
++  IHostBuilder CreateHostBuilder(string[] args)</y:MethodLabel>
               </y:UML>
             </y:UMLClassNode>
           </data>
         </node>
         <node id="n1::n2">
+          <data key="d4"/>
           <data key="d5">
             <y:UMLClassNode>
-              <y:Geometry height="380.0" width="215.0883361578678" x="909.2625760990946" y="650.4661041095891"/>
+              <y:Geometry height="124.0" width="372.29740476352794" x="-962.9609610380083" y="172.0"/>
               <y:Fill color="#607D8B" transparent="false"/>
               <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="52.40087890625" x="81.3437286258089" xml:space="preserve" y="3.0">Usuario</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="49.5" x="161.39870238176397" xml:space="preserve" y="3.0">Startup</y:NodeLabel>
               <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">- idUsuario : integer
-- nombre : String
-- apellido : String
-- edad : integer
-- sexo : String
-- password : String</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ getIdUsuario()
-+ getNombre()
-+ getApellido()
-+ getEdad()
-+ getSexo()
-+ getPassword()
-+ SetIdUsuario(idUsuario : integer)
-+ SetNombre(nombre : String)  
-+ SetApellido(apellido : String)
-+ SetEdad(edad : integer)
-+ SetSexo(sexo : String)
-+ SetPassword(password : String)</y:MethodLabel>
+                <y:AttributeLabel xml:space="preserve"/>
+                <y:MethodLabel xml:space="preserve">+ ConfigureServices(IServiceCollection services)
++ Configure(IApplicationBuilder app, IWebHostEnvironment env)</y:MethodLabel>
               </y:UML>
             </y:UMLClassNode>
           </data>
         </node>
-        <node id="n1::n3">
+        <node id="n1::n3" yfiles.foldertype="group">
+          <data key="d4"/>
           <data key="d5">
-            <y:UMLClassNode>
-              <y:Geometry height="236.0" width="252.9750367260911" x="311.4058936478204" y="1104.87017175354"/>
-              <y:Fill color="#607D8B" transparent="false"/>
-              <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="222.86083984375" x="15.057098441170552" xml:space="preserve" y="3.0">Registro.web extends HTMLBuilder</y:NodeLabel>
-              <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel xml:space="preserve">- idroles : integer;
-- nombre : String;
-- type : integer;</y:AttributeLabel>
-                <y:MethodLabel xml:space="preserve">+ getRoleID()
+            <y:ProxyAutoBoundsNode>
+              <y:Realizers active="0">
+                <y:GenericGroupNode configuration="DemoGroup">
+                  <y:Geometry height="160.0" width="421.5054036325583" x="-1098.3521413984267" y="399.05894044084664"/>
+                  <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
+                  <y:BorderStyle hasColor="false" type="line" width="4.0"/>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="177.40234375" x="4.0" xml:space="preserve" y="4.0">Aseregehtmlframework.Interface<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.5" nodeRatioY="-0.5" offsetX="4.0" offsetY="4.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+                  <y:State autoResize="true" closed="false" closedHeight="80.0" closedWidth="100.0"/>
+                  <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
+                  <y:BorderInsets bottom="10" bottomF="10.0" left="28" leftF="28.33613325763622" right="40" rightF="40.38620316289877" top="5" topF="5.0"/>
+                </y:GenericGroupNode>
+                <y:GenericGroupNode configuration="DemoGroup">
+                  <y:Geometry height="80.0" width="100.0" x="-1400.0787110326828" y="-95.6747107390645"/>
+                  <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
+                  <y:BorderStyle hasColor="false" type="line" width="4.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="2.0">
+                    <y:LabelModel>
+                      <y:SmartNodeLabelModel distance="4.0"/>
+                    </y:LabelModel>
+                    <y:ModelParameter>
+                      <y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.48" nodeRatioY="-0.475" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+                    </y:ModelParameter>
+                  </y:NodeLabel>
+                  <y:State autoResize="true" closed="true" closedHeight="80.0" closedWidth="100.0"/>
+                  <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
+                  <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
+                </y:GenericGroupNode>
+              </y:Realizers>
+            </y:ProxyAutoBoundsNode>
+          </data>
+          <graph edgedefault="directed" id="n1::n3:">
+            <node id="n1::n3::n0">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="108.0" width="146.39140054535687" x="-878.6243414741241" y="426.05894044084664"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="76.96630859375" x="34.71254597580344" xml:space="preserve" y="3.0">IDisposable</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve"/>
+                    <y:MethodLabel xml:space="preserve">+ Dispose()</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n3::n1">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="100.0" width="160.07606577213915" x="-1055.0160081407905" y="434.05894044084664"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="149.9580078125" x="5.059028979819573" xml:space="preserve" y="3.0">PasswordSecurityLevel</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve"/>
+                    <y:MethodLabel xml:space="preserve"/>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+          </graph>
+        </node>
+        <node id="n1::n4" yfiles.foldertype="group">
+          <data key="d4"/>
+          <data key="d5">
+            <y:ProxyAutoBoundsNode>
+              <y:Realizers active="0">
+                <y:GenericGroupNode configuration="DemoGroup">
+                  <y:Geometry height="538.5830509570434" width="966.0480063976458" x="-1642.8947441635144" y="564.0589404408466"/>
+                  <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
+                  <y:BorderStyle hasColor="false" type="line" width="4.0"/>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="178.0703125" x="4.275995881318067" xml:space="preserve" y="-0.3215929502977133">Aseregehtmlframework.Manager<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.4828035936759804" nodeRatioX="-0.4955737231969838" nodeRatioY="-0.5" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+                  <y:State autoResize="true" closed="false" closedHeight="80.0" closedWidth="100.0"/>
+                  <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
+                  <y:BorderInsets bottom="1" bottomF="1.4599408058554673" left="0" leftF="0.0" right="9" rightF="8.648800908032172" top="5" topF="5.0"/>
+                </y:GenericGroupNode>
+                <y:GenericGroupNode configuration="DemoGroup">
+                  <y:Geometry height="153.85916899892356" width="263.6878880516683" x="-624.1513883345564" y="793.7817922590307"/>
+                  <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
+                  <y:BorderStyle hasColor="false" type="line" width="4.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="4.0" x="5.273757761033721" y="3.846479224973095">
+                    <y:LabelModel>
+                      <y:SmartNodeLabelModel distance="4.0"/>
+                    </y:LabelModel>
+                    <y:ModelParameter>
+                      <y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.48" nodeRatioY="-0.475" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+                    </y:ModelParameter>
+                  </y:NodeLabel>
+                  <y:State autoResize="true" closed="true" closedHeight="153.85916899892356" closedWidth="263.6878880516683"/>
+                  <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
+                  <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
+                </y:GenericGroupNode>
+              </y:Realizers>
+            </y:ProxyAutoBoundsNode>
+          </data>
+          <graph edgedefault="directed" id="n1::n4:">
+            <node id="n1::n4::n0">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="124.0" width="233.44913203743153" x="-1627.8947441635144" y="962.1820505920347"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="115.97265625" x="58.73823789371576" xml:space="preserve" y="3.0">PostJsonManager</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve"/>
+                    <y:MethodLabel xml:space="preserve">+ GetJsonResult(string: Object)</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n4::n1">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="341.1231101511879" width="858.2164545410371" x="-1627.8947441635144" y="591.0589404408466"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="94.3017578125" x="381.95734836426857" xml:space="preserve" y="3.0">MysqlManager</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">- Connection : MySQLConnection
+- database : string</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve">+ BuildConnection()
++ CreateTables()
++ InsertRole(Role role) : string
++ InsertUser(User user) : string
++ GetUser(Authorize user) : User
+ + Login(Authorize permision) : boolean
+ + SelectUsers() : List&lt;User&gt;
++ SelectUsersAsync()
++ UpdateUserAsync(string nombre, string apellido, int edad, char sexo, string email, string telefono, string passwordseguro, int Roles_idroles, int idUsers)
++ DeleteUserAsync(int id)
++ InsertFile(Picture picture)
++ SelectPicturesByIDAsync(int id)
++ SelectCountImages()</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n4::n2">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="124.0" width="316.9750367260911" x="-1364.4456121260828" y="962.1820505920347"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="142.68994140625" x="87.14254765992055" xml:space="preserve" y="3.0">CryptographyManager</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve"/>
+                    <y:MethodLabel xml:space="preserve">+ GeneratePasswordHash(string input)
++ GenerateHash(string seed, string data)</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n4::n3">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="116.0" width="316.9750367260911" x="-1017.4705753999918" y="962.1820505920347"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="116.71533203125" x="100.12985234742055" xml:space="preserve" y="3.0">PasswordSecurity</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve"/>
+                    <y:MethodLabel xml:space="preserve">+ Check(string password) : PasswordSecurityLevel</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+          </graph>
+        </node>
+        <node id="n1::n5" yfiles.foldertype="group">
+          <data key="d4"/>
+          <data key="d5">
+            <y:ProxyAutoBoundsNode>
+              <y:Realizers active="0">
+                <y:GenericGroupNode configuration="DemoGroup">
+                  <y:Geometry height="751.993183408621" width="794.2525638225432" x="-605.4218184978383" y="405.3794065496936"/>
+                  <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
+                  <y:BorderStyle hasColor="false" type="line" width="4.0"/>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="150.05078125" x="3.5155816989838513" xml:space="preserve" y="-0.321592950297827">Aseregehtmlframework.API<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.4828035936759804" nodeRatioX="-0.4955737231969838" nodeRatioY="-0.5" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+                  <y:State autoResize="true" closed="false" closedHeight="80.0" closedWidth="100.0"/>
+                  <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
+                  <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="47" topF="46.725364834107154"/>
+                </y:GenericGroupNode>
+                <y:GenericGroupNode configuration="DemoGroup">
+                  <y:Geometry height="80.0" width="100.0" x="-624.1513883345564" y="793.7817922590307"/>
+                  <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
+                  <y:BorderStyle hasColor="false" type="line" width="4.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="2.0">
+                    <y:LabelModel>
+                      <y:SmartNodeLabelModel distance="4.0"/>
+                    </y:LabelModel>
+                    <y:ModelParameter>
+                      <y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.48" nodeRatioY="-0.475" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+                    </y:ModelParameter>
+                  </y:NodeLabel>
+                  <y:State autoResize="true" closed="true" closedHeight="80.0" closedWidth="100.0"/>
+                  <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
+                  <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
+                </y:GenericGroupNode>
+              </y:Realizers>
+            </y:ProxyAutoBoundsNode>
+          </data>
+          <graph edgedefault="directed" id="n1::n5:">
+            <node id="n1::n5::n0">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="197.05399568034557" width="382.7393879548829" x="-577.9030553628747" y="945.3185942779692"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="69.74267578125" x="156.49835608681644" xml:space="preserve" y="3.0">PictureAPI</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ hostname : String
++ port : integer
++ username : String
++ password : String
++ databaseName : String</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve">+  Get(int key)
++ Post([FromBody] Picture model)
++ Put(int id, [FromBody] Role model)
++ Delete(int id)</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n5::n1">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="197.05399568034557" width="364.463095238096" x="-190.63234991339118" y="697.7116828308853"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="61.07177734375" x="151.695658947173" xml:space="preserve" y="3.0">RolesAPI</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ hostname : String
++ port : integer
++ username : String
++ password : String
++ databaseName : String</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve">+  Get() : IActionResult
++ Post([FromBody] Role model) : IActionResult
++ Put(int id, [FromBody] Role model) : IActionResult
++ Delete(int id) : IActionResult</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n5::n2">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="197.05399568034557" width="357.27070544948333" x="-577.9030553628747" y="718.2645985976236"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="54.578125" x="151.34629022474167" xml:space="preserve" y="3.0">UserAPI</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ hostname : String
++ port : integer
++ username : String
++ password : String
++ databaseName : String</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve">+  Get() : IActionResult
++ Post([FromBody] User model) : IActionResult
++ Put(int id, [FromBody] User model) : IActionResult
++ Delete(int id) : IActionResult</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n5::n3">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="173.05399568034557" width="364.463095238096" x="-225.95872325974324" y="494.6576871505396"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="63.24267578125" x="150.610209728423" xml:space="preserve" y="3.0">ImageAPI</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ hostname : String
++ port : integer
++ username : String
++ password : String
++ databaseName : String</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve">+  Get() </y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n5::n4">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="214.15982721382284" width="354.5663708455952" x="-590.4218184978383" y="474.10477138380077"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="61.04638671875" x="146.7599920634226" xml:space="preserve" y="3.0">LoginAPI</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ hostname : String
++ port : integer
++ username : String
++ password : String
++ databaseName : String</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve">+  Get([FromBody] Authorize model) : IActionResult 
++ Post([FromBody] Authorize model) : IActionResult
+ + Put(int id, [FromBody] Authorize model) : IActionResult
+ + Delete(int id) : IActionResult</y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+          </graph>
+        </node>
+        <node id="n1::n6" yfiles.foldertype="group">
+          <data key="d4"/>
+          <data key="d5">
+            <y:ProxyAutoBoundsNode>
+              <y:Realizers active="0">
+                <y:GenericGroupNode configuration="DemoGroup">
+                  <y:Geometry height="728.046859611231" width="1076.7098596545425" x="-1666.507802199906" y="1170.3179870921851"/>
+                  <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
+                  <y:BorderStyle hasColor="false" type="line" width="4.0"/>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="163.392578125" x="4.5712504169923704" xml:space="preserve" y="39.736389153903474">Aseregehtmlframework.Model<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.49575442689968585" nodeRatioY="-0.4454205610128966" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+                  <y:State autoResize="true" closed="false" closedHeight="80.0" closedWidth="100.0"/>
+                  <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
+                  <y:BorderInsets bottom="0" bottomF="0.0" left="4" leftF="4.087153347732283" right="36" rightF="35.78402927765774" top="11" topF="11.422669546436282"/>
+                </y:GenericGroupNode>
+                <y:GenericGroupNode configuration="DemoGroup">
+                  <y:Geometry height="80.0" width="100.0" x="-1415.0787110326828" y="-110.6747107390645"/>
+                  <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
+                  <y:BorderStyle hasColor="false" type="line" width="4.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="2.0">
+                    <y:LabelModel>
+                      <y:SmartNodeLabelModel distance="4.0"/>
+                    </y:LabelModel>
+                    <y:ModelParameter>
+                      <y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.48" nodeRatioY="-0.475" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+                    </y:ModelParameter>
+                  </y:NodeLabel>
+                  <y:State autoResize="true" closed="true" closedHeight="80.0" closedWidth="100.0"/>
+                  <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
+                  <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
+                </y:GenericGroupNode>
+              </y:Realizers>
+            </y:ProxyAutoBoundsNode>
+          </data>
+          <graph edgedefault="directed" id="n1::n6:">
+            <node id="n1::n6::n0">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="172.0" width="316.9750367260911" x="-1007.3021369388409" y="1453.671542167779"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="89.20458984375" x="113.88522344117055" xml:space="preserve" y="3.0">Configuration</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ hostname : String
++ port : integer
++ username : String
++ password : String
++ databaseName : String</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve"/>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n6::n1">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="203.8617710583153" width="266.6597019528729" x="-1330.4456121260828" y="1437.7406566386214"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="32.1708984375" x="117.24440175768646" xml:space="preserve" y="3.0">Role</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">- Idroles : integer;
+- Nombre : String;
+- Type : integer;</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve">+ getRoleID()
 + getNombre() 
 + getType() 
 + SetRoleID(idroles : integer)
 + SetNombre(nombre : String)
 + SetType(type : integer)</y:MethodLabel>
-              </y:UML>
-            </y:UMLClassNode>
-          </data>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n6::n2">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="124.0" width="316.9750367260911" x="-957.5570085491124" y="1237.3179870921851"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="63.94091796875" x="126.51705937867055" xml:space="preserve" y="3.0">Authorize</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ Password : String
++ Name : String</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve"/>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n6::n3">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="124.0" width="316.9750367260911" x="-1304.5324053745092" y="1237.3179870921851"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="77.68994140625" x="119.64254765992055" xml:space="preserve" y="3.0">MailRestore</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ Email : String
++ Telefono : String</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve"/>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n6::n4">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="204.0" width="316.9750367260911" x="-1647.4206488521738" y="1203.7406566386214"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="48.07177734375" x="134.45162969117055" xml:space="preserve" y="3.0">Picture</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ Authorize : Authorize
++ Id : integer
++ Name : string
++ Data : string
++ Format : string
++ Date : DateTime
++ TextInfo: string</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve"/>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+            <node id="n1::n6::n5">
+              <data key="d4"/>
+              <data key="d5">
+                <y:UMLClassNode>
+                  <y:Geometry height="445.62419006479473" width="252.9750367260911" x="-1647.4206488521738" y="1437.7406566386214"/>
+                  <y:Fill color="#607D8B" transparent="false"/>
+                  <y:BorderStyle color="#FFFFFF" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="32.9072265625" x="110.03390508179555" xml:space="preserve" y="3.0">User</y:NodeLabel>
+                  <y:UML clipContent="true" constraint="" detailsColor="#FFFFFF" omitDetails="false" stereotype="" use3DEffect="false">
+                    <y:AttributeLabel xml:space="preserve">+ ID : integer
++ Nombre: string
++ Apellido: string
++ Edad : integer
++ Sexo: char
++ Email : string
++ Telefono : string
++ Passwordseguro : string
++ Roles_idroles : integer</y:AttributeLabel>
+                    <y:MethodLabel xml:space="preserve">+ getUserD()
++ getNombre() 
++ getApellido() 
++ getEdad() 
++ getSexo() 
++ getEmail() 
++ getTelefono() 
++ getPasswordseguro() 
++ getRoles_idroles() 
++ setUserD()
++ setNombre() 
++ setApellido() 
++ setEdad() 
++ setSexo() 
++ setEmail() 
++ setTelefono() 
++ setPasswordseguro() 
++ setRoles_idroles() </y:MethodLabel>
+                  </y:UML>
+                </y:UMLClassNode>
+              </data>
+            </node>
+          </graph>
         </node>
       </graph>
     </node>
-    <node id="n2" yfiles.foldertype="group">
-      <data key="d5">
-        <y:ProxyAutoBoundsNode>
-          <y:Realizers active="0">
-            <y:GenericGroupNode configuration="DemoGroup">
-              <y:Geometry height="416.0" width="863.0392857142856" x="270.31185475025825" y="1060.4661041095892"/>
-              <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
-              <y:BorderStyle hasColor="false" type="line" width="4.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="156.71875" x="6.0" xml:space="preserve" y="6.0">Aseregehtmlframework.View<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.4930478251693558" nodeRatioY="-0.4855769230769231" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
-              <y:State autoResize="true" closed="false" closedHeight="80.0" closedWidth="100.0"/>
-              <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
-            </y:GenericGroupNode>
-            <y:GenericGroupNode configuration="DemoGroup">
-              <y:Geometry height="80.0" width="100.0" x="-1400.0787110326828" y="-95.6747107390645"/>
-              <y:Fill color="#68B0E3" color2="#3C679B" transparent="false"/>
-              <y:BorderStyle hasColor="false" type="line" width="4.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="'Arial'" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#FFFFFF" verticalTextPosition="bottom" visible="true" width="4.0" x="0.0" y="0.0">
-                <y:LabelModel>
-                  <y:SmartNodeLabelModel distance="4.0"/>
-                </y:LabelModel>
-                <y:ModelParameter>
-                  <y:SmartNodeLabelModelParameter labelRatioX="-0.5" labelRatioY="-0.5" nodeRatioX="-0.5" nodeRatioY="-0.5" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-                </y:ModelParameter>
-              </y:NodeLabel>
-              <y:State autoResize="true" closed="true" closedHeight="80.0" closedWidth="100.0"/>
-              <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="22" topF="22.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
-            </y:GenericGroupNode>
-          </y:Realizers>
-        </y:ProxyAutoBoundsNode>
+    <edge id="n1::e0" source="n1::n2" target="n1::n5">
+      <data key="d8"/>
+      <data key="d9">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
       </data>
-      <graph edgedefault="directed" id="n2:"/>
-    </node>
+    </edge>
+    <edge id="n1::e1" source="n1::n2" target="n1::n3">
+      <data key="d8"/>
+      <data key="d9">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="n1::e2" source="n1::n1" target="n1::n2">
+      <data key="d8"/>
+      <data key="d9">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="n1::e3" source="n1::n4" target="n1::n0">
+      <data key="d8"/>
+      <data key="d9">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
   </graph>
   <data key="d6">
-    <y:Resources/>
+    <y:Resources>
+      <y:Resource id="1" xml:space="preserve">&lt;svg xmlns="http://www.w3.org/2000/svg" height="40" width="40" viewBox="0 0 40 40.000001"&gt;&lt;g display="block"&gt;&lt;path d="M3.927 23.792v7.575M20.97 23.792v7.575M20.97 8.643v7.574M23.495 8.643v3.787H36.12v3.787M18.445 8.643v3.787H5.821v3.787M7.714 23.792v3.787h9.469v3.788" stroke="#FFF" stroke-miterlimit="10" fill="none" stroke-width=".25249"/&gt;&lt;path d="M17.183 1.068h7.574v7.575h-7.574zM17.183 16.217h7.574v7.575h-7.574zM15.29 31.367h7.574v7.574h-7.575zM32.332 16.217h7.575v7.575h-7.575zM2.033 16.217h7.575v7.575H2.033zM.14 31.367h7.574v7.574H.14z" stroke="#FFF" fill="#FFF"/&gt;&lt;/g&gt;&lt;/svg&gt;
+</y:Resource>
+    </y:Resources>
   </data>
 </graphml>
