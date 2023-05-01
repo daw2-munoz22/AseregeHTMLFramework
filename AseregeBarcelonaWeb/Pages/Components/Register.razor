@@ -110,7 +110,18 @@
             }
             using(Manager.MySQLManager manager = new Manager.MySQLManager())
             {
-                manager.InsertUser(user);
+                Authorize authorize = new Authorize();
+                authorize.Name = user.Nombre;
+                authorize.Password = user.Passwordseguro;
+                if (manager.GetUser(authorize)==null)
+                {
+                    manager.InsertUser(user);
+                }
+                else
+                {
+                    SnackbarService.Add("El usuario ya existe y no se puede insertar. Por favor, intentalo de nuevo", Severity.Info);
+                }
+
                 //PAGEMANAGER
                 StateHasChanged();
             }
