@@ -170,6 +170,10 @@
                 {
                     bool EsValido = mySQLManager.Login(UserAuthorize);
                     user = mySQLManager.GetUser(UserAuthorize);
+                    if (EsValido && user.Roles_idroles==1)
+                    {
+                        EsValido = true;
+                    }
                 }
             }
             else

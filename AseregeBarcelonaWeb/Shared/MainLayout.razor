@@ -69,8 +69,8 @@
                     {
                         @if (currentUser.Roles_idroles == 1 || currentUser.Roles_idroles == 2)
                         {
-                            <MudNavLink OnClick="@(async(e) => await OnVirtualClick("pink"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Secondary">Transportes</MudNavLink>
-                            <MudNavLink OnClick="@(async(e) => await OnVirtualClick("red"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Error">Visistas</MudNavLink>
+                            <MudNavLink OnClick="@(async(e) => await TravelTo("pink"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Secondary">Transportes</MudNavLink>
+                            <MudNavLink OnClick="@(async(e) => await TravelTo("red"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Error">Visistas</MudNavLink>
                         }                      
                     }                
                     <MudNavLink OnClick="@(async(e) => await TravelTo("orange"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Warning">Quienes Somos?</MudNavLink>
