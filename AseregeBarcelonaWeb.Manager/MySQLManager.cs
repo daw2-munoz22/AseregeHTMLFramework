@@ -74,8 +74,7 @@ namespace AseregeBarcelonaWeb.Manager
                 $"REFERENCES {database}.roles (idroles) ON DELETE NO ACTION ON UPDATE NO ACTION);" +
 
                 $"CREATE TABLE IF NOT EXISTS {database}.resources (idResources INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
-                $"name VARCHAR(255) NOT NULL," +
-                $"data LONGBLOB NOT NULL," +
+                $"name VARCHAR(255) NOT NULL," +                
                 $"format VARCHAR(255) NOT NULL," +
                 $"textinfo LONGTEXT NOT NULL," +
                 $"date DATETIME NOT NULL);";
@@ -342,12 +341,11 @@ namespace AseregeBarcelonaWeb.Manager
         {
             CreateTables();
 
-            string query = "INSERT INTO resources (name, data, format, date, textinfo) VALUES (@name, @data, @format, @date, @textinfo)";
+            string query = "INSERT INTO resources (name, format, date, textinfo) VALUES (@name, @format, @date, @textinfo)";
             MySqlCommand command = new MySqlCommand(query, connection);
 
 
-            command.Parameters.AddWithValue("@name", picture.Name);
-            command.Parameters.AddWithValue("@data", Convert.FromBase64String(picture.Data));
+            command.Parameters.AddWithValue("@name", picture.Name);            
             command.Parameters.AddWithValue("@format", picture.Format);
             command.Parameters.AddWithValue("@date", picture.Date);
             command.Parameters.AddWithValue("@textinfo", picture.TextInfo);
@@ -357,6 +355,8 @@ namespace AseregeBarcelonaWeb.Manager
                 await connection.OpenAsync();
                 await command.ExecuteNonQueryAsync();
                 await DisposeAsync();
+                byte[] image = Convert.FromBase64String(picture.Data);
+                await File.WriteAllBytesAsync($"wwwroot/images/{picture.Name}", image);
                 return "OK";
             }
             catch (MySqlException ex)
@@ -369,7 +369,7 @@ namespace AseregeBarcelonaWeb.Manager
         //esta funcion permite obtener la imagen o video cuyo identificador sea el que el usuario le pida
         public async Task<Picture> SelectPicturesByIDAsync(int id)
         {
-            string query = "SELECT format, data, name, textinfo FROM resources where idResources=@id;";
+            string query = "SELECT format, name, textinfo FROM resources where idResources=@id;";
             await connection.OpenAsync();
 
             MySqlCommand command = new MySqlCommand(query, connection);
@@ -384,12 +384,12 @@ namespace AseregeBarcelonaWeb.Manager
 
                 while (await reader.ReadAsync()) //leer de manera asincronica
                 {
-                    string format = (string)reader[0];// tipo de fichero
-                    byte[] file = (byte[])reader[1];//datos
-                    string name = (string)reader[2];//datos
-                    string textinfo = (string)reader[3];//datos
+                    string format = (string)reader[0];// tipo de fichero                   
+                    string name = (string)reader[1];//datos                   
+                    string textinfo = (string)reader[2];//datos
 
-                    string file64 = $"data:{format};base64,{Convert.ToBase64String(file)}"; //fichero en texto uri base64                    
+                    byte[] rawImage = await File.ReadAllBytesAsync($"wwwroot/images/{name}");
+                    string file64 = $"data:{format};base64,{Convert.ToBase64String(rawImage)}"; //fichero en texto uri base64                    
                     picture = new Picture()
                     {
                         Name = name,

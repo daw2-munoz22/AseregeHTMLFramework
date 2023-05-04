@@ -82,9 +82,9 @@
     <MudMainContent Class="px-4">     
         @switch (SelectedPage)
         {
-        case "blue":               
-            <MainPage></MainPage>        
-            break;
+        case "blue":
+                <MainPage CurrentUser="@currentUser"></MainPage>
+                break;
         case "register":
             <Register></Register>
             break;

@@ -1,8 +1,75 @@
-﻿<CarousellStyles Image1="images/campnou.jpg" Image2="images/parc.jpg" Image3="images/cathedral.jpg" Image4="images/Montserrat.jpg" Image5="images/plazaEspaña.jpg"></CarousellStyles>
+﻿<style type="text/css">
+
+    .bounceIn {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: bounceIn;
+        animation-fill-mode: forwards;
+    }
+
+    .bounceOut {
+        animation-duration: 0.5s;
+        animation-name: bounceOut;
+        animation-fill-mode: forwards;
+    }
+
+    .backInDown {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: backInDown;
+        animation-fill-mode: forwards;
+    }
+
+    .backOutDown {
+        animation-duration: 0.5s;
+        animation-name: backOutDown;
+        animation-fill-mode: forwards;
+    }
+
+    .rotateIn {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: rotateIn;
+        animation-fill-mode: forwards;
+    }
+
+    .rotateOut {
+        animation-duration: 0.5s;
+        animation-name: rotateOut;
+        animation-fill-mode: forwards;
+    }
+</style>
+
+<MudCarousel Class="mud-width-full" Style="height:200px;" ShowArrows="true" @bind-SelectedIndex="selectedIndex" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="false" TData="object">
+    @foreach (Picture item in Pictures.ToArray())        
+    {
+        <MudCarouselItem Transition="Transition.Slide" Color="@Color.Primary">        
+            <div class="d-flex justify-center">
+                <MudImage
+                    ObjectFit="ObjectFit.Fill"
+                    Height="300" Width="1920"
+                    Src="@item.Data" 
+                    Alt="@item.TextInfo"
+                    Elevation="25" 
+                    Class="rounded-lg" />
+            </div>           
+        </MudCarouselItem>    
+    }
+</MudCarousel>
+
+@if (CurrentUser != null)
+{    
+    @if (CurrentUser.Roles_idroles == (int)UserRole.Administrator)
+    {
+        <MudFab OnClick="async(e) => await SeeText()" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Edit" />
+    }
+}
 
 @if (!EditorEnabled)
-{
-    <MudFab OnClick="async(e) => await SeeText()" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Edit" />
+{    
     <MudGrid>
         @foreach (Picture item in Pictures.ToArray())
         {
@@ -15,8 +82,7 @@
     </MudGrid>    
 }
 else
-{
-    <MudFab OnClick="async(e) => await SeeText()" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Edit" />
+{    
     <InputFile OnChange="HandleSeleccionArchivo" multiple />
 }
 
@@ -26,7 +92,9 @@ else
 {
     private bool EditorEnabled = false;    
     private List<Picture> Pictures = new List<Picture>();
-    
+    [Parameter] public User CurrentUser { get; set; }
+    private int selectedIndex = 1;
+
     private async Task SeeText()
     {
         EditorEnabled = !EditorEnabled;
@@ -40,14 +108,14 @@ else
         long count = await manager.SelectCountImages();        
         for (int i = 1; i < count+1; i++)
         {
-            Picture  element = await manager.SelectPicturesByIDAsync(i);
+            Picture element = await manager.SelectPicturesByIDAsync(i);
             Pictures.Add(element);
-        }
+        }                        
         await manager.DisposeAsync();
-
+        
+        selectedIndex = 1;
         await base.OnInitializedAsync();
-    }
-
+    }          
         
     private async Task HandleSeleccionArchivo(InputFileChangeEventArgs e)        
     {
@@ -57,11 +125,12 @@ else
             {
                 using (Manager.MySQLManager manager = new Manager.MySQLManager())
                 {
+                    //escribe en el memory stream ms el fichero recibido y máximo 8MB
                     using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
                     {
                         ms.Position = 0;
+                        
                         await file.OpenReadStream(8388608, default).CopyToAsync(ms);
-
 
                         ms.Position = 0;
                         DateTime Date = DateTime.Now;
