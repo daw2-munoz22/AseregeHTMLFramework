@@ -115,7 +115,8 @@
                 authorize.Password = user.Passwordseguro;
                 if (manager.GetUser(authorize)==null)
                 {
-                    manager.InsertUser(user);
+                    user.Roles_idroles = 2;
+                    await manager.InsertUserAsync(user);
                 }
                 else
                 {

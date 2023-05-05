@@ -1,4 +1,4 @@
-﻿<h3>PanelAdministracion</h3>
+﻿<MudText Typo="Typo.h3" Class="mt-4">Panel de Administración</MudText>
     
 @if (user != null)
 {
@@ -133,6 +133,11 @@ else
             //En la variable UserInfo (es de clase User), 
             //almaceno los datos del result.Data (if true) convertido en un objeto User. En caso contrario, crear una nueva instancia de ese Objeto.
             User UserInfo = (User)(result.Data ?? default(User)); 
+            using (Manager.MySQLManager mySQLManager = new Manager.MySQLManager())
+            {
+                /*INCOMPLETO*/
+                await mySQLManager.UpdateUserAsync(UserInfo.Nombre, UserInfo.Apellido, UserInfo.Edad, UserInfo.Sexo, UserInfo.Email, UserInfo.Telefono, UserInfo.Passwordseguro, UserInfo.Roles_idroles, UserInfo.ID);
+            }
 
         }       
     }    

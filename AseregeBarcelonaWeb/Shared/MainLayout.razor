@@ -198,15 +198,13 @@
     {        
         await TravelTo("blue");
     }
-    
-    private bool logged = true;
+        
     private async Task RefreshPermisions()
     {
         if (currentUser.Nombre == null || currentUser.Passwordseguro == null)
         {
             MultiAvatarUserName = "UKNOWN";
-            currentUser = new User();
-            logged = false;
+            currentUser = new User();          
         }
         else
         {

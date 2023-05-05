@@ -93,7 +93,49 @@ namespace AseregeBarcelonaWeb.Manager
             Dispose();//cerrar conexión
         }
 
-        public string InsertUser(User user)
+        public async Task<string> InsertUserAsync(User user)
+        {
+            try
+            {
+                CreateTables();
+
+                string query = "INSERT INTO usuarios (nombre, apellido, edad, sexo, email, telefono, passwordseguro, roles_idroles) " +
+                    "VALUES (@nombre, @apellido, @edad, @sexo, @email, @telefono, @passwordseguro, @roles_idroles)";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    if (user != null)
+                    {
+                        command.Parameters.AddWithValue("@nombre", user.Nombre);
+                        command.Parameters.AddWithValue("@apellido", user.Apellido);
+                        command.Parameters.AddWithValue("@edad", user.Edad);
+                        command.Parameters.AddWithValue("@sexo", user.Sexo.ToString());
+                        command.Parameters.AddWithValue("@email", user.Email);
+                        command.Parameters.AddWithValue("@telefono", user.Telefono);
+                        command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(user.Passwordseguro));
+                        command.Parameters.AddWithValue("@roles_idroles", user.Roles_idroles);
+
+                        await connection.OpenAsync();
+                        await command.ExecuteNonQueryAsync();
+                        await DisposeAsync();
+                        return "OK";
+                    }
+                    else
+                    {
+                        await DisposeAsync();
+                        return "Illegal user!";
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {                
+                await DisposeAsync();
+                return $"Error inserting the user: {ex.Message}";
+            }
+        }
+
+
+       /* public string InsertUser(User user)
         {
             CreateTables();
             //el @  representa los parametros
@@ -106,7 +148,7 @@ namespace AseregeBarcelonaWeb.Manager
                 command.Parameters.AddWithValue("@nombre", user.Nombre);
                 command.Parameters.AddWithValue("@apellido", user.Apellido);
                 command.Parameters.AddWithValue("@edad", user.Edad);
-                command.Parameters.AddWithValue("@sexo", user.Sexo);
+                command.Parameters.AddWithValue("@sexo", user.Sexo.ToString());
                 command.Parameters.AddWithValue("@email", user.Email);
                 command.Parameters.AddWithValue("@telefono", user.Telefono);
                 command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(user.Passwordseguro));
@@ -130,7 +172,8 @@ namespace AseregeBarcelonaWeb.Manager
                 Dispose();
                 return $"Ilegal user !";
             }
-        }
+        }*/
+
         public string InsertRole(Role role)
         {
             CreateTables();
@@ -293,17 +336,20 @@ namespace AseregeBarcelonaWeb.Manager
 
         public async Task UpdateUserAsync(string nombre, string apellido, int edad, char sexo, string email, string telefono, string passwordseguro, int Roles_idroles, int idUsers)
         {
-            string query = "UPDATE usuarios SET nombre = '@nombre', apellido= '@apellido', edad=@edad, sexo='@sexo', email='@email, telefono='@telefono', passwordseguro='@passwordseguro', roles_idroles=@idroles WHERE idUsers = @idUsers;";
+            string sexoText = sexo.ToString();
+            string query = "UPDATE usuarios SET nombre = @nombre, apellido = @apellido, edad = @edad, sexo = @sexoText, email = @email, telefono = @telefono, passwordseguro = @passwordseguro, roles_idroles = @Roles_idroles WHERE idUsers = @idUsers";
+
+            await connection.OpenAsync();
             MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@nombre", nombre);
-            command.Parameters.AddWithValue("@apellido", apellido);
-            command.Parameters.AddWithValue("@edad", edad);
-            command.Parameters.AddWithValue("@sexo", sexo);
-            command.Parameters.AddWithValue("@email", email);
-            command.Parameters.AddWithValue("@telefono", telefono);
-            command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(passwordseguro));
-            command.Parameters.AddWithValue("@roles_idroles", Roles_idroles);
-            command.Parameters.AddWithValue("@idUsers", idUsers);
+            command.Parameters.AddWithValue("nombre", nombre);
+            command.Parameters.AddWithValue("apellido", apellido);
+            command.Parameters.AddWithValue("edad", edad);
+            command.Parameters.AddWithValue("sexoText", sexoText);
+            command.Parameters.AddWithValue("email", email);
+            command.Parameters.AddWithValue("telefono", telefono);
+            command.Parameters.AddWithValue("passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(passwordseguro));
+            command.Parameters.AddWithValue("Roles_idroles", Roles_idroles);
+            command.Parameters.AddWithValue("idUsers", idUsers);
 
             try
             {
@@ -314,6 +360,7 @@ namespace AseregeBarcelonaWeb.Manager
                 Console.WriteLine("Error updating the user: " + ex.Message);
             }
         }
+
 
 
         //Función para la query de eliminar usuarios

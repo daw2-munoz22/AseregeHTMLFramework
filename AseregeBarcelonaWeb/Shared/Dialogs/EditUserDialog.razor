@@ -116,12 +116,7 @@
     private async Task Submit()
     {
         if (User.Passwordseguro == PasswordRepeat && User.Passwordseguro.Length > 4 && PasswordRepeat.Length > 4)
-        {
-            using (Manager.MySQLManager mySQLManager = new Manager.MySQLManager())
-            {
-                /*INCOMPLETO*/
-                await mySQLManager.UpdateUserAsync(User.Nombre, User.Apellido, User.Edad, User.Sexo, User.Email, User.Telefono, User.Passwordseguro, User.Roles_idroles, User.ID);            
-            }
+        {           
             MudDialog.Close(DialogResult.Ok(User));
         }                        
     }

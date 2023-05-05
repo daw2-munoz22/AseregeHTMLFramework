@@ -1,7 +1,9 @@
 ﻿using AseregeBarcelonaWeb.Manager;
+using AseregeBarcelonaWeb.Manager.Enums;
 using AseregeBarcelonaWeb.Model.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace AseregeBarcelonaWeb.API
 {
@@ -9,7 +11,7 @@ namespace AseregeBarcelonaWeb.API
     [Route("api/users")] public class UserAPI : ControllerBase
     {
         [HttpGet] public IActionResult Get()
-        {            
+        {
             User[] users = new MySQLManager().SelectUsers().ToArray();
             foreach (var user in users) user.Passwordseguro = "";
 
@@ -17,22 +19,43 @@ namespace AseregeBarcelonaWeb.API
             return Ok(responseString);
         }
 
-        [HttpPost] public IActionResult Post([FromBody] User model)
+        [HttpPost] public async Task<IActionResult> Post([FromBody] User model)
         {
             MySQLManager result = new MySQLManager();
-            return Ok(result.InsertUser(model));
+            string user = await result.InsertUserAsync(model);
+            await result.DisposeAsync();
+            return Ok(user);
         }
 
-        [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] User model)
+        [HttpPut] public async Task<IActionResult> Put([FromBody] User model)
         {
-            // TODO: Handle PUT request
-            return Ok();
+            using (Manager.MySQLManager manager = new Manager.MySQLManager())
+            {
+                await manager.UpdateUserAsync(model.Nombre, model.Apellido, model.Edad, model.Sexo, model.Email,
+                model.Telefono, model.Passwordseguro, model.Roles_idroles, model.ID);
+            }
+            return NoContent();
         }
 
-        [HttpDelete("{id}")] public IActionResult Delete(int id)
-        {          
-            return Ok();
+    /*    [HttpDelete("{id}")] public async Task<IActionResult> Delete([FromBody] User model, Authorize role)
+        {
+            Manager.MySQLManager manager = new Manager.MySQLManager();
+            
+            User user = manager.GetUser(role);
+
+            if (user.Roles_idroles == (int)UserRole.Administrator)
+            {
+                await manager.DeleteUserAsync(user.ID);
+                await manager.DisposeAsync();
+                return Ok("OK");
+            }
+            else 
+            {                
+                await manager.DisposeAsync();
+                return Unauthorized();
+            }            
         }
+    */
     }
 
     public class MyModel
