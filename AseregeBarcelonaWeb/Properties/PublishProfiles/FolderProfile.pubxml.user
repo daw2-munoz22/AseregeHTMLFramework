@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb\bin\Release\net7.0\publish\</_PublishTargetUrl>
-    <History>True|2023-05-01T17:41:42.6575217Z;</History>
+    <History>True|2023-05-05T09:49:02.4476969Z;True|2023-05-05T11:15:39.8725168+02:00;True|2023-05-05T11:10:43.8471163+02:00;True|2023-05-05T11:05:45.8124402+02:00;True|2023-05-05T11:05:09.1007021+02:00;True|2023-05-01T19:41:42.6575217+02:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>

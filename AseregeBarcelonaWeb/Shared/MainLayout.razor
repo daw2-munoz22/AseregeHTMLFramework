@@ -13,7 +13,7 @@
 
             @if (currentUser != null)
             {
-                @if (currentUser.Roles_idroles == 1 || currentUser.Roles_idroles == 2)
+                @if (currentUser.Roles_idroles == (int)UserRole.Administrator || currentUser.Roles_idroles == (int)UserRole.User)
                 {
                     <MudChip Value="1" Text="pink" Color="Color.Secondary">Transportes</MudChip>
                     <MudChip Value="2" Text="red" Color="Color.Error">Visitas</MudChip>
@@ -58,23 +58,24 @@
             <MudNavMenu Class="mud-width-full">
                 <MudText Typo="Typo.h6" Class="px-4">Barcelona Web</MudText>
                 <MudDivider Class="my-2" />
-                <MudNavLink OnClick="@(async(e) => await TravelTo("api"))" Icon="@Icons.Material.Filled.Dashboard">Peticiones JSON</MudNavLink>                            
-                <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="true">
-                    <MudNavLink OnClick="@(async(e) => await TravelTo("admin"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Panel de Administracion</MudNavLink>                    
-                </MudNavGroup>
-                <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="true">
-                    <MudNavLink OnClick="@(async(e) => await TravelTo("blue"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Info">Home</MudNavLink>
+                <MudNavLink OnClick="@(async(e) => await TravelTo("api"))" Icon="@Icons.Material.Filled.Dashboard">Peticiones JSON</MudNavLink>                                                                                
+                <MudNavLink OnClick="@(async(e) => await TravelTo("blue"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Info">Home</MudNavLink>
                     
-                    @if (currentUser != null)
+                @if (currentUser != null)
+                {
+                    @if (currentUser.Roles_idroles == (int)UserRole.Administrator)
                     {
-                        @if (currentUser.Roles_idroles == 1 || currentUser.Roles_idroles == 2)
-                        {
-                            <MudNavLink OnClick="@(async(e) => await TravelTo("pink"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Secondary">Transportes</MudNavLink>
-                            <MudNavLink OnClick="@(async(e) => await TravelTo("red"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Error">Visistas</MudNavLink>
-                        }                      
-                    }                
-                    <MudNavLink OnClick="@(async(e) => await TravelTo("orange"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Warning">Quienes Somos?</MudNavLink>
-                </MudNavGroup>
+                        <MudNavLink OnClick="@(async(e) => await TravelTo("admin"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Panel de Administracion</MudNavLink>
+                    }
+
+                    @if (currentUser.Roles_idroles == (int)UserRole.Administrator || currentUser.Roles_idroles == (int)UserRole.User)
+                    {
+                        <MudNavLink OnClick="@(async(e) => await TravelTo("pink"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Secondary">Transportes</MudNavLink>
+                        <MudNavLink OnClick="@(async(e) => await TravelTo("red"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Error">Visistas</MudNavLink>
+                    }                      
+                }                
+                <MudNavLink OnClick="@(async(e) => await TravelTo("orange"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Warning">Quienes Somos?</MudNavLink>
+                
             </MudNavMenu>
         </MudPaper>
 
@@ -113,11 +114,18 @@
             <QuienesSomos></QuienesSomos>
             break;
         case "profile":
-            <VerPerfil></VerPerfil>
-            break;
-        case "admin":                
-            <PanelAdministracion></PanelAdministracion>
-            break;
+                <VerPerfil></VerPerfil>
+                break;
+            case "admin":
+                if (currentUser.Roles_idroles == (int)UserRole.Administrator)
+                {
+                    <PanelAdministracion></PanelAdministracion>
+                }
+                else
+                {
+                    SelectedPage = "blue";
+                }
+                break;
         case "api":
             <Api></Api>
             break;
@@ -133,14 +141,8 @@
 </MudLayout>
 @code
 {
-    private async Task OnVirtualClick(string id)
-    {    
- 
-        await TravelTo(id);   
-        
-        SelectedValuesChanged();
 
-    }
+
     /// <summary>
     /// /ROUTER REAL PAGE
     /// </summary>
@@ -152,7 +154,13 @@
     private MudChip selected;            
     private string MultiAvatarUserName { get; set; } = "UKNOWN";
 
-    
+
+    private async Task OnVirtualClick(string id)   
+    {     
+        await TravelTo(id);           
+        SelectedValuesChanged();
+    }
+
     private void SelectedValuesChanged()
     {
         if (selected != null)
@@ -190,12 +198,15 @@
     {        
         await TravelTo("blue");
     }
+    
+    private bool logged = true;
     private async Task RefreshPermisions()
     {
         if (currentUser.Nombre == null || currentUser.Passwordseguro == null)
         {
             MultiAvatarUserName = "UKNOWN";
             currentUser = new User();
+            logged = false;
         }
         else
         {
@@ -213,15 +224,11 @@
         await Task.CompletedTask;
     }
 
-
     private async Task RegisterAsync()
     {
         await TravelTo("register");
         await Task.CompletedTask;
     }
-
-
-
 
 
 

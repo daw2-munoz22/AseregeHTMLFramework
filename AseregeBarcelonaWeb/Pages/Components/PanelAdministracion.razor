@@ -2,7 +2,7 @@
     
 @if (user != null)
 {
-    @if (user.Roles_idroles == 1)
+    @if (user.Roles_idroles == (int)UserRole.Administrator)
     {               
         @if (!Loading)
         {
@@ -53,24 +53,23 @@
     else
     {
         <MudAlert Severity="Severity.Error" Variant="Variant.Filled">Acceso denegado</MudAlert>
-        <MudButton Href="/login"
-           Target="_blank"
-           Variant="Variant.Filled"
-           EndIcon="@Icons.Custom.Brands.GitHub"
-           Color="Color.Primary"
-           Disabled="false">Iniciar sesion</MudButton>
+        
     }
+}
+else
+{
+    Navigation.NavigateTo("/");
 }
 
 @code 
 {
     private List<User> UserList;
     private bool Loading = true;
-    private User user;        
+    private User user;
 
     private async Task LoadUsers()
     {        
-        await Task.Yield();
+        await Task.Yield(); //esto es para cargar un hilo
 
         using (Manager.MySQLManager mySQLManager = new Manager.MySQLManager())
         {
@@ -129,15 +128,14 @@
         };
 
         DialogResult result = await DialogService.Show<EditUserDialog>("Editar usuario", parameter, options).Result;
-        if (!result.Cancelled)
+        if (!result.Canceled)
         {
             //En la variable UserInfo (es de clase User), 
             //almaceno los datos del result.Data (if true) convertido en un objeto User. En caso contrario, crear una nueva instancia de ese Objeto.
             User UserInfo = (User)(result.Data ?? default(User)); 
 
         }       
-    }
-
+    }    
     protected override Task OnInitializedAsync()
     {
         Loading = true;
@@ -145,24 +143,26 @@
 
         return base.OnInitializedAsync();
     }
-
-
+ 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-    {        
-        if (firstRender)
-        {
-            string nombre = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");
-            string Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
+    { 
+        string nombre = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");            
+        string Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
 
-
+        if (!firstRender)
+        {          
+        }
+        else
+        {                      
             Authorize UserAuthorize = new Authorize()
-            {
-                Name = nombre, 
-                Password = Password
-            };
+                {
+                    Name = nombre,
+                    Password = Password
+                };
 
             //Comprobar si el usuario es correcto (autenticado) o no. Si es true, tiene los permisos , en caso contrario, se comprueba si el usuario existe para poder acceder a la web
             //Pd: El usuario que NO sea administrador, tiene Acceso denegado al panel de administración
+
             bool IsNull = String.IsNullOrWhiteSpace(UserAuthorize.Name) | String.IsNullOrWhiteSpace(UserAuthorize.Password);
             if (!IsNull)
             {
@@ -170,7 +170,7 @@
                 {
                     bool EsValido = mySQLManager.Login(UserAuthorize);
                     user = mySQLManager.GetUser(UserAuthorize);
-                    if (EsValido && user.Roles_idroles==1)
+                    if (EsValido && user.Roles_idroles == (int)UserRole.Administrator)
                     {
                         EsValido = true;
                     }
@@ -182,8 +182,9 @@
             }
 
             StateHasChanged();
-        }
 
-        await Task.CompletedTask;
+            await Task.CompletedTask;
+        }
     }
+    
 }
