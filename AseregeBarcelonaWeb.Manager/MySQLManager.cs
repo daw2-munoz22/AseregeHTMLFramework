@@ -2,9 +2,11 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AseregeBarcelonaWeb.Manager
 {
@@ -494,6 +496,29 @@ namespace AseregeBarcelonaWeb.Manager
                 await DisposeAsync();
                 return $"Error inserting the Resource File: {ex.Message}";
             }
+        }
+
+        public async Task<string> UpdateRoleAsync(string nombre, int type, int ID)
+        {
+            CreateTables();
+            string query = "UPDATE roles SET nombre = @nombre, type = @type WHERE idroles = @ID;";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@nombre", nombre); 
+            command.Parameters.AddWithValue("@type", type);            
+            command.Parameters.AddWithValue("@ID", ID);
+
+            try
+            {
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
+                await DisposeAsync();
+                return "OK";
+            }
+            catch (MySqlException ex)
+            {
+                await DisposeAsync();
+                return $"Error inserting the Resource File: {ex.Message}";
+            }            
         }
     }
 }

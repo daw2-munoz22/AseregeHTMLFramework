@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using AseregeBarcelonaWeb.Model.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using AseregeBarcelonaWeb.Manager.Enums;
 
 namespace AseregeBarcelonaWeb.API
 {
@@ -14,10 +15,10 @@ namespace AseregeBarcelonaWeb.API
             MySQLManager manager = new MySQLManager();
             List<Role> roleList = await manager.SelectRolesAsync();
 
-            if (roleList == null || roleList.Count < 1) 
+            if (roleList == null || roleList.Count < 1)
             {
-                await Task.CompletedTask; 
-                return NoContent();                
+                await Task.CompletedTask;
+                return NoContent();
             }
 
             return Ok(roleList);
@@ -33,24 +34,27 @@ namespace AseregeBarcelonaWeb.API
         }
 
         [HttpPut] public async Task<IActionResult> Put([FromBody] Role role)
-        {            
-            using (MySQLManager manager = new MySQLManager())
+        {
+            MySQLManager manager = new MySQLManager();
+            role.authorize.Password = CryptographyManager.GeneratePasswordHash(role.authorize.Password);
+
+            User user = manager.GetUser(role.authorize);
+            if (user != null && user.Roles_idroles == (int)UserRole.Administrator)
             {
-
-                //await manager.UpdateRoleAsync(model.Nombre, model.Apellido);
+                string roleResult = await manager.UpdateRoleAsync(role.Nombre, role.Type, role.Idroles);
+                await manager.DisposeAsync();
+                await Task.CompletedTask;
+                return Ok(roleResult);
             }
-            await Task.CompletedTask;
-            return NoContent();
-        }
-
-        /*  [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] Role model)
-          {            
-              return Ok();
-          }
-
-          [HttpDelete("{id}")] public IActionResult Delete(int id)
-          {        
-              return Ok();
-          }*/
+            else 
+            {
+                await Task.CompletedTask;
+                return Unauthorized();
+            }
+        }     
+        /*[HttpDelete("{id}")] public IActionResult Delete(int id)
+        {        
+            return Ok();
+        }*/
     }
 }
