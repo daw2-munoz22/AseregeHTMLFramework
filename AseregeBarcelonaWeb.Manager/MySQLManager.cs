@@ -2,14 +2,9 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using static Org.BouncyCastle.Bcpg.Attr.ImageAttrib;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AseregeBarcelonaWeb.Manager
 {
@@ -425,15 +420,27 @@ namespace AseregeBarcelonaWeb.Manager
                     string name = (string)reader[1];//datos                   
                     string textinfo = (string)reader[2];//datos
 
-                    byte[] rawImage = await File.ReadAllBytesAsync($"wwwroot/images/{name}");
-                    string file64 = $"data:{format};base64,{Convert.ToBase64String(rawImage)}"; //fichero en texto uri base64                    
-                    picture = new Picture()
+                    string route = $"wwwroot/images/{name}";
+                    byte[] rawImage = null;
+
+                    if (File.Exists(route))
                     {
-                        Name = name,
-                        Data = file64,
-                        Format = format,
-                        TextInfo = textinfo
-                    };
+                        rawImage = await File.ReadAllBytesAsync(route);
+                        string file64 = $"data:{format};base64,{Convert.ToBase64String(rawImage)}"; //fichero en texto uri base64
+                                                                                                    //picture = new Picture()
+                        picture = new Picture()
+                        {
+                            Name = name,
+                            Data = file64,
+                            Format = format,
+                            TextInfo = textinfo
+                        };
+                    }
+                    else 
+                    {
+                       
+                    }
+                 
                 }
             }
             await connection.CloseAsync();
@@ -460,6 +467,33 @@ namespace AseregeBarcelonaWeb.Manager
             return Count;
 
         }
+        public async Task<string> DeleteImageAsync(int pictureId, string pictureNameFile)
+        {
+            CreateTables();
 
+            string query = "DELETE FROM resources WHERE idResources = @pictureId;";
+            MySqlCommand command = new MySqlCommand(query, connection);            
+            command.Parameters.AddWithValue("@pictureId", pictureId);            
+
+            try
+            {
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
+                await DisposeAsync();
+
+                string pathArchive = $"wwwroot/images/{pictureNameFile}";
+                if (File.Exists(pathArchive)) 
+                {
+                    File.Delete($"wwwroot/images/{pictureNameFile}");
+                }
+                
+                return "OK";
+            }
+            catch (MySqlException ex)
+            {
+                await DisposeAsync();
+                return $"Error inserting the Resource File: {ex.Message}";
+            }
+        }
     }
 }

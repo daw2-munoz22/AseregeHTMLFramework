@@ -10,7 +10,7 @@ namespace AseregeBarcelonaWeb.API
 {
     [ApiController]
     [Route("api/users")] public class UserAPI : ControllerBase
-    {
+    {        
         [HttpGet] public IActionResult Get()
         {
             User[] users = new MySQLManager().SelectUsers().ToArray();
@@ -51,7 +51,8 @@ namespace AseregeBarcelonaWeb.API
             }
             return NoContent();
         }
-
+        
+        /*COMPLETADO*/
         [HttpDelete("{id}")] public async Task<IActionResult> Delete(int id, [FromBody] Authorize admin)
         {            
             MySQLManager manager = new MySQLManager();

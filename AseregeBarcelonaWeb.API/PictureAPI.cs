@@ -1,7 +1,8 @@
 ﻿using AseregeBarcelonaWeb.Manager;
+using AseregeBarcelonaWeb.Manager.Enums;
 using AseregeBarcelonaWeb.Model.Data;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using Org.BouncyCastle.Asn1.Cms;
 using System.Threading.Tasks;
 
 namespace AseregeBarcelonaWeb.API
@@ -17,7 +18,8 @@ namespace AseregeBarcelonaWeb.API
         {
             MySQLManager result = new MySQLManager();
             Picture uri = await result.SelectPicturesByIDAsync(key);
-            await result.DisposeAsync();                
+            await result.DisposeAsync();
+            await Task.CompletedTask;
             return Ok(uri);
         }
 
@@ -45,29 +47,48 @@ namespace AseregeBarcelonaWeb.API
                 {
                     uri = await result.InsertFile(model);
                     await result.DisposeAsync();
+                    await Task.CompletedTask;
                     return Ok(uri);
                 }
                 else
                 {
                     await result.DisposeAsync();
+                    await Task.CompletedTask;
                     return Unauthorized("Access Denied!");
                 }
             }
             else
             {
+                await Task.CompletedTask;
                 return BadRequest(model);
             }
                                            
-        }
+        }    
 
-        [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] Role model)
-        {            
-            return Ok();
-        }
+        [HttpDelete] public async Task<IActionResult> Delete(int key, Authorize model)
+        {
 
-        [HttpDelete("{id}")] public IActionResult Delete(int id)
-        {        
-            return Ok();
+            model.Password = CryptographyManager.GeneratePasswordHash(model.Password);
+            MySQLManager manager = new MySQLManager();
+            User user = manager.GetUser(model);
+            if (user != null)
+            {
+                if (user.Roles_idroles == (int)UserRole.Administrator || user.Roles_idroles == (int)UserRole.User)
+                {
+                    Picture picture = await manager.SelectPicturesByIDAsync(key);
+                    
+                    await manager.DeleteImageAsync(key, picture.Name);
+                }
+                await manager.DisposeAsync();
+                await Task.CompletedTask;
+                return Ok();
+            }
+            else
+            {
+                await manager.DisposeAsync();
+                await Task.CompletedTask;
+                return Unauthorized();
+            }
         }
     }   
 }
