@@ -18,7 +18,7 @@ namespace AseregeBarcelonaWeb.API
             return Ok(result.InsertRole(model));
         }
 
-        [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] Role model)
+      /*  [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] Role model)
         {            
             return Ok();
         }
@@ -26,6 +26,6 @@ namespace AseregeBarcelonaWeb.API
         [HttpDelete("{id}")] public IActionResult Delete(int id)
         {        
             return Ok();
-        }
+        }*/
     }
 }

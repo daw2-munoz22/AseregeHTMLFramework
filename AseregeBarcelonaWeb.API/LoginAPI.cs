@@ -31,16 +31,6 @@ namespace AseregeBarcelonaWeb.API
                 result.Dispose();
                 return Ok("Nombre de usuario o contraseña incorrectos");
             }                                                                                                  
-        }
-
-        [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] Authorize model)
-        {        
-            return Ok();
-        }
-
-        [HttpDelete("{id}")] public IActionResult Delete(int id)
-        {            
-            return Ok();
-        }
+        }    
     }
 }

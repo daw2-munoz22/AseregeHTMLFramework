@@ -39,12 +39,7 @@
                 {
                     <MudMenuItem OnClick="@(async(e) => await TravelTo("profile"))" Icon="@Icons.Material.Filled.Edit">Perfil</MudMenuItem>
                     <MudMenuItem OnClick="@(async(e) => await CloseSession())" Icon="@Icons.Material.Filled.Logout">Cerrar Sesión</MudMenuItem>
-                }
-                
-                
-                
-                                    
-                
+                }                                                                                                    
             </ChildContent>
         </MudMenu>
 
@@ -84,11 +79,11 @@
         @switch (SelectedPage)
         {
         case "blue":
-                <MainPage CurrentUser="@currentUser"></MainPage>
+                <MainPage OnRegister="HandleEvent" CurrentUser="@currentUser"></MainPage>
                 break;
-        case "register":
-            <Register></Register>
-            break;
+            case "register":
+                <Register OnRegister="HandleEvent"></Register>
+                break;
         case "login":
                 <MudPaper Class="pa-16 ma-2" Square="false" Elevation="3">
                     <MudTextField @bind-Value="Name" Label="Nombre de usuario" Variant="Variant.Text" />
@@ -141,8 +136,13 @@
 </MudLayout>
 @code
 {
-
-
+    private async Task HandleEvent(string data)
+    {
+        SelectedPage = data;
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+ 
     /// <summary>
     /// /ROUTER REAL PAGE
     /// </summary>

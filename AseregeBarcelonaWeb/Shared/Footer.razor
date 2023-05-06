@@ -1,8 +1,8 @@
-﻿<MudPaper Elevation="25" style="background-color:aquamarine;">
+﻿<MudPaper Class="pt-4 mt-4 mb-4" Elevation="8" style="background-color:aquamarine;">
     <MudToolBar>
-        <p>Edgar Muñoz Manjón</p>        
+        <MudText Typo="Typo.h5">Edgar Muñoz Manjón</MudText>
         <MudSpacer />
-        
+
         <MudLink OnClick="Count" Target="_blank" Href="@mailURL">
             <MudIconButton Icon="@Icons.Material.Filled.Email" Color="Color.Primary" aria-label="Gmail" />
         </MudLink>
@@ -13,7 +13,7 @@
 
         <MudLink OnClick="Count" Target="_blank" Href="https://www.linkedin.com/in/edgar-mu%C3%B1oz-98aab3226/">
             <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Primary" aria-label="Linkedin" />
-        </MudLink>              
+        </MudLink>
     </MudToolBar>
 </MudPaper>
 @code 

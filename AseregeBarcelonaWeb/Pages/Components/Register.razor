@@ -4,8 +4,13 @@
         <MudTextField @bind-Value="user.Apellido" T="string" Label="Apellido" />
         
         <MudNumericField @bind-Value="user.Edad" Label="Edad" Variant="Variant.Text" Min="0" />
-       
-        <MudTextField @bind-Value="user.Sexo" T="char" Label="Sexo" />
+               
+        <MudSelect @bind-Value="Sexo" T="string" Label="Sexo" AnchorOrigin="Origin.BottomCenter">
+            <MudSelectItem Value="@("Masculino")" />
+            <MudSelectItem Value="@("Femenine")" />            
+            <MudSelectItem Value="@("Otros")" />
+        </MudSelect>
+
         <MudTextField @bind-Value="user.Email" T="string" Label="Email" />
         <MudTextField @bind-Value="user.Telefono" T="string" Label="Telefono" />
 
@@ -21,16 +26,19 @@
         
         <MudTextField @bind-Value="PasswordRepeat" T="string" Label="Repetir Contraseña" />    
         <MudProgressLinear Color="@SecurityLevelColor" Rounded="true" Size="Size.Large" Value="@SecurityLevelPassword" />
-
-        @if (user.Nombre != null || user.Apellido != null || user.Edad < 1 || user.Sexo != '\0' || user.Email != null || user.Telefono != null || user.Passwordseguro != PasswordRepeat)
-        {    
+    
+        @if (user.Nombre != null || user.Apellido != null || user.Edad < 1 || !string.IsNullOrWhiteSpace(Sexo) || user.Email != null || user.Telefono != null || user.Passwordseguro != PasswordRepeat)    
+        {                        
             <MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="async(e) => await RegisterAsync()">Registrase</MudButton>
         }            
 </MudPaper>
 
 @code 
 {
+    
     private User user { get; set; } = new User();
+    private string Sexo { get; set; }
+
     private string PasswordRepeat { get; set; } = "";
     private bool isShow = false;
 
@@ -42,7 +50,7 @@
 
     //para hacer visible la contraseña
     void OnPasswordVisibleClick()
-    {
+    {        
         isShow = !isShow;
         switch (isShow)
         {
@@ -115,8 +123,14 @@
                 authorize.Password = user.Passwordseguro;
                 if (manager.GetUser(authorize)==null)
                 {
-                    user.Roles_idroles = 2;
-                    await manager.InsertUserAsync(user);
+                    user.Roles_idroles = (int)UserRole.User;                    
+                    user.Sexo = Sexo.ToCharArray()[0];
+                    string profile = await manager.InsertUserAsync(user);
+                    
+                    if (profile == "OK")
+                    {
+                        await RegisterData();
+                    }
                 }
                 else
                 {
@@ -135,5 +149,11 @@
         }
         StateHasChanged();
         await Task.CompletedTask;
+    }   
+    [Parameter] public EventCallback<string> OnRegister { get; set; }
+    private async Task RegisterData()
+    {
+        // Aquí se registra la información y se envía al componente padre        
+        await OnRegister.InvokeAsync("blue");
     }
 }

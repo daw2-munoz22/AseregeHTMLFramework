@@ -1,5 +1,4 @@
 ﻿using AseregeBarcelonaWeb.Manager;
-using AseregeBarcelonaWeb.Model.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

@@ -29,7 +29,7 @@ namespace AseregeBarcelonaWeb.API
 
         [HttpPut] public async Task<IActionResult> Put([FromBody] User model)
         {
-            using (Manager.MySQLManager manager = new Manager.MySQLManager())
+            using (MySQLManager manager = new MySQLManager())
             {
                 await manager.UpdateUserAsync(model.Nombre, model.Apellido, model.Edad, model.Sexo, model.Email,
                 model.Telefono, model.Passwordseguro, model.Roles_idroles, model.ID);
@@ -37,11 +37,11 @@ namespace AseregeBarcelonaWeb.API
             return NoContent();
         }
 
-    /*    [HttpDelete("{id}")] public async Task<IActionResult> Delete([FromBody] User model, Authorize role)
-        {
-            Manager.MySQLManager manager = new Manager.MySQLManager();
+        [HttpDelete("{id}")] public async Task<IActionResult> Delete([FromBody] Authorize admin)
+        {            
+            MySQLManager manager = new MySQLManager();
             
-            User user = manager.GetUser(role);
+            User user = manager.GetUser(admin);
 
             if (user.Roles_idroles == (int)UserRole.Administrator)
             {
@@ -54,12 +54,6 @@ namespace AseregeBarcelonaWeb.API
                 await manager.DisposeAsync();
                 return Unauthorized();
             }            
-        }
-    */
-    }
-
-    public class MyModel
-    {
-    
+        }    
     }
 }

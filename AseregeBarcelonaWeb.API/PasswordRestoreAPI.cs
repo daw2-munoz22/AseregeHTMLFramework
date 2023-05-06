@@ -30,18 +30,7 @@ namespace AseregeBarcelonaWeb.API
             return NotFound();
 
         }
-
-        [HttpPut("{id}")] public IActionResult Put(int id, [FromBody] Authorize model)
-        {
-            // TODO: Handle PUT request
-            return Ok();
-        }
-
-        [HttpDelete("{id}")] public IActionResult Delete(int id)
-        {            
-            return Ok();
-        }
-
+      
         //api para el reenvio del correo
         private async Task SendMail(string emailAddress)
         {

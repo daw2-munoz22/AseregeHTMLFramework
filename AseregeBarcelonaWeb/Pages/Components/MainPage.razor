@@ -64,22 +64,41 @@
 {    
     @if (CurrentUser.Roles_idroles == (int)UserRole.Administrator)
     {
-        <MudFab OnClick="async(e) => await SeeText()" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Edit" />
+        <MudPaper Elevation="25">
+            <MudToolBar>
+                <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Class="mr-5" />
+                <MudIconButton Icon="@Icons.Material.Outlined.Add" />
+                <MudIconButton OnClick="async(e) => await SwapEditorMode()" Icon="@Icons.Material.Outlined.Edit" />
+                <MudIconButton Icon="@Icons.Material.Outlined.Remove" Color="Color.Inherit" />
+                <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Inherit" />
+                <MudSpacer />
+                <MudIconButton Icon="@Icons.Material.Outlined.Notifications" />
+                <MudIconButton Icon="@Icons.Material.Outlined.PushPin" />
+                <MudIconButton OnClick="async(e) => await RegisterData()" Icon="@Icons.Material.Outlined.PeopleAlt" />
+                <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="Color.Inherit" />
+            </MudToolBar>
+        </MudPaper>        
     }
 }
 
 @if (!EditorEnabled)
-{    
-    <MudGrid>
-        @foreach (Picture item in Pictures.ToArray())
-        {
-            string Text = $"{item.TextInfo}";
-            <MudItem xs="12" sm="12" md="12" lg="6">
-
-                <PictureCard Altered="parc güell" Image="@item.Data" Text="@Text" />
-            </MudItem>                    
-        }                
-    </MudGrid>    
+{
+    @if (collection == null || collection.Length < 1)
+    {
+        <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />      
+    }
+    else
+    {        
+        <MudGrid>
+            @foreach (Picture item in collection)
+            {
+                string Text = $"{item.TextInfo}";
+                <MudItem xs="12" sm="12" md="12" lg="6">
+                    <PictureCard Image="@item.Data" Text="@Text" />
+                </MudItem>
+            }
+        </MudGrid>
+    }
 }
 else
 {    
@@ -90,12 +109,21 @@ else
 
 @code
 {
+    [Parameter] public EventCallback<string> OnRegister { get; set; }
+    private async Task RegisterData()
+    {        
+        await OnRegister.InvokeAsync("admin");
+    }
+
     private bool EditorEnabled = false;    
     private List<Picture> Pictures = new List<Picture>();
     [Parameter] public User CurrentUser { get; set; }
     private int selectedIndex = 1;
 
-    private async Task SeeText()
+    /*ESTE ES LA GALERIA A DIBUJAR*/
+    private Picture[] collection;
+
+    private async Task SwapEditorMode()
     {
         EditorEnabled = !EditorEnabled;
         StateHasChanged();
@@ -110,7 +138,9 @@ else
         {
             Picture element = await manager.SelectPicturesByIDAsync(i);
             Pictures.Add(element);
-        }                        
+        }  
+        collection = Pictures.ToArray();
+
         await manager.DisposeAsync();
         
         selectedIndex = 1;
