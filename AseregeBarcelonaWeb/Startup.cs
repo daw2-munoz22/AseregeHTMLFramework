@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using MudBlazor;
 using MudBlazor.Services;
 
@@ -26,10 +27,11 @@ namespace AseregeBarcelonaWeb
             services.AddMvc(); //añadir el Modelo - Vista - Controlador (APIs)
 			services.AddControllers(); //añadir controladores adicionales
             services.AddServerSideBlazor(); //añadir el servidor de blazor			
-            
-            services.AddScoped<AseregeBarcelonaWeb.Pages.Index>();
 
-			services.AddCors(options =>
+            //services.AddScoped<AseregeBarcelonaWeb.Pages.Index>();
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "AseregeBarcelonaWebAPI", Version = "v1" });});
+
+            services.AddCors(options =>
             {                
                 options.AddPolicy("AllowAll", builder =>
 				{
@@ -52,8 +54,11 @@ namespace AseregeBarcelonaWeb
         }
 		
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-		{
-			if (env.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "AseregeBarcelonaWebAPI"); });
+           
+            if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}

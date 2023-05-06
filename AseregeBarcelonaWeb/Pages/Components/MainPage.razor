@@ -126,6 +126,7 @@ else
     private async Task SwapEditorMode()
     {
         EditorEnabled = !EditorEnabled;
+
         StateHasChanged();
         await Task.CompletedTask;
     }

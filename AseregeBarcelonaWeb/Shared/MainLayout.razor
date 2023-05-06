@@ -53,7 +53,7 @@
             <MudNavMenu Class="mud-width-full">
                 <MudText Typo="Typo.h6" Class="px-4">Barcelona Web</MudText>
                 <MudDivider Class="my-2" />
-                <MudNavLink OnClick="@(async(e) => await TravelTo("api"))" Icon="@Icons.Material.Filled.Dashboard">Peticiones JSON</MudNavLink>                                                                                
+                <MudNavLink Href="/swagger" Icon="@Icons.Material.Filled.Dashboard">Peticiones JSON</MudNavLink>
                 <MudNavLink OnClick="@(async(e) => await TravelTo("blue"))" Icon="@Icons.Material.Filled.People" IconColor="Color.Info">Home</MudNavLink>
                     
                 @if (currentUser != null)

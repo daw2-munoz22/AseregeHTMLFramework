@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static Org.BouncyCastle.Bcpg.Attr.ImageAttrib;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AseregeBarcelonaWeb.Manager
 {
@@ -135,46 +136,7 @@ namespace AseregeBarcelonaWeb.Manager
         }
 
 
-       /* public string InsertUser(User user)
-        {
-            CreateTables();
-            //el @  representa los parametros
-            string query = "INSERT INTO usuarios (nombre, apellido, edad,sexo,email,telefono,passwordseguro, roles_idroles) " +
-                "VALUES (@nombre, @apellido, @edad, @sexo, @email, @telefono, @passwordseguro, @roles_idroles)";
-            MySqlCommand command = new MySqlCommand(query, connection);
-
-            if (user != null)
-            {
-                command.Parameters.AddWithValue("@nombre", user.Nombre);
-                command.Parameters.AddWithValue("@apellido", user.Apellido);
-                command.Parameters.AddWithValue("@edad", user.Edad);
-                command.Parameters.AddWithValue("@sexo", user.Sexo.ToString());
-                command.Parameters.AddWithValue("@email", user.Email);
-                command.Parameters.AddWithValue("@telefono", user.Telefono);
-                command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(user.Passwordseguro));
-                command.Parameters.AddWithValue("@roles_idroles", user.Roles_idroles);
-
-                try
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    Dispose();
-                    return "OK";
-                }
-                catch (MySqlException ex)
-                {
-                    Dispose();
-                    return $"Error inserting the user: {ex.Message}";
-                }
-            }
-            else
-            {
-                Dispose();
-                return $"Ilegal user !";
-            }
-        }*/
-
-        public string InsertRole(Role role)
+        public async Task<string> InsertRoleAsync(Role role)
         {
             CreateTables();
 
@@ -187,8 +149,8 @@ namespace AseregeBarcelonaWeb.Manager
 
                 try
                 {
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
                     Dispose();
                     return "OK";
                 }
@@ -201,10 +163,10 @@ namespace AseregeBarcelonaWeb.Manager
             else
             {
                 Dispose();
-                return $"Ilegal role !";
+                return $"Illegal role!";
             }
-
         }
+        
         public User GetUser(Authorize user)
         {
             string query = "SELECT * FROM usuarios WHERE Nombre = @Nombre AND passwordseguro = @passwordseguro;";
@@ -332,6 +294,34 @@ namespace AseregeBarcelonaWeb.Manager
             }
             return Users;
         }
+
+        public async Task<List<Role>> SelectRolesAsync()
+        {
+            string query = "SELECT * FROM roles;";
+            await connection.OpenAsync();
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+
+            List<Role> roleList = new List<Role>();
+            using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    Role user = new Role()
+                    {
+                        Idroles = (int)reader[0],
+                        Nombre = (string)reader[1],
+                        Type = (int)reader[2]
+               
+                    };
+                    roleList.Add(user);
+                }
+
+            }
+            await Task.CompletedTask;
+            return roleList;
+        }
+
 
 
         public async Task UpdateUserAsync(string nombre, string apellido, int edad, char sexo, string email, string telefono, string passwordseguro, int Roles_idroles, int idUsers)
