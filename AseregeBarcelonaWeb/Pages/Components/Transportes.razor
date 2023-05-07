@@ -1,6 +1,8 @@
-﻿<h3>Transportes</h3>
+﻿<MudText Class="pt-4 mt-4" Typo="Typo.h4">Transportes</MudText>
+
 <MudLink Target="_blank" Href="https://www.trenscat.cat/">Transportes</MudLink>
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d79965.21656046658!2d2.07023247507779!3d41.39017125657571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona!5e0!3m2!1ses!2ses!4v1681565921119!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
 
 <MudText style="font-family: 'Quattrocento', serif;" Align="Align.Center" Typo="Typo.h4">Plaça d'Espanya de Barcelona</MudText>
 
@@ -257,7 +259,10 @@
 <!--<iframe width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>-->
 
 
-@code {
-	
+@code
+{
+    
+        [Parameter] public User CurrentUser { get; set; }
+
 
 }

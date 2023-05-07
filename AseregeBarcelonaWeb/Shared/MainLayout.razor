@@ -100,16 +100,16 @@
                 </MudPaper>
             break;
         case "pink":                 
-            <Transportes></Transportes>
+            <Transportes CurrentUser="@currentUser"></Transportes>
             break;
         case "red":
-            <Visitas></Visitas>
+                <Visitas CurrentUser="@currentUser"></Visitas>
             break;
         case "orange":
             <QuienesSomos></QuienesSomos>
             break;
         case "profile":
-                <VerPerfil></VerPerfil>
+                <VerPerfil CurrentUser="@currentUser"></VerPerfil>
                 break;
             case "admin":
                 if (currentUser.Roles_idroles == (int)UserRole.Administrator)

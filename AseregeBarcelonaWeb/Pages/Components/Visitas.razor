@@ -1,14 +1,50 @@
 ﻿@using System.IO;
-<h3>Visitas</h3>
+<MudText Class="pt-4 mt-4" Typo="Typo.h4">Visitas</MudText>
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d79965.21656046658!2d2.07023247507779!3d41.39017125657571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona!5e0!3m2!1ses!2ses!4v1681565921119!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+       
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d79965.21656046658!2d2.07023247507779!3d41.39017125657571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona!5e0!3m2!1ses!2ses!4v1681565921119!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>    
+@if (CurrentUser != null && CurrentUser.Roles_idroles == (int)UserRole.Administrator)
+{
+ 
+}
+else
+{
+    
+}
 <img src="@PictureImage" />
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudAvatar Color="Color.Secondary">I</MudAvatar>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body1">Istra Croatia</MudText>
+            <MudText Typo="Typo.body2">Peninsula in Europe</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardMedia Image="images/pilars.jpg" Height="250" />
+    <img src="@PictureImage" />
+    <MudCardContent>
+        <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" />
+        <MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Default" />
+    </MudCardActions>
+</MudCard>
 <MudPaper Class="pa-2 pt-2 mt-4" Elevation="3"><iframe src="@VideoUrl" /></MudPaper>
 
 <InputFile OnChange="HandleSeleccionArchivo" multiple />
 
 @code
 {
+
+    [Parameter] public User CurrentUser { get; set; }
+
     public string VideoUrl { get; set; } = "https://www.youtube.com/embed/u5-kia2bzpQ";
     private Picture PictureImage { get; set; }
     protected override async Task OnInitializedAsync()
