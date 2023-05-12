@@ -75,7 +75,9 @@ sudo apt-get update; sudo apt-get install -y dotnet-sdk-6.0 aspnetcore-runtime-6
 dotnet --version
 ```
 2: Ejecutar el instalador de Aserege.
+
 3: Inciamos el demonio
+
 4: Abrimos el servidor
 
 ## Licensing
