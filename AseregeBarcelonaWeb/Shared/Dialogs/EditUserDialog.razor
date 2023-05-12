@@ -1,0 +1,139 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="User.Nombre" T="string" Label="Nombre" />
+        <MudTextField @bind-Value="User.Apellido" T="string" Label="Apellido" />
+        
+        <MudNumericField @bind-Value="User.Edad" Label="Edad" Variant="Variant.Text" Min="0" />
+       
+        <MudTextField @bind-Value="User.Sexo" T="char" Label="Sexo" />
+        <MudTextField @bind-Value="User.Email" T="string" Label="Email" />
+        <MudTextField @bind-Value="User.Telefono" T="string" Label="Telefono" />
+
+        <MudTextField @bind-Value="User.Passwordseguro"
+                      Label="Password"
+                      Variant="Variant.Text"
+                      InputType="@PasswordVisibility"
+                      Adornment="Adornment.End"
+                      AdornmentIcon="@IconVisibility"
+                      OnAdornmentClick="OnPasswordVisibleClick" 
+                      AdornmentAriaLabel="Mostrar contraseña">
+        </MudTextField>
+        
+        <MudTextField @bind-Value="PasswordRepeat" T="string" Label="Repetir Contraseña" />
+
+        @if (PasswordRepeat == User.Passwordseguro)                
+        {
+            <MudProgressLinear Color="Color.Error" Size="Size.Medium" Value="@(GetPasswordSecurityScore(PasswordRepeat))" Class="my-7">
+                <MudText Typo="Typo.subtitle1" Color="Color.Dark">
+                    <b>@GetPasswordSecurityScore(PasswordRepeat)%</b>
+                </MudText>
+            </MudProgressLinear>                
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>                  
+        @if (PasswordRepeat == User.Passwordseguro && !String.IsNullOrEmpty(User.Nombre) && !String.IsNullOrEmpty(User.Apellido))
+        {
+            <MudButton Color="Color.Primary" OnClick="@(async(e) => await Submit())">Ok</MudButton>
+        }
+    </DialogActions>
+</MudDialog>
+
+@code 
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public User User { get; set; }
+    private string PasswordRepeat { get; set; } = "";
+
+    private bool PasswordVisible = false;
+    private string IconVisibility { get; set; } = Icons.Material.Filled.VisibilityOff;
+    private InputType PasswordVisibility { get; set; } = InputType.Password;
+
+
+
+    public int GetPasswordSecurityScore(string password)
+    {
+        int score = 0;
+        bool hasUpper = false, hasLower = false, hasNumber = false, hasSymbol = false;
+        int upperCount = 0, lowerCount = 0, numberCount = 0, symbolCount = 0;
+
+        // La contraseña debe tener al menos 8 caracteres
+        if (password.Length >= 16)
+        {
+            score += 25;
+        }
+
+        // Recorre cada carácter de la contraseña
+        foreach (char c in password)
+        {
+            if (char.IsUpper(c))
+            {
+                hasUpper = true;
+                upperCount++;
+            }
+            else if (char.IsLower(c))
+            {
+                hasLower = true;
+                lowerCount++;
+            }
+            else if (char.IsDigit(c))
+            {
+                hasNumber = true;
+                numberCount++;
+            }
+            else if (char.IsSymbol(c) || char.IsPunctuation(c))
+            {
+                hasSymbol = true;
+                symbolCount++;
+            }
+        }
+
+        // La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un símbolo
+        if (hasUpper && hasLower && hasNumber && hasSymbol)
+        {
+            score += 25;
+        }
+
+        // La contraseña debe tener letras intercaladas
+        if (upperCount > 0 && lowerCount > 0)
+        {
+            score += 25;
+        }
+
+        // La contraseña debe tener al menos un símbolo especial
+        if (symbolCount > 0)
+        {
+            score += 25;
+        }
+
+        return score;
+    }
+
+
+
+
+    private async Task Submit()
+    {
+        if (User.Passwordseguro == PasswordRepeat && User.Passwordseguro.Length > 4 && PasswordRepeat.Length > 4)
+        {           
+            MudDialog.Close(DialogResult.Ok(User));
+        }                        
+    }
+
+    void Cancel() => MudDialog.Cancel();
+
+    private void OnPasswordVisibleClick()
+    {
+
+        PasswordVisible = !PasswordVisible;
+        IconVisibility = PasswordVisible ? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility;
+        PasswordVisibility = PasswordVisible ? InputType.Password : InputType.Text;        
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        User.Passwordseguro = String.Empty;
+        return base.OnParametersSetAsync();
+    }    
+}

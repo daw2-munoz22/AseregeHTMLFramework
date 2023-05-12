@@ -1,0 +1,12 @@
+﻿<MudCard>
+    <MudCardMedia Class="pt-4 mt-4" Image="@Image" Height="200" />
+    <MudCardContent>        
+        <MudText Typo="Typo.body2">@Text</MudText>        
+    </MudCardContent>    
+</MudCard>
+
+@code 
+{
+    [Parameter] public string Image { get; set; }
+    [Parameter] public string Text { get; set; }        
+}

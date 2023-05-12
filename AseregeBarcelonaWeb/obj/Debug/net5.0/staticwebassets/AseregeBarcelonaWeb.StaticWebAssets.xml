@@ -1,4 +1,0 @@
-﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb\obj\Debug\net5.0\scopedcss\bundle\" />
-  <ContentRoot BasePath="_content/MudBlazor" Path="C:\Users\Edgar Muñoz\.nuget\packages\mudblazor\5.2.5\build\..\staticwebassets\" />
-</StaticWebAssets>

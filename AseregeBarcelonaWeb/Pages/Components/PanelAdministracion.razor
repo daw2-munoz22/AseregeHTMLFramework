@@ -1,0 +1,205 @@
+﻿<MudText Typo="Typo.h3" Class="mt-4">Panel de Administración</MudText>
+    
+@if (user != null)
+{
+    @if (user.Roles_idroles == (int)UserRole.Administrator)
+    {               
+        @if (!Loading)
+        {
+            <MudTable Items="@UserList.ToArray()" Dense="true" Hover="true" Bordered="true" Striped="true">
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>Nombre</MudTh>
+                    <MudTh>Apellido</MudTh>
+                    <MudTh>Edad</MudTh>
+                    <MudTh>Sexo</MudTh>
+                    <MudTh>Email</MudTh>
+                    <MudTh>Telefono</MudTh>
+                    <MudTh>Contraseña</MudTh>
+                    <MudTh>Rol</MudTh>
+                    <MudTh>Editar</MudTh>
+                    <MudTh>Borrar</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Id">@context.ID</MudTd>
+                    <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
+                    <MudTd DataLabel="Apellido">@context.Apellido</MudTd>
+                    <MudTd DataLabel="Edad">@context.Edad</MudTd>
+                    <MudTd DataLabel="Sexo">@context.Sexo</MudTd>
+                    <MudTd DataLabel="Email">@context.Email</MudTd>
+                    <MudTd DataLabel="Telefono">@context.Telefono</MudTd>
+                    <MudTd DataLabel="Contraseña">SECRETO ***</MudTd>
+                    <MudTd DataLabel="Rol">@context.Roles_idroles</MudTd>
+                    <MudTd DataLabel="Editar">
+                        <MudFab OnClick="@(async(e) => await OnEditUser(@context))" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" />
+                    </MudTd>
+                    <MudTd DataLabel="Borrar">
+                        <MudFab OnClick="@((async) => OnDelete(@context.ID))" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever" />
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        else
+        {
+            <MudText Typo="Typo.h4">Connectando con la base de datos ...</MudText>
+            <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
+
+        }
+
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Filled">Acceso denegado</MudAlert>
+        
+    }
+}
+else
+{
+    Navigation.NavigateTo("/");
+}
+
+@code 
+{
+    private List<User> UserList;
+    private bool Loading = true;
+    private User user;
+
+    private async Task LoadUsers()
+    {        
+        await Task.Yield(); //esto es para cargar un hilo
+
+        using (Manager.MySQLManager mySQLManager = new Manager.MySQLManager())
+        {
+            UserList = await mySQLManager.SelectUsersAsync();
+        }
+        Loading = false;
+        StateHasChanged();
+    }
+
+    private async Task DeleteAsync(int indentificator)
+    {
+        await Task.Yield();
+
+        Manager.MySQLManager connection = new Manager.MySQLManager();
+        {
+            User user = UserList.Find(x => x.ID == indentificator);
+            if (user != null && user.Roles_idroles != (int)UserRole.Administrator)
+            {
+                await connection.DeleteUserAsync(indentificator);
+                SnackbarService.Add("Usuario eliminado con exito", Severity.Success);
+            }
+            else
+            {
+                SnackbarService.Add("Los administradores no se pueden eliminar", Severity.Error);
+            }
+
+        }
+        _ = LoadUsers();
+    }
+
+    private async Task EditAsync()
+    {
+        await Task.Yield();
+        Manager.MySQLManager connection = new Manager.MySQLManager();
+        {
+            //await connection.EditUserAsync();
+        }
+        _ = LoadUsers();
+    }
+
+    //Crear una tarea sincrona cuya función llama a una tarea asincronica, 
+    //cuyo objetivo es conectarse a la base de datos y ejecutar la consulta del Delete User Where ID = @parametro
+    private Task OnDelete(int indentificator)
+    {
+        Loading = true;
+        StateHasChanged();
+        _ = DeleteAsync(indentificator); //Ignorar la tarea borrar una vez se haya acabado el ciclo (resultado sea diferente de NULL)     
+        return Task.CompletedTask;
+    }
+
+    private async Task OnEditUser(User user)
+    {
+
+        //creación del dialogo (ficha para editar perfil)        
+
+        DialogOptions options = new DialogOptions() 
+        {
+            CloseOnEscapeKey = true 
+        };
+
+        DialogParameters parameter = new DialogParameters()
+        {
+               {
+                   "User", user
+               }
+        };
+
+        DialogResult result = await DialogService.Show<EditUserDialog>("Editar usuario", parameter, options).Result;
+        if (!result.Canceled)
+        {
+            //En la variable UserInfo (es de clase User), 
+            //almaceno los datos del result.Data (if true) convertido en un objeto User. En caso contrario, crear una nueva instancia de ese Objeto.
+            User UserInfo = (User)(result.Data ?? default(User)); 
+            using (Manager.MySQLManager mySQLManager = new Manager.MySQLManager())
+            {
+                /*INCOMPLETO*/
+                await mySQLManager.UpdateUserAsync(UserInfo.Nombre, UserInfo.Apellido, UserInfo.Edad, UserInfo.Sexo, UserInfo.Email, UserInfo.Telefono, UserInfo.Passwordseguro, UserInfo.Roles_idroles, UserInfo.ID);
+            }
+
+        }       
+    }    
+    protected override Task OnInitializedAsync()
+    {
+        Loading = true;
+        _ = LoadUsers();
+
+        return base.OnInitializedAsync();
+    }
+ 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    { 
+        string nombre = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name");            
+        string Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password");
+
+        if (!firstRender)
+        {          
+        }
+        else
+        {                      
+            Authorize UserAuthorize = new Authorize()
+                {
+                    Name = nombre,
+                    Password = Password
+                };
+
+            //Comprobar si el usuario es correcto (autenticado) o no. Si es true, tiene los permisos , en caso contrario, se comprueba si el usuario existe para poder acceder a la web
+            //Pd: El usuario que NO sea administrador, tiene Acceso denegado al panel de administración
+
+            bool IsNull = String.IsNullOrWhiteSpace(UserAuthorize.Name) | String.IsNullOrWhiteSpace(UserAuthorize.Password);
+            if (!IsNull)
+            {
+                Manager.MySQLManager mySQLManager = new Manager.MySQLManager();
+                {
+                    bool EsValido = mySQLManager.Login(UserAuthorize);
+                    user = mySQLManager.GetUser(UserAuthorize);
+                    if (EsValido && user.Roles_idroles == (int)UserRole.Administrator)
+                    {
+                        EsValido = true;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error");
+            }
+
+            StateHasChanged();
+
+            await Task.CompletedTask;
+        }
+    }
+    
+}

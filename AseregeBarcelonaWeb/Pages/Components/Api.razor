@@ -1,0 +1,16 @@
+﻿
+@foreach (string classname in GetAllClasses())
+{
+    <p>@classname</p>
+    <br />
+}
+
+@code 
+{
+    private static List<string> list = new List<string>();
+    private static List<string> GetAllClasses()
+    {               
+        list = System.IO.File.ReadAllLines("controller.API").ToList();  
+        return list;        
+    }    
+}

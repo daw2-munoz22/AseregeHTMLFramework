@@ -1,0 +1,240 @@
+﻿<style type="text/css">
+
+    .bounceIn {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: bounceIn;
+        animation-fill-mode: forwards;
+    }
+
+    .bounceOut {
+        animation-duration: 0.5s;
+        animation-name: bounceOut;
+        animation-fill-mode: forwards;
+    }
+
+    .backInDown {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: backInDown;
+        animation-fill-mode: forwards;
+    }
+
+    .backOutDown {
+        animation-duration: 0.5s;
+        animation-name: backOutDown;
+        animation-fill-mode: forwards;
+    }
+
+    .rotateIn {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: rotateIn;
+        animation-fill-mode: forwards;
+    }
+
+    .rotateOut {
+        animation-duration: 0.5s;
+        animation-name: rotateOut;
+        animation-fill-mode: forwards;
+    }
+</style>
+
+<MudCarousel Class="mud-width-full" Style="height:200px;" ShowArrows="true" @bind-SelectedIndex="selectedIndex" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="false" TData="object">
+    @foreach (Picture item in Pictures.ToArray())        
+    {
+        <MudCarouselItem Transition="Transition.Slide" Color="@Color.Primary">        
+            <div class="d-flex justify-center">
+                <MudImage
+                    ObjectFit="ObjectFit.Fill"
+                    Height="300" Width="1920"
+                    Src="@item.Data" 
+                    Alt="@item.TextInfo"
+                    Elevation="25" 
+                    Class="rounded-lg" />
+            </div>           
+        </MudCarouselItem>    
+    }
+</MudCarousel>
+
+@if (CurrentUser != null)
+{    
+    @if (CurrentUser.Roles_idroles == (int)UserRole.Administrator)
+    {
+        <MudPaper Elevation="25">
+            <MudToolBar>
+                <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Class="mr-5" />
+                <MudIconButton Icon="@Icons.Material.Outlined.Add" />
+                <MudIconButton OnClick="async(e) => await SwapEditorMode()" Icon="@Icons.Material.Outlined.Edit" />
+                <MudIconButton Icon="@Icons.Material.Outlined.Remove" Color="Color.Inherit" />
+                <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Inherit" />
+                <MudSpacer />
+                <MudIconButton Icon="@Icons.Material.Outlined.Notifications" />
+                <MudIconButton Icon="@Icons.Material.Outlined.PushPin" />
+                <MudIconButton OnClick="async(e) => await RegisterData()" Icon="@Icons.Material.Outlined.PeopleAlt" />
+                <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="Color.Inherit" />
+            </MudToolBar>
+        </MudPaper>        
+    }
+}
+
+@if (collection == null || collection.Length < 1)
+{
+    <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />      
+}
+else
+{        
+    <MudGrid>
+        @foreach (Picture item in collection)
+        {
+            string Text = $"{item.TextInfo}";
+            <MudItem xs="12" sm="12" md="12" lg="6">
+                <PictureCard Image="@item.Data" Text="@Text" />
+                @if (EditorEnabled && CurrentUser.Roles_idroles == (int)UserRole.Administrator)            
+                {                  
+                    <MudPaper Elevation="25">
+                        <MudToolBar>
+                            <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                                <ButtonTemplate>
+                                    <MudFab HtmlTag="label"
+                                            Class="mb-4"
+                                            Color="Color.Secondary"
+                                            StartIcon="@Icons.Material.Filled.Image"
+                                            Label="Load picture" for="@context" />
+                                </ButtonTemplate>
+                            </MudFileUpload>
+                            <MudButton Class="mb-2 ml-4" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+                        </MudToolBar/>
+                    </MudPaper>                    
+                }
+            </MudItem>        
+        }
+        
+    </MudGrid>
+}
+
+
+
+
+@code
+{
+
+    private async Task  UploadFiles(IBrowserFile file)
+    {        
+        if (file.ContentType.StartsWith("image/"))
+        {
+            using (Manager.MySQLManager manager = new Manager.MySQLManager())
+            {
+                //escribe en el memory stream ms el fichero recibido y máximo 8MB
+                using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+                {
+                    ms.Position = 0;
+                        
+                    await file.OpenReadStream(8388608, default).CopyToAsync(ms);
+
+                    ms.Position = 0;
+                    DateTime Date = DateTime.Now;
+                    //escribir en la base de datos el stream procesado en la RAM
+
+                    Picture picture = new Picture()
+                    {
+                        Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name),
+                        Format = file.ContentType,
+                        Date = file.LastModified.ToLocalTime().DateTime,
+                        Data = Convert.ToBase64String(ms.ToArray()),
+                        Authorize = new Authorize()
+                        {
+                            Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
+                            Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
+                        }
+                    };
+                    await manager.InsertFile(picture);
+                    await Task.CompletedTask;
+                }
+            }
+        }        
+        await Task.CompletedTask;
+    }
+
+
+    [Parameter] public EventCallback<string> OnRegister { get; set; }
+    private async Task RegisterData()
+    {        
+        await OnRegister.InvokeAsync("admin");
+    }
+
+    private bool EditorEnabled = false;    
+    private List<Picture> Pictures = new List<Picture>();
+    [Parameter] public User CurrentUser { get; set; }
+    private int selectedIndex = 1;
+
+    /*ESTE ES LA GALERIA A DIBUJAR*/
+    private Picture[] collection;
+
+    private async Task SwapEditorMode()
+    {
+        EditorEnabled = !EditorEnabled;
+
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+    protected override async Task OnInitializedAsync()
+    {                
+        Manager.MySQLManager manager = new Manager.MySQLManager();
+
+        long count = await manager.SelectCountImages();        
+        for (int i = 1; i < count+1; i++)
+        {
+            Picture element = await manager.SelectPicturesByIDAsync(i);
+            Pictures.Add(element);
+        }  
+        collection = Pictures.ToArray();
+
+        await manager.DisposeAsync();
+        
+        selectedIndex = 1;
+        await base.OnInitializedAsync();
+    }          
+        
+    /*private async Task HandleSeleccionArchivo(InputFileChangeEventArgs e)        
+    {
+        foreach (IBrowserFile file in e.GetMultipleFiles())
+        {
+            if (file.ContentType.StartsWith("image/"))
+            {
+                using (Manager.MySQLManager manager = new Manager.MySQLManager())
+                {
+                    //escribe en el memory stream ms el fichero recibido y máximo 8MB
+                    using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+                    {
+                        ms.Position = 0;
+                        
+                        await file.OpenReadStream(8388608, default).CopyToAsync(ms);
+
+                        ms.Position = 0;
+                        DateTime Date = DateTime.Now;
+                        //escribir en la base de datos el stream procesado en la RAM
+
+                        Picture picture = new Picture()
+                        {
+                            Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name),
+                            Format = file.ContentType,
+                            Date = file.LastModified.ToLocalTime().DateTime,
+                            Data = Convert.ToBase64String(ms.ToArray()),
+                            Authorize = new Authorize()
+                            {
+                                Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
+                                Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
+                            }
+                        };
+                        await manager.InsertFile(picture);
+                        await Task.CompletedTask;
+                    }
+                }
+            }
+        }
+    }*/
+}

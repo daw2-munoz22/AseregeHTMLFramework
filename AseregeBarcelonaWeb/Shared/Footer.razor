@@ -1,0 +1,36 @@
+﻿<MudPaper Class="pt-4 mt-4 mb-4" Elevation="8" style="background-color:aquamarine;">
+    <MudToolBar>
+        <MudText Typo="Typo.h5">Edgar Muñoz Manjón</MudText>
+        <MudSpacer />
+
+        <MudLink OnClick="Count" Target="_blank" Href="@mailURL">
+            <MudIconButton Icon="@Icons.Material.Filled.Email" Color="Color.Primary" aria-label="Gmail" />
+        </MudLink>
+
+        <MudLink OnClick="Count" Target="_blank" Href="https://github.com/daw2-munoz22">
+            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Primary" aria-label="Github" />
+        </MudLink>
+
+        <MudLink OnClick="Count" Target="_blank" Href="https://www.linkedin.com/in/edgar-mu%C3%B1oz-98aab3226/">
+            <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Primary" aria-label="Linkedin" />
+        </MudLink>
+    </MudToolBar>
+</MudPaper>
+@code 
+{
+    private string mailURL { get; set; } = string.Empty;
+    private async Task Count()
+    {
+        await Task.CompletedTask;
+
+    }
+    protected override Task OnInitializedAsync()
+    {
+       
+
+        /*LUEGO EN JS*/                   
+     //   mailURL = $"mailto:edgarmunozmanjon@gmail.com?subject={users.Email}&body=";
+                
+        return base.OnInitializedAsync();
+    }
+}

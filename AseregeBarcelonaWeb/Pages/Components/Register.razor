@@ -1,0 +1,159 @@
+﻿<MudPaper Class="pa-16 ma-2" Square="false" Elevation="3">
+	
+        <MudTextField @bind-Value="user.Nombre" T="string" Label="Nombre" />
+        <MudTextField @bind-Value="user.Apellido" T="string" Label="Apellido" />
+        
+        <MudNumericField @bind-Value="user.Edad" Label="Edad" Variant="Variant.Text" Min="0" />
+               
+        <MudSelect @bind-Value="Sexo" T="string" Label="Sexo" AnchorOrigin="Origin.BottomCenter">
+            <MudSelectItem Value="@("Masculino")" />
+            <MudSelectItem Value="@("Femenine")" />            
+            <MudSelectItem Value="@("Otros")" />
+        </MudSelect>
+
+        <MudTextField @bind-Value="user.Email" T="string" Label="Email" />
+        <MudTextField @bind-Value="user.Telefono" T="string" Label="Telefono" />
+
+        <MudTextField @bind-Value="user.Passwordseguro"
+                      Label="Password"
+                      Variant="Variant.Text"
+                      InputType="@PasswordInput"
+                      Adornment="Adornment.End"
+                      AdornmentIcon="@PasswordInputIcon"
+                      OnAdornmentClick="OnPasswordVisibleClick" 
+                      AdornmentAriaLabel="Mostrar contraseña">
+        </MudTextField>
+        
+        <MudTextField @bind-Value="PasswordRepeat" T="string" Label="Repetir Contraseña" />    
+        <MudProgressLinear Color="@SecurityLevelColor" Rounded="true" Size="Size.Large" Value="@SecurityLevelPassword" />
+    
+        @if (user.Nombre != null || user.Apellido != null || user.Edad < 1 || !string.IsNullOrWhiteSpace(Sexo) || user.Email != null || user.Telefono != null || user.Passwordseguro != PasswordRepeat)    
+        {                        
+            <MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="async(e) => await RegisterAsync()">Registrase</MudButton>
+        }            
+</MudPaper>
+
+@code 
+{
+    
+    private User user { get; set; } = new User();
+    private string Sexo { get; set; }
+
+    private string PasswordRepeat { get; set; } = "";
+    private bool isShow = false;
+
+    private int SecurityLevelPassword = 0;
+    private Color SecurityLevelColor = Color.Default;
+    private InputType PasswordInput = InputType.Password;
+    private string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+    private PasswordSecurityLevel passSecure;
+
+    //para hacer visible la contraseña
+    void OnPasswordVisibleClick()
+    {        
+        isShow = !isShow;
+        switch (isShow)
+        {
+            case false:                
+                PasswordInputIcon = Icons.Material.Filled.Visibility;
+                PasswordInput = InputType.Text;
+                break;
+            case true:                
+                PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+                PasswordInput = InputType.Password;
+                break;
+        }
+    }
+
+    void ChangeVariant(string message, Variant variant)
+    {
+
+        SnackbarService.Add($"Normal {message}", Severity.Normal);
+        SnackbarService.Add($"Info {message}", Severity.Info);
+        SnackbarService.Add($"Success {message}", Severity.Success);
+        SnackbarService.Add($"Warning {message}", Severity.Warning);
+        SnackbarService.Add($"Error {message}", Severity.Error);
+    }
+
+
+    private async Task RegisterAsync()
+    {                
+        SnackbarService.Configuration.MaxDisplayedSnackbars = 5;
+
+        if (PasswordRepeat == user.Passwordseguro)
+        {                       
+            PasswordSecurityLevel passSecure = PasswordSecurity.Check(PasswordRepeat);    
+
+            switch (passSecure)
+            {
+                case PasswordSecurityLevel.VeryStrong:
+                    SecurityLevelPassword = 100;                                                                            
+                    SnackbarService.Add("La contraseña es muy segura. Puedes seguir adelante con el registro.", Severity.Success);
+                    SecurityLevelColor = Color.Success;
+                    break;
+
+                case PasswordSecurityLevel.Strong:
+                    SecurityLevelPassword = 75;                                        
+                    SnackbarService.Add("La contraseña es segura. Recomendamos agregar algunos caracteres especiales.", Severity.Info);
+                    SecurityLevelColor = Color.Info;
+                    break;
+
+                case PasswordSecurityLevel.Medium:
+                    SecurityLevelPassword = 50;                                        
+                    SnackbarService.Add("La contraseña es débil. Recomendamos agregar números y caracteres especiales.", Severity.Warning);
+                    SecurityLevelColor = Color.Warning;
+                    break;
+
+                case PasswordSecurityLevel.Weak:
+                    SecurityLevelPassword = 25;
+                    SnackbarService.Add("La contraseña es muy débil. Recomendamos agregar mayúsculas, números y caracteres especiales.", Severity.Normal);
+                    SecurityLevelColor = Color.Error;
+                    break;
+
+                default:
+                    SecurityLevelPassword = 8;
+                    SnackbarService.Add("Ha ocurrido un error al evaluar la seguridad de la contraseña. Inténtalo de nuevo más tarde.", Severity.Error);
+                    SecurityLevelColor = Color.Error;
+                    break;
+            }
+            using(Manager.MySQLManager manager = new Manager.MySQLManager())
+            {
+                Authorize authorize = new Authorize();
+                authorize.Name = user.Nombre;
+                authorize.Password = user.Passwordseguro;
+                if (manager.GetUser(authorize)==null)
+                {
+                    user.Roles_idroles = (int)UserRole.User;                    
+                    user.Sexo = Sexo.ToCharArray()[0];
+                    string profile = await manager.InsertUserAsync(user);
+                    
+                    if (profile == "OK")
+                    {
+                        await RegisterData();
+                    }
+                }
+                else
+                {
+                    SnackbarService.Add("El usuario ya existe y no se puede insertar. Por favor, intentalo de nuevo", Severity.Info);
+                }
+
+                //PAGEMANAGER
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            SecurityLevelPassword = 8;
+            SnackbarService.Add("Las contraseñas no coinciden. Por por favor, asegurase de comprovarlas o cambia de password", Severity.Error);
+            SecurityLevelColor = Color.Error;
+        }
+        StateHasChanged();
+        await Task.CompletedTask;
+    }   
+    [Parameter] public EventCallback<string> OnRegister { get; set; }
+    private async Task RegisterData()
+    {
+        // Aquí se registra la información y se envía al componente padre        
+        await OnRegister.InvokeAsync("login");
+    }
+}

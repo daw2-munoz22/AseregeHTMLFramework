@@ -1,6 +1,0 @@
-{ "hostname": null, "port": 0, "username": null, "password": null, "databaseName": null }
-{ "Name": null, "Password": null }
-{ "Email": null, "Telefono": null }
-{ "Authorize": null, "Id": 0, "Name": null, "Data": null, "Format": null, "Date": "0001-01-01T00:00:00" }
-{ "Idroles": 0, "Nombre": null, "Type": 0 }
-{ "ID": 0, "Nombre": null, "Apellido": null, "Edad": 0, "Sexo": "\u0000", "Email": null, "Telefono": null, "Passwordseguro": null, "Roles_idroles": 0 }
