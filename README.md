@@ -1,156 +1,78 @@
 # AseregeHtmlFramework
 
-Se trata de una página web sobre Barcelona (para turismos, cultura..). Esta web es una SSR(Server Site Rendering), por lo cual, todas las vistas (páginas) se ejecutan en el servidor, aunque el comportamiento será de una SPA (Single Page Aplication), por lo tanto, se verá como una única página.
-El servidor AseregeHTMLFramework es un servidor que ha sido creado en el lenguaje de JAVA16 en el cual, se gestiona el control de los permisos de los usuarios, la manipulación de la Base de Datos de MySQL y, el sistema de validación del BackEnd propio. Este framework está vinculado con el FrontEnd, cuyas páginas realizadas desde el propio servidor, contiene el lenguage de marcado HTML5, los complementos para que la web que sea más bonita, se ha utilizado CSS3. La lógica del proyecto, está basada en el lenguaje de JavaScript, en la cual, se implementa el sistema de validación y la conexión al BackEnd, con el lenguaje de programación mencionado anteriormente.
-
-## Utilización
-
-Para lanzar el servidor, debes de ejecutar el siguiente comando: `java -jar AseregeHTMLFramework.jar`  
-
-AseregeHTMLFramework require de base JAVA16 y MySQL/MARIADB.
+El proyecto a realizar es una página web sobre Barcelona. Esta web es 
+una SSR(Server Site Rendering), por lo cual, todas las vistas (páginas) 
+se ejecutan en el servidor, aunque el comportamiento será de una SPA 
+(Single Page Aplication), por lo tanto, se verá como una única página. 
+Se pretende utilizar un servidor externo para poder desarrollar la 
+aplicación y otro servidor, para almacenar la base de datos de MySQL. 
+Los servidores que se van a utlizar son los siguientes: Replit para la 
+aplicación y Freedb, para la base de datos. En caso de que el servidor 
+dónde se almacena la web no cumpla los requisitos mínimos, se 
+utilizará otro servidor, como, por ejemplo, Freeasphosting. El 
+proyecto se dividirá en tres apartados diferentes. En primer lugar, se 
+deberá realizar el BackEnd que será realizado utilizando el lenguaje 
+de Java 16. Si se tuviera que cambiar el leguaje, optaría por C# debido 
+a que me resulta más sencillo de programar y de estructurar cada clase 
+y cada connector (API) que se va a desarrollar. En segundo lugar, se 
+deberá de implementar el FrontEnd, que almacenará las páginas que 
+se van a renderizar en el navegador. Se deberá estructurar en
+diferentes carpetas para poder tener una mejor organización.
 
 # Configuracion AseregeHtmlFramework
 
-El servidor, genera el JSON (diccionario clave-valor) en el cual, está compuesto por los datos que tengas. Préviamente, deberas de haber la configuración de la conexión a MySQL y del propio servidor. Un ejemplo de conexión sería el siguente:
+Este JSON contiene todas las propiedades necesarias para hacer la 
+conexión a la Base de datos de MySQL. Hay que tener en cuenta de 
+que, si uno de las propiedades pones la configuración de manera 
+errónea, automáticamente se cerrará la Base de datos, impidiendo 
+conectarse a ella. A continuación, tendrás las explicaciones de cada 
+propiedad, y un ejemplo del JSON.
+
+- "hostname" indica el nombre del host donde se encuentra la base de datos, en este caso "localhost" indica que la base de datos está en el mismo servidor que la aplicación que se  conectará a ella.
+- "port" es el número del puerto donde se encuentra la base de datos. En este caso, el puerto es 3306, que es el puerto predeterminado para MySQL. 
+- "username" es el nombre de usuario para acceder a la base de datos. En este caso, es "root", que es el usuario predeterminado en MySQL con permisos completos.
+- "password" es la contraseña para el usuario de la base de datos. En este caso, la contraseña es "root", pero en una configuración real, sería mejor utilizar una contraseña más segura y almacenarla de manera segura.
+- "databaseName" indica el nombre de la base de datos a la que se quiere conectar. En este caso, es "barcelonaweb".
 `{
-"hostname":"localhost",
-"port":3306,
-"username":"root",
-"password":"root",
-"databaseName":"barcelonaweb",
-"IV":"C#:_ytresw3456j?"
+ "hostname": "localhost",
+ "port": 3306,
+ "username": "root",
+ "password": "root",
+ "databaseName": "freedb_barcelonaweb"
 }`
- Este JSON, hace referencia al fichero de configuración aserege.conf
+ Este JSON, hace referencia al fichero de configuración aserege_release.json y a aserege.json (DEBUG)
 
-## Compilar para Windows
+## Instalar en Windows
+1: Para instalar Aserege se debe instalar MYSQL/MARIADB
+2: Ejecutar el instalador de Aserege.
+3: Configuramos el archivo aserege_release.json y el aserege.json para configurar la conexion con la base de datos
+4: Iniciamos el servidor de AseregeBarcelonaWeb.exe
+5: Opcional!. Podemos añadir a nuestro servidor un Servicio para que el server se ejecute al arrancar con Windows
 
-Para instalar nodejs utilizaremos el siguiente comando
-```
-winget install -e --id OpenJS.NodeJS
-```
-Alternativa se puede instalar Nodejs.
-Si disponemos un PC de x86 (32 Bits) o un x64 (64 bits)
-x64 -> https://nodejs.org/dist/v18.14.2/node-v18.14.2-x64.msi
-x86 -> https://nodejs.org/dist/v18.14.2/node-v18.14.2-x86.msi
+## Instalar en Linux
 
-Para más información debes ir al siguiente enlace:  https://nodejs.org/en/download/
-Se debe seguir los pasos del asistente de instalación de Node.js
-Una vez instalado y configurado, deberás ejecutar los siguientes comandos: 
-```
-winget install -e --id Git.Git
-git clone --recursive https://github.com/daw2-munoz22/AseregeHtmlFramework.git
-cd AseregeHtmlFramework
-cd layout
-npm install
-winget install EclipseAdoptium.Temurin.17.JDK
-```
-Compilamos la solucion .pom con el editor de preferencia
-
-## Compilar en Linux
+1: Para instalar Aserege se debe instalar MYSQL/MARIADB
 ```
 sudo apt update
 sudo apt-get install git
-sudo apt-get install nodejs
 sudo apt-get install mysql-server
 sudo service mysql start
 sudo service mysql status
 sudo apt install apt-transport-https ca-certificates
-wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-sudo add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
-```
-Puede utilizar la version 16 o la ultima (latest)
-
-Última version de java
-```
-sudo apt install adoptopenjdk-latest-hotspot
-```
-
-Java 16
-```
-sudo apt install adoptopenjdk-16-hotspot
-```
-
-Para comprovar la versión de java instalado, debes de ejecutar la siguiente instrucción:
-```
-java -version
-```
-
-Para compilar el proyecto
-```
 git clone --recursive https://github.com/daw2-munoz22/AseregeHtmlFramework.git
-cd AseregeHtmlFramework
-cd layout
-npm install
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg 
+--dearmor > microsoft.asc.gpg
+sudo mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/
+wget -q https://packages.microsoft.com/config/debian/10/prod.list
+sudo mv prod.list /etc/apt/sources.list.d/microsoft-prod.list
+sudo chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg
+sudo chown root:root /etc/apt/sources.list.d/microsoft-prod.list
+sudo apt-get update; sudo apt-get install -y dotnet-sdk-6.0 aspnetcore-runtime-6.0
+dotnet --version
 ```
-Compilamos la solucion .pom con el editor de preferencia
-
-## Compilar en Mac OS X
-
-
-Para instalar Adoptium Temurin OpenJDK en macOS, puedes seguir los siguientes pasos:
-Abre la página de descarga de Adoptium Temurin OpenJDK en tu navegador web: https://adoptium.net/
-Haz clic en el botón "Download" debajo de la versión de OpenJDK que deseas instalar.
-En la siguiente página, selecciona "macOS" como tu sistema operativo.
-Haz clic en el enlace de descarga para el archivo ZIP correspondiente a la arquitectura de tu sistema (por ejemplo, "x64").
-Una vez que se descargue el archivo ZIP, ábrelo y extrae su contenido en la carpeta donde deseas instalar OpenJDK. Puedes hacer esto arrastrando y soltando la carpeta extraída en la ubicación deseada.
-
-Abre la terminal en tu macOS.
-
-Para configurar la variable de entorno JAVA_HOME, abre un archivo de inicio de shell como ~/.bashrc o ~/.zshrc en tu editor de texto preferido y agrega la siguiente línea al final del archivo:
-```
-export JAVA_HOME=/ruta/hacia/la/carpeta/de/OpenJDK
-```
-Reemplaza "/ruta/hacia/la/carpeta/de/OpenJDK" con la ruta absoluta a la carpeta donde extrajiste el contenido del archivo ZIP. Guarda y cierra el archivo.
-Para que los cambios en la variable de entorno se apliquen, cierra y vuelve a abrir la terminal o ejecuta el siguiente comando en la terminal:
-```
-source ~/.bashrc
-```
-o
-```
-source ~/.zshrc
-```
-Verifica que la instalación se haya completado correctamente ejecutando el siguiente comando en la terminal:
-```
-java -version
-```
-
-Para instalar Node.js en macOS, puedes seguir los siguientes pasos:
-Abre la página de descarga de Node.js en tu navegador web: https://nodejs.org/es/download/
-Haz clic en el botón "Descargar" debajo de la versión recomendada de Node.js para tu sistema operativo.
-Selecciona el paquete de instalación adecuado para tu sistema operativo macOS. El paquete más común es el que tiene el formato "macOS Installer (.pkg)".
-Una vez que se descargue el archivo, haz doble clic en él para iniciar el instalador.
-Sigue las instrucciones del instalador para completar la instalación de Node.js. Asegúrate de seleccionar la opción "Instalar los componentes necesarios para el entorno de desarrollo" durante la instalación.
-Después de que se complete la instalación, verifica que Node.js esté instalado correctamente ejecutando el siguiente comando en la terminal:
-```
-node -v
-```
-Escriba el comando siguente para comprobar si dispone de git
-```
-git --version
-```
-En el caso de que de error puede bajarse GIT en la siguente pagina https://git-scm.com/downloads
-
-Para instalar MySQL o MariaDB en macOS, puedes seguir los siguientes pasos:
-Abre la terminal en tu macOS.
-Instala Homebrew si aún no lo tienes instalado en tu sistema. Para hacerlo, ejecuta el siguiente comando en la terminal:
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install mysql
-```
-Sigue las instrucciones en la terminal para completar la instalación. Esto puede incluir la creación de un usuario de base de datos y una contraseña.
-Después de que se complete la instalación, inicia el servicio de base de datos ejecutando el siguiente comando en la terminal:
-
-Para iniciar el servicio de MySQL:
-```
-brew services start mysql
-```
-Verifica que el servicio de base de datos esté en funcionamiento ejecutando el siguiente comando en la terminal:
-
-Para verificar el estado del servicio de MySQL:
-```
-brew services list | grep mysql
-```
-Para acceder a la línea de comandos de MySQL o MariaDB, ejecuta el siguiente comando en la terminal:
+2: Ejecutar el instalador de Aserege.
+3: Inciamos el demonio
+4: Abrimos el servidor
 
 ## Licensing
 Aserege Framework Licencia de usuario final (EULA)
