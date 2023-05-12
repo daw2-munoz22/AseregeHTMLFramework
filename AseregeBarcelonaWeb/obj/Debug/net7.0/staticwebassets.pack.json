@@ -1,0 +1,101 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\AseregeBarcelonaWeb.bundle.scp.css",
+      "PackagePath": "staticwebassets\\AseregeBarcelonaWeb.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\error404.css",
+      "PackagePath": "staticwebassets\\error404.css"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\images\\41500160806cd6f8fdffdbc2789525a02d239cd54e102ead47d2a1a27d92f824",
+      "PackagePath": "staticwebassets\\images"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\images\\514e28d2b206d895b92ae63f97324dfab088de3e27e33f1b6347d8f6a2a97c93",
+      "PackagePath": "staticwebassets\\images"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\images\\802a0198ca4696f4d84c698d1171acb81ee11a7553f02078f4cc70997d5ce224",
+      "PackagePath": "staticwebassets\\images"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\images\\8348dc8ec975f799458f0da2ddbdc5eee000090ad5165890aeec9bff99cacad0",
+      "PackagePath": "staticwebassets\\images"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\images\\barceloneta.jpg",
+      "PackagePath": "staticwebassets\\images\\barceloneta.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\images\\f29ce692c1d241e24aa2d71b77c41515f5c3c650f53de532bba2ad970f915b12",
+      "PackagePath": "staticwebassets\\images"
+    },
+    {
+      "Id": "C:\\Users\\Edgar Muñoz\\source\\repos\\AseregeHTMLFramework-Razor_Branch\\AseregeBarcelonaWeb\\wwwroot\\images\\foto.png",
+      "PackagePath": "staticwebassets\\images\\foto.png"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.AseregeBarcelonaWeb.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.AseregeBarcelonaWeb.props",
+      "PackagePath": "build\\AseregeBarcelonaWeb.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.AseregeBarcelonaWeb.props",
+      "PackagePath": "buildMultiTargeting\\AseregeBarcelonaWeb.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.AseregeBarcelonaWeb.props",
+      "PackagePath": "buildTransitive\\AseregeBarcelonaWeb.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

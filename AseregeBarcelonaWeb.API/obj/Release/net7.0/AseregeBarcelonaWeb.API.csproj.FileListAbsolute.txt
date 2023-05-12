@@ -1,0 +1,17 @@
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\bin\Release\net7.0\AseregeBarcelonaWeb.API.deps.json
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\bin\Release\net7.0\AseregeBarcelonaWeb.API.dll
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\bin\Release\net7.0\AseregeBarcelonaWeb.API.pdb
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\bin\Release\net7.0\AseregeBarcelonaWeb.Manager.dll
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\bin\Release\net7.0\AseregeBarcelonaWeb.Model.dll
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\bin\Release\net7.0\AseregeBarcelonaWeb.Manager.pdb
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\bin\Release\net7.0\AseregeBarcelonaWeb.Model.pdb
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\AseregeBarcelonaWeb.API.csproj.AssemblyReference.cache
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\AseregeBarcelonaWeb.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\AseregeBarcelonaWeb.API.AssemblyInfoInputs.cache
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\AseregeBarcelonaWeb.API.AssemblyInfo.cs
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\AseregeBarcelonaWeb.API.csproj.CoreCompileInputs.cache
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\AseregeBarcelonaWeb.API.csproj.CopyComplete
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\AseregeBarcelonaWeb.API.dll
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\refint\AseregeBarcelonaWeb.API.dll
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\AseregeBarcelonaWeb.API.pdb
+C:\Users\Edgar Muñoz\source\repos\AseregeHTMLFramework-Razor_Branch\AseregeBarcelonaWeb.API\obj\Release\net7.0\ref\AseregeBarcelonaWeb.API.dll
