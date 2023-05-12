@@ -85,7 +85,17 @@ else
 
         Manager.MySQLManager connection = new Manager.MySQLManager();
         {
-            await connection.DeleteUserAsync(indentificator);
+            User user = UserList.Find(x => x.ID == indentificator);
+            if (user != null && user.Roles_idroles != (int)UserRole.Administrator)
+            {
+                await connection.DeleteUserAsync(indentificator);
+                SnackbarService.Add("Usuario eliminado con exito", Severity.Success);
+            }
+            else
+            {
+                SnackbarService.Add("Los administradores no se pueden eliminar", Severity.Error);
+            }
+
         }
         _ = LoadUsers();
     }

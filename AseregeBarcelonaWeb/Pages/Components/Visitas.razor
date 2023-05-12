@@ -12,22 +12,30 @@ else
 {
     
 }
-<img src="@PictureImage" />
+<!--<img src="@PictureImage" />-->
 <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
-            <MudAvatar Color="Color.Secondary">I</MudAvatar>
+            <Multiavatar Width="48px" Height="48px" AvatarId="@MultiAvatarUserName" />
         </CardHeaderAvatar>
         <CardHeaderContent>
-            <MudText Typo="Typo.body1">Istra Croatia</MudText>
-            <MudText Typo="Typo.body2">Peninsula in Europe</MudText>
+            @if(CurrentUser !=null)
+            {
+                <MudText Typo="Typo.body1">@CurrentUser.Nombre</MudText>                
+            }
+            @if (PictureImage != null)
+            {
+                <MudText Typo="Typo.body2">@PictureImage.Date</MudText>
+            }            
         </CardHeaderContent>
         <CardHeaderActions>
             <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
         </CardHeaderActions>
     </MudCardHeader>
-    <MudCardMedia Image="images/pilars.jpg" Height="250" />
-    <img src="@PictureImage" />
+    @if (PictureImage != null)
+    {
+        <MudCardMedia Image="@PictureImage.Data" Height="250" />
+    }    
     <MudCardContent>
         <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
     </MudCardContent>
@@ -36,7 +44,7 @@ else
         <MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Default" />
     </MudCardActions>
 </MudCard>
-<MudPaper Class="pa-2 pt-2 mt-4" Elevation="3"><iframe src="@VideoUrl" /></MudPaper>
+<MudPaper Class="pa-2 pt-2 mt-4" Elevation="3"><iframe src="https://www.youtube.com/embed/u5-kia2bzpQ" /></MudPaper>
 
 <InputFile OnChange="HandleSeleccionArchivo" multiple />
 
@@ -44,14 +52,18 @@ else
 {
 
     [Parameter] public User CurrentUser { get; set; }
+    private string MultiAvatarUserName { get; set; } = "UKNOWN";
 
-    public string VideoUrl { get; set; } = "https://www.youtube.com/embed/u5-kia2bzpQ";
+    private string PictureUri { get; set; }
     private Picture PictureImage { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        MultiAvatarUserName = CurrentUser.Nombre;
         using (Manager.MySQLManager manager = new Manager.MySQLManager())
         {
             PictureImage = await manager.SelectPicturesByIDAsync(3);
+            PictureUri = PictureImage.Data;
         };
         await Task.CompletedTask;
     }

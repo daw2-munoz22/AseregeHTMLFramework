@@ -3,14 +3,16 @@ using AseregeBarcelonaWeb.Manager.Enums;
 using AseregeBarcelonaWeb.Model.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AseregeBarcelonaWeb.API
 {
     [ApiController]
     [Route("api/users")] public class UserAPI : ControllerBase
-    {        
+    {
+        /*COMPLETA*/
+        //obtenemos un JSON con TODOS los usuarios registrados
+        
         [HttpGet] public IActionResult Get()
         {
             User[] users = new MySQLManager().SelectUsers().ToArray();
@@ -19,15 +21,29 @@ namespace AseregeBarcelonaWeb.API
             string responseString = JsonConvert.SerializeObject(users, Formatting.Indented); //dar formato al json                                             
             return Ok(responseString);
         }
-
-        [HttpPost] public async Task<IActionResult> Post([FromBody] User model)
+        
+        /*COMPLETA*/
+        //esta funcion permite distingir los usuarios que tengan el mismo nombre y password. Se diferencian mediante su email
+        //MUY IMPORTANTE: si en la petición del rol es 1, dará acceso denegado!!!
+        [HttpPost] public async Task<IActionResult> Post([FromBody] JavascriptUser model)
         {
+            if (model.Roles_idroles == (int)UserRole.Administrator) return Unauthorized();
+            
             MySQLManager result = new MySQLManager();
-            string user = await result.InsertUserAsync(model);
-            await result.DisposeAsync();
-            return Ok(user);
+            
+            bool Exists = await result.ExistUser(model.Nombre, model.Passwordseguro);
+            if (!Exists) 
+            {
+                string user = await result.InsertUserAsync(model);
+                await result.DisposeAsync();
+                return Ok(user);
+            }           
+            await result.DisposeAsync();                           
+            return BadRequest();                        
         }
 
+        /*COMPLETA*/
+        //esta función permite actualizar el los datos del usuario registrado
         [HttpPut] public async Task<IActionResult> Put([FromBody] JavascriptUser model)
         {
             using (MySQLManager manager = new MySQLManager())
@@ -53,6 +69,7 @@ namespace AseregeBarcelonaWeb.API
         }
         
         /*COMPLETADO*/
+        //esta funcion permite borrar al usuario de manera ASINCRONICA
         [HttpDelete("{id}")] public async Task<IActionResult> Delete(int id, [FromBody] Authorize admin)
         {            
             MySQLManager manager = new MySQLManager();
@@ -71,18 +88,5 @@ namespace AseregeBarcelonaWeb.API
                 return Unauthorized();
             }            
         }    
-    }
-    public class JavascriptUser
-    {
-        public Authorize authorize { get; set; }
-        public int ID { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public int Edad { get; set; }
-        public string Sexo { get; set; }
-        public string Email { get; set; }
-        public string Telefono { get; set; }
-        public string Passwordseguro { get; set; }
-        public int Roles_idroles { get; set; }        
-    }
+    }   
 }

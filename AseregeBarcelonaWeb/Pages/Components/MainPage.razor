@@ -81,34 +81,85 @@
     }
 }
 
-@if (!EditorEnabled)
+@if (collection == null || collection.Length < 1)
 {
-    @if (collection == null || collection.Length < 1)
-    {
-        <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />      
-    }
-    else
-    {        
-        <MudGrid>
-            @foreach (Picture item in collection)
-            {
-                string Text = $"{item.TextInfo}";
-                <MudItem xs="12" sm="12" md="12" lg="6">
-                    <PictureCard Image="@item.Data" Text="@Text" />
-                </MudItem>
-            }
-        </MudGrid>
-    }
+    <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />      
 }
 else
-{    
-    <InputFile OnChange="HandleSeleccionArchivo" multiple />
+{        
+    <MudGrid>
+        @foreach (Picture item in collection)
+        {
+            string Text = $"{item.TextInfo}";
+            <MudItem xs="12" sm="12" md="12" lg="6">
+                <PictureCard Image="@item.Data" Text="@Text" />
+                @if (EditorEnabled && CurrentUser.Roles_idroles == (int)UserRole.Administrator)            
+                {                  
+                    <MudPaper Elevation="25">
+                        <MudToolBar>
+                            <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                                <ButtonTemplate>
+                                    <MudFab HtmlTag="label"
+                                            Class="mb-4"
+                                            Color="Color.Secondary"
+                                            StartIcon="@Icons.Material.Filled.Image"
+                                            Label="Load picture" for="@context" />
+                                </ButtonTemplate>
+                            </MudFileUpload>
+                            <MudButton Class="mb-2 ml-4" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+                        </MudToolBar/>
+                    </MudPaper>                    
+                }
+            </MudItem>        
+        }
+        
+    </MudGrid>
 }
+
 
 
 
 @code
 {
+
+    private async Task  UploadFiles(IBrowserFile file)
+    {        
+        if (file.ContentType.StartsWith("image/"))
+        {
+            using (Manager.MySQLManager manager = new Manager.MySQLManager())
+            {
+                //escribe en el memory stream ms el fichero recibido y máximo 8MB
+                using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+                {
+                    ms.Position = 0;
+                        
+                    await file.OpenReadStream(8388608, default).CopyToAsync(ms);
+
+                    ms.Position = 0;
+                    DateTime Date = DateTime.Now;
+                    //escribir en la base de datos el stream procesado en la RAM
+
+                    Picture picture = new Picture()
+                    {
+                        Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name),
+                        Format = file.ContentType,
+                        Date = file.LastModified.ToLocalTime().DateTime,
+                        Data = Convert.ToBase64String(ms.ToArray()),
+                        Authorize = new Authorize()
+                        {
+                            Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
+                            Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
+                        }
+                    };
+                    await manager.InsertFile(picture);
+                    await Task.CompletedTask;
+                }
+            }
+        }        
+        await Task.CompletedTask;
+    }
+
+
     [Parameter] public EventCallback<string> OnRegister { get; set; }
     private async Task RegisterData()
     {        
@@ -148,7 +199,7 @@ else
         await base.OnInitializedAsync();
     }          
         
-    private async Task HandleSeleccionArchivo(InputFileChangeEventArgs e)        
+    /*private async Task HandleSeleccionArchivo(InputFileChangeEventArgs e)        
     {
         foreach (IBrowserFile file in e.GetMultipleFiles())
         {
@@ -185,5 +236,5 @@ else
                 }
             }
         }
-    }
+    }*/
 }

@@ -10,6 +10,6 @@
         public string Email { get; set; }
         public string Telefono { get; set; }
         public string Passwordseguro { get; set; }
-        public int Roles_idroles { get; set; }
+        public int Roles_idroles { get; set; }        
     }
 }

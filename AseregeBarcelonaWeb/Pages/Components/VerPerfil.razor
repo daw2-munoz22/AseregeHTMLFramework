@@ -1,5 +1,6 @@
 ﻿<img class="avatar" src="https://image.freepik.com/free-vector/person-avatar-design_24877-38131.jpg" alt="avatar" width="128" height="128">
-<MudText Typo="Typo.h2">Nombre del usuario</MudText>
+<Multiavatar Width="48px" Height="48px" AvatarId="@MultiAvatarUserName" />
+<MudText Typo="Typo.h2" @bind-Value="CurrentUser.Nombre" T="string" Label="Nombre"></MudText>
 <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.Email" />
 <h2>Gmail</h2>
 
@@ -47,6 +48,7 @@
 </EditForm>
 @code
 {
+    private string MultiAvatarUserName { get; set; } = "UKNOWN";
     RegisterAccountForm model = new RegisterAccountForm();
     bool success;
 

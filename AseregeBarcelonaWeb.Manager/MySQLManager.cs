@@ -91,6 +91,33 @@ namespace AseregeBarcelonaWeb.Manager
             Dispose();//cerrar conexión
         }
 
+        public async Task<bool> ExistUser(string name, string password) 
+        {
+            List<User> users = await SelectUsersAsync();
+
+            string query = "select nombre from usuarios where passwordseguro = @password AND nombre = @name;";
+            List<string> usernames = new List<string>();
+            password = CryptographyManager.GeneratePasswordHash(password);
+            await connection.OpenAsync();
+
+            MySqlCommand command = new MySqlCommand(query, connection);            
+            command.Parameters.AddWithValue("@password", password);
+            command.Parameters.AddWithValue("@name", name);
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                while (await reader.ReadAsync()) //extraer los datos y almacenar asincronicamente en la lista
+                {                                            
+                    usernames.Add(reader.GetString(0));       //equivale a un push en JavaScript                                                              
+                }
+                
+            }            
+            await DisposeAsync();
+            //buscamos el nombre en la lista 
+            bool UserList = usernames.Any(x => x.Equals(name)); //Equivalente a un map en JavaScript
+            await Task.CompletedTask;
+            return UserList;
+        }
+        //Insertar usuarios de manera asincronica. Si uno de los datos está erroneo, no podrá registrarse
         public async Task<string> InsertUserAsync(User user)
         {
             try
@@ -110,7 +137,7 @@ namespace AseregeBarcelonaWeb.Manager
                         command.Parameters.AddWithValue("@sexo", user.Sexo.ToString());
                         command.Parameters.AddWithValue("@email", user.Email);
                         command.Parameters.AddWithValue("@telefono", user.Telefono);
-                        command.Parameters.AddWithValue("@passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(user.Passwordseguro));
+                        command.Parameters.AddWithValue("@passwordseguro", CryptographyManager.GeneratePasswordHash(user.Passwordseguro));
                         command.Parameters.AddWithValue("@roles_idroles", user.Roles_idroles);
 
                         await connection.OpenAsync();
@@ -132,7 +159,7 @@ namespace AseregeBarcelonaWeb.Manager
             }
         }
 
-
+        //Insertamos los roles a la base de datos.
         public async Task<string> InsertRoleAsync(Role role)
         {
             CreateTables();
@@ -163,7 +190,7 @@ namespace AseregeBarcelonaWeb.Manager
                 return $"Illegal role!";
             }
         }
-        
+        //obtenemos los datos de TODOS los usuarios
         public User GetUser(Authorize user)
         {
             string query = "SELECT * FROM usuarios WHERE Nombre = @Nombre AND passwordseguro = @passwordseguro;";
@@ -199,6 +226,7 @@ namespace AseregeBarcelonaWeb.Manager
             Dispose();
             return null;
         }
+        //esta funcion comprueba si el usuario y la password son correctas o no
         public bool Login(Authorize permision)
         {
             string query = "SELECT COUNT(*) from usuarios where Nombre = @Nombre and passwordseguro = @passwordseguro";
@@ -226,7 +254,7 @@ namespace AseregeBarcelonaWeb.Manager
             return false;
         }
 
-
+        //seleccionamos los usuarios de manera SINCRONA
         public List<User> SelectUsers()
         {
             string query = "SELECT * FROM usuarios;";
@@ -259,7 +287,7 @@ namespace AseregeBarcelonaWeb.Manager
             return Users;
         }
 
-
+        //seleccionamos los usuarios de manera ASINCRONA
         public async Task<List<User>> SelectUsersAsync()
         {
             string query = "SELECT * FROM usuarios;";
@@ -289,9 +317,10 @@ namespace AseregeBarcelonaWeb.Manager
                 }
 
             }
+            await DisposeAsync();
             return Users;
         }
-
+        //seleccionamos los roles de manera ASINCRONA
         public async Task<List<Role>> SelectRolesAsync()
         {
             string query = "SELECT * FROM roles;";
@@ -320,7 +349,7 @@ namespace AseregeBarcelonaWeb.Manager
         }
 
 
-
+        //Actualizamos los datos de los usuarios de manera ASINCRONA
         public async Task UpdateUserAsync(string nombre, string apellido, int edad, char sexo, string email, string telefono, string passwordseguro, int Roles_idroles, int idUsers)
         {
             string sexoText = sexo.ToString();
@@ -334,7 +363,7 @@ namespace AseregeBarcelonaWeb.Manager
             command.Parameters.AddWithValue("sexoText", sexoText);
             command.Parameters.AddWithValue("email", email);
             command.Parameters.AddWithValue("telefono", telefono);
-            command.Parameters.AddWithValue("passwordseguro", Manager.CryptographyManager.GeneratePasswordHash(passwordseguro));
+            command.Parameters.AddWithValue("passwordseguro", CryptographyManager.GeneratePasswordHash(passwordseguro));
             command.Parameters.AddWithValue("Roles_idroles", Roles_idroles);
             command.Parameters.AddWithValue("idUsers", idUsers);
 
@@ -370,7 +399,7 @@ namespace AseregeBarcelonaWeb.Manager
                 await Task.FromException(ex); //devolver el estado del error (excepcion)                
             }
         }
-
+        //insertar imagenes o ficheros
         public async Task<string> InsertFile(Picture picture)
         {
             CreateTables();
@@ -387,10 +416,10 @@ namespace AseregeBarcelonaWeb.Manager
             try
             {
                 await connection.OpenAsync();
-                await command.ExecuteNonQueryAsync();
+                await command.ExecuteNonQueryAsync(); //ignorar la query
                 await DisposeAsync();
-                byte[] image = Convert.FromBase64String(picture.Data);
-                await File.WriteAllBytesAsync($"wwwroot/images/{picture.Name}", image);
+                byte[] image = Convert.FromBase64String(picture.Data); //guardo en la variable image el recurso convertido en Base64 (hash)
+                await File.WriteAllBytesAsync($"wwwroot/images/{picture.Name}", image); //escribir la imagen en el directorio que está definido
                 return "OK";
             }
             catch (MySqlException ex)
@@ -403,9 +432,9 @@ namespace AseregeBarcelonaWeb.Manager
         //esta funcion permite obtener la imagen o video cuyo identificador sea el que el usuario le pida
         public async Task<Picture> SelectPicturesByIDAsync(int id)
         {
-            string query = "SELECT format, name, textinfo FROM resources where idResources=@id;";
+            string query = "SELECT format, name, textinfo, date FROM resources where idResources=@id;";
             await connection.OpenAsync();
-
+            
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@id", id);
 
@@ -415,12 +444,12 @@ namespace AseregeBarcelonaWeb.Manager
             picture.Data = "data://";
             using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
             {
-
                 while (await reader.ReadAsync()) //leer de manera asincronica
                 {
                     string format = (string)reader[0];// tipo de fichero                   
                     string name = (string)reader[1];//datos                   
                     string textinfo = (string)reader[2];//datos
+                    DateTime date = (DateTime)reader[3];//datos
 
                     string route = $"wwwroot/images/{name}";
                     byte[] rawImage = null;
@@ -434,20 +463,17 @@ namespace AseregeBarcelonaWeb.Manager
                         {
                             Name = name,
                             Data = file64,
+                            Date = date,
                             Format = format,
                             TextInfo = textinfo
                         };
-                    }
-                    else 
-                    {
-                       
-                    }
-                 
+                    }                                   
                 }
             }
             await connection.CloseAsync();
             return picture;
         }
+        //devolver el numero de imagenes que hay almacenadas en la base de datos
         public async Task<long> SelectCountImages()
         {
             string query = "SELECT count(*) as Count FROM resources;";
@@ -469,6 +495,7 @@ namespace AseregeBarcelonaWeb.Manager
             return Count;
 
         }
+        //esta funcion permite borrar imagenes de manera ASINCRONA
         public async Task<string> DeleteImageAsync(int pictureId, string pictureNameFile)
         {
             CreateTables();
@@ -497,7 +524,7 @@ namespace AseregeBarcelonaWeb.Manager
                 return $"Error inserting the Resource File: {ex.Message}";
             }
         }
-
+        //actualizar los roles de los usuarios de manera ASINCRONA
         public async Task<string> UpdateRoleAsync(string nombre, int type, int ID)
         {
             CreateTables();
