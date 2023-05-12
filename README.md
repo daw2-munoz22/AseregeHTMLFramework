@@ -44,9 +44,13 @@ propiedad, y un ejemplo del JSON.
 
 ## Instalar en Windows
 1: Para instalar Aserege se debe instalar MYSQL/MARIADB
+
 2: Ejecutar el instalador de Aserege.
+
 3: Configuramos el archivo aserege_release.json y el aserege.json para configurar la conexion con la base de datos
+
 4: Iniciamos el servidor de AseregeBarcelonaWeb.exe
+
 5: Opcional!. Podemos añadir a nuestro servidor un Servicio para que el server se ejecute al arrancar con Windows
 
 ## Instalar en Linux
