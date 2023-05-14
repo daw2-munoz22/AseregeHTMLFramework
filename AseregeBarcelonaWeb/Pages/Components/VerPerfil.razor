@@ -1,26 +1,35 @@
-﻿<img class="avatar" src="https://image.freepik.com/free-vector/person-avatar-design_24877-38131.jpg" alt="avatar" width="128" height="128">
-<Multiavatar Width="48px" Height="48px" AvatarId="@MultiAvatarUserName" />
-<MudText Typo="Typo.h2" @bind-Value="CurrentUser.Nombre" T="string" Label="Nombre"></MudText>
-<MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.Email" />
-<h2>Gmail</h2>
+﻿<div style="margin-top: 40px; padding-bottom: 20px;">
+	<Multiavatar Width="128px" Height="128px" AvatarId="@MultiAvatarUserName" />
+</div>
+	
 
+
+<MudText Typo="Typo.h2" @bind-Value="CurrentUser.Nombre" T="string" Label="Nombre"></MudText>
 <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="7">
             <MudCard>
                 <MudCardContent>
-                    <MudTextField Label="First name" HelperText="Max. 8 characters"
+                    <MudTextField Label="Nombre" HelperText="Max. 8 characters"
                                   @bind-Value="model.Username" For="@(() => model.Username)" />
-                    <MudTextField Label="Email" Class="mt-3"
+                    <MudTextField Label="Apellido" HelperText="Max. 8 characters"
+                                  @bind-Value="model.Username" For="@(() => model.Username)" />
+                    <MudTextField Label="Edad" HelperText="Please, write a valid number" Class="mt-3"
+                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Number" />
+                    <MudTextField Label="Sexo" HelperText="Please, choose an option" Class="mt-3"
+                                  @bind-Value="model.Username" For="@(() => model.Username)" InputType="InputType.Password" />
+                    <MudTextField Label="Email" HelperText="Please, write a valid email" Class="mt-3"
                                   @bind-Value="model.Email" For="@(() => model.Email)" />
+                    <MudTextField Label="Telefono" HelperText="Please, write a valid telephone" Class="mt-3"
+                                  @bind-Value="model.Email" For="@(() => model.Email)" InputType="InputType.Telephone" />
                     <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
                                   @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
                     <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
                                   @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Actualizar</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -48,7 +57,9 @@
 </EditForm>
 @code
 {
+    [Parameter] public User CurrentUser { get; set; }
     private string MultiAvatarUserName { get; set; } = "UKNOWN";
+    
     RegisterAccountForm model = new RegisterAccountForm();
     bool success;
 
@@ -78,5 +89,9 @@
         StateHasChanged();
     }
 
-    [Parameter] public User CurrentUser { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        MultiAvatarUserName = CurrentUser.Nombre;
+        await Task.CompletedTask;
+    }
 }

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AseregeBarcelonaWeb.Model.Data;
 using AseregeBarcelonaWeb.Manager;
+using System.Net.Mail;
+using System.Net;
+using System.Text;
+using System;
 
 namespace AseregeBarcelonaWeb.API
 {
@@ -11,76 +15,63 @@ namespace AseregeBarcelonaWeb.API
     [ApiController] //propiedad de inyector de dependencias
     //definir ruta del login 
 	[Route("api/passwordrestore")] public class PasswordRestoreAPI : ControllerBase //la clase hereda del codigo interno de ASP NET
-    {
-        [HttpGet] public IActionResult Get([FromBody] Authorize model) //la función get, obtiene del body un JSON del tipo Autorize       
-        {
-            return Ok();
-        }
-
-        [HttpPost] public IActionResult Post([FromBody] MailRestore model)
+    {       
+        [HttpPost] public async Task<IActionResult> Post([FromBody] MailRestore model)
         {
             MySQLManager result = new MySQLManager();
             List<User> users = result.SelectUsers();
-            User usuarioFiltrado = users.FirstOrDefault(u => u.Email == model.Email && u.Telefono == model.Telefono);
+            User usuarioFiltrado = users.FirstOrDefault(u => u.Email == model.Email && u.Nombre == model.Nombre);
+
             if (usuarioFiltrado != null)
             {
-                return Ok(SendMail(usuarioFiltrado.Email));
+                string Result = await SendMail("edgarmunozmanjon@outlook.com", "P@ssw0rd543", usuarioFiltrado.Email, "Recuperacion de contraseñas", usuarioFiltrado);
+                return Ok(Result);
             }
 
             return NotFound();
 
         }
-      
+
         //api para el reenvio del correo
-        private async Task SendMail(string emailAddress)
+        private async Task<string> SendMail(string from, string password, string to, string subject, User usuarioFiltrado)
         {
-
-
-            /*using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587))
+            string server = string.Empty;
+            if (from.Contains("live") || from.Contains("hotmail"))
             {
-                smtpClient.EnableSsl = true;
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential("edgarmunozmanjon@gmail.com", "060242343");
+                server = "smtp-mail.outlook.com";
+            }
+            else if (from.Contains("outlook"))                
+            {
+                server = "smtp.office365.com";
+            }
+            else if (from.Contains("gmail"))
+            {
+                server = "smtp.gmail.com";
+            }            
 
-                using (MailMessage mailMessage = new MailMessage())
-                {
-                    mailMessage.From = new MailAddress("edgarmunozmanjon@gmail.com");
-                    mailMessage.To.Add(emailAddress);
-                    mailMessage.SubjectEncoding = Encoding.UTF8;
-                    mailMessage.Subject = "BarcelonaWeb Password Recovery";
-                    mailMessage.Body = "<h1>Password Recovery Email</h1><br />";
-                    mailMessage.IsBodyHtml = true;
+            using SmtpClient smtpClient = new SmtpClient(server, 587);
+            smtpClient.EnableSsl = true;
+            smtpClient.Credentials = new NetworkCredential(from, password);
 
-                    await smtpClient.SendMailAsync(mailMessage);
-                }
-            }*/
+            MailMessage mailMessage = new MailMessage(from, to);
+
+            mailMessage.IsBodyHtml = true;
+            mailMessage.SubjectEncoding = Encoding.UTF8;
+            mailMessage.Subject = subject;
+            mailMessage.Body = $"<p>{usuarioFiltrado.Passwordseguro}</p>"; //recibimos el hash para luego, verificar
+
+            try
+            {
+                await smtpClient.SendMailAsync(mailMessage);
+                mailMessage.Dispose();
+            }
+            catch (Exception ex)
+            {
+                mailMessage.Dispose();
+                return ex.Message;                
+            }
+            await Task.CompletedTask;
+            return "OK";
         }
-
     }
 }
-/*public string SendMail(string to)
-{
-    string fromAddress = "edgarmunozmanjon@gmail.com";
-    string toAddress = to;
-    string subject = "Test Email";
-    string body = "This is a test email sent from C#.";
-
-    var smtpClient = new SmtpClient("smtp.gmail.com")
-    {
-        Port = 587,
-        Credentials = new NetworkCredential(fromAddress, "060242343"),                
-        EnableSsl = true
-    };
-
-    MailMessage message = new MailMessage(fromAddress, toAddress)
-    {
-        Subject = subject,
-        Body = body
-    };                
-    smtpClient.Send(message);
-    message.Dispose();
-
-
-
-    return "Mensaje enviado";
-}*/

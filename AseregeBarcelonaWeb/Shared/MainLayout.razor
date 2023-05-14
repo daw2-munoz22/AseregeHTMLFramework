@@ -88,14 +88,14 @@
                 <MudPaper Class="pa-16 ma-2" Square="false" Elevation="3">
                     <MudTextField @bind-Value="Name" Label="Nombre de usuario" Variant="Variant.Text" />
 
-                    <MudTextField @bind-Value="Password" Class="mt-2"
+                    <MudTextField @bind-Value="Password" Class="mt-2 pb-4 mb-4"
                           Label="Contraseña"
                           Variant="Variant.Text"
                           InputType="@PasswordInput"
                           Adornment="Adornment.End"
                           AdornmentIcon="@PasswordInputIcon"
                           OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
-
+                    <MudLink OnClick="@(async(e) => await OnPasswordReset())" Typo="Typo.body2">Recuperar Contraseña</MudLink>
                     <MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="async(e) => await LoginAsync()">Iniciar Sesión</MudButton>
                 </MudPaper>
             break;
@@ -142,7 +142,7 @@
         StateHasChanged();
         await Task.CompletedTask;
     }
- 
+
     /// <summary>
     /// /ROUTER REAL PAGE
     /// </summary>
@@ -198,7 +198,7 @@
     {        
         await TravelTo("blue");
     }
-        
+
     private async Task RefreshPermisions()
     {
         if (currentUser.Nombre == null || currentUser.Passwordseguro == null)
@@ -288,5 +288,9 @@
 
         StateHasChanged();
     }
-
+    private async Task OnPasswordReset()
+    {        
+        DialogResult result = await DialogService.Show<PasswordRestoreDialog>("Recuperar contraseña", new DialogParameters() { }, new DialogOptions() { CloseOnEscapeKey = true }).Result;      
+        await Task.CompletedTask;
+    }
 }   

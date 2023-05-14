@@ -11,7 +11,7 @@
             <MudSelectItem Value="@("Otros")" />
         </MudSelect>
 
-        <MudTextField @bind-Value="user.Email" T="string" Label="Email" />
+    <MudTextField @bind-Value="user.Email" For="@(() => user.Email)" T="string" Label="Email" />
         <MudTextField @bind-Value="user.Telefono" T="string" Label="Telefono" />
 
         <MudTextField @bind-Value="user.Passwordseguro"

@@ -7,6 +7,63 @@ namespace AseregeBarcelonaWeb.Manager
     public class CryptographyManager
     {
         //generar el sistema de cifrado
+        public static int GetPasswordSecurityScore(string password)
+        {
+            int score = 0;
+            bool hasUpper = false, hasLower = false, hasNumber = false, hasSymbol = false;
+            int upperCount = 0, lowerCount = 0, numberCount = 0, symbolCount = 0;
+
+            // La contraseña debe tener al menos 8 caracteres
+            if (password.Length >= 16)
+            {
+                score += 25;
+            }
+
+            // Recorre cada carácter de la contraseña
+            foreach (char c in password)
+            {
+                if (char.IsUpper(c))
+                {
+                    hasUpper = true;
+                    upperCount++;
+                }
+                else if (char.IsLower(c))
+                {
+                    hasLower = true;
+                    lowerCount++;
+                }
+                else if (char.IsDigit(c))
+                {
+                    hasNumber = true;
+                    numberCount++;
+                }
+                else if (char.IsSymbol(c) || char.IsPunctuation(c))
+                {
+                    hasSymbol = true;
+                    symbolCount++;
+                }
+            }
+
+            // La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un símbolo
+            if (hasUpper && hasLower && hasNumber && hasSymbol)
+            {
+                score += 25;
+            }
+
+            // La contraseña debe tener letras intercaladas
+            if (upperCount > 0 && lowerCount > 0)
+            {
+                score += 25;
+            }
+
+            // La contraseña debe tener al menos un símbolo especial
+            if (symbolCount > 0)
+            {
+                score += 25;
+            }
+
+            return score;
+        }
         public static string GeneratePasswordHash(string input)
         {
             using (SHA256 sha256 = SHA256.Create())
