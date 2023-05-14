@@ -20,10 +20,12 @@ namespace AseregeBarcelonaWeb.API
         {
             MySQLManager result = new MySQLManager();
             List<User> users = result.SelectUsers();
+            //buscamos el usuario que contenga el email y el nombre del modelo MailRestore
             User usuarioFiltrado = users.FirstOrDefault(u => u.Email == model.Email && u.Nombre == model.Nombre);
 
-            if (usuarioFiltrado != null)
+            if (usuarioFiltrado != null) //si no existe, ERROR (usuario NO encontrado)
             {
+                //enviamos el correo desde la cuenta del servidor
                 string Result = await SendMail("edgarmunozmanjon@outlook.com", "P@ssw0rd543", usuarioFiltrado.Email, "Recuperacion de contraseñas", usuarioFiltrado);
                 return Ok(Result);
             }
@@ -35,6 +37,7 @@ namespace AseregeBarcelonaWeb.API
         //api para el reenvio del correo
         private async Task<string> SendMail(string from, string password, string to, string subject, User usuarioFiltrado)
         {
+            //comprovamos los diferentes servidores correo 
             string server = string.Empty;
             if (from.Contains("live") || from.Contains("hotmail"))
             {
@@ -48,21 +51,21 @@ namespace AseregeBarcelonaWeb.API
             {
                 server = "smtp.gmail.com";
             }            
-
+            //abrimos un socket en el puerto 587 en el servidor elegido
             using SmtpClient smtpClient = new SmtpClient(server, 587);
             smtpClient.EnableSsl = true;
-            smtpClient.Credentials = new NetworkCredential(from, password);
+            smtpClient.Credentials = new NetworkCredential(from, password); //iniciamos sesión en la cuenta del servidor
 
+            //preparamos el email pasandole el origen (persona que lo envía) y destino (a quien va dirigido)
             MailMessage mailMessage = new MailMessage(from, to);
-
-            mailMessage.IsBodyHtml = true;
-            mailMessage.SubjectEncoding = Encoding.UTF8;
-            mailMessage.Subject = subject;
+            mailMessage.IsBodyHtml = true; //añadir cabecera HTML al body
+            mailMessage.SubjectEncoding = Encoding.UTF8; //codificación del HTML en UTF-8
+            mailMessage.Subject = subject; //definimos el asunto del correo
             mailMessage.Body = $"<p>{usuarioFiltrado.Passwordseguro}</p>"; //recibimos el hash para luego, verificar
 
             try
             {
-                await smtpClient.SendMailAsync(mailMessage);
+                await smtpClient.SendMailAsync(mailMessage); //enviamos el correo
                 mailMessage.Dispose();
             }
             catch (Exception ex)
