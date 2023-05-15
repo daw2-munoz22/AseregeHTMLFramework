@@ -1,35 +1,60 @@
 ﻿<div style="margin-top: 40px; padding-bottom: 20px;">
 	<Multiavatar Width="128px" Height="128px" AvatarId="@MultiAvatarUserName" />
 </div>
-	
-
-
-<MudText Typo="Typo.h2" @bind-Value="CurrentUser.Nombre" T="string" Label="Nombre"></MudText>
-<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+<MudText Typo="Typo.h2" @bind-Value="UserFixed.Nombre" T="string" Label="Nombre"></MudText>
+<EditForm Model="@UserFixed" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="7">
             <MudCard>
                 <MudCardContent>
-                    <MudTextField Label="Nombre" HelperText="Max. 8 characters"
-                                  @bind-Value="model.Username" For="@(() => model.Username)" />
-                    <MudTextField Label="Apellido" HelperText="Max. 8 characters"
-                                  @bind-Value="model.Username" For="@(() => model.Username)" />
-                    <MudTextField Label="Edad" HelperText="Please, write a valid number" Class="mt-3"
-                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Number" />
-                    <MudTextField Label="Sexo" HelperText="Please, choose an option" Class="mt-3"
-                                  @bind-Value="model.Username" For="@(() => model.Username)" InputType="InputType.Password" />
-                    <MudTextField Label="Email" HelperText="Please, write a valid email" Class="mt-3"
-                                  @bind-Value="model.Email" For="@(() => model.Email)" />
-                    <MudTextField Label="Telefono" HelperText="Please, write a valid telephone" Class="mt-3"
-                                  @bind-Value="model.Email" For="@(() => model.Email)" InputType="InputType.Telephone" />
-                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
-                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+                    <MudTextField Label="Nombre" 
+                                  HelperText="Max. 8 characters"
+                                  @bind-Value="UserFixed.Nombre"
+                                  For="@(() => UserFixed.Nombre)" />
+
+                    <MudTextField Label="Apellido"
+                                  HelperText="Max. 8 characters"
+                                  @bind-Value="UserFixed.Apellido"
+                                  For="@(() => UserFixed.Apellido)" />
+
+                    <MudTextField Label="Edad" 
+                                  HelperText="Please, write a valid number"
+                                  Class="mt-3"
+                                  @bind-Value="UserFixed.Edad"
+                                  For="@(() => UserFixed.Edad)"
+                                  InputType="InputType.Number" Min="0" />
+                  
+                    <MudSelect @bind-Value="UserFixed.Sexo" T="string" Label="Sexo" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Masculino")" />
+                        <MudSelectItem Value="@("Femenine")" />
+                        <MudSelectItem Value="@("Otros")" />
+                    </MudSelect>
+
+                    <MudTextField Label="Email" 
+                                  HelperText="Please, write a valid email" 
+                                  Class="mt-3"
+                                  @bind-Value="UserFixed.Email"
+                                  For="@(() => UserFixed.Email)" />
+
+                    <MudTextField Label="Telefono" 
+                                  HelperText="Please, write a valid telephone" 
+                                  Class="mt-3"
+                                  @bind-Value="UserFixed.Telefono"
+                                  For="@(() => UserFixed.Telefono)"
+                                  InputType="InputType.Telephone" />
+
+                    <MudTextField Label="Password"
+                                  HelperText="Choose a strong password"
+                                  Class="mt-3"
+                                  @bind-Value="UserFixed.Passwordseguro"
+                                  For="@(() => UserFixed.Passwordseguro)"
+                                  InputType="InputType.Password" />
                     <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
-                                  @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                                  @bind-Value="UserFixed.Passwordseguro" For="@(() => UserFixed.Passwordseguro)" InputType="InputType.Password" />
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Actualizar</MudButton>
+                    <MudButton OnClick="@(async(e) => await OnValidSubmit(context))" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Actualizar</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -58,40 +83,59 @@
 @code
 {
     [Parameter] public User CurrentUser { get; set; }
-    private string MultiAvatarUserName { get; set; } = "UKNOWN";
-    
-    RegisterAccountForm model = new RegisterAccountForm();
+    public JavascriptUser UserFixed { get; set; } = new JavascriptUser();
+    private string MultiAvatarUserName { get; set; } = "UKNOWN";    
     bool success;
-
-    public class RegisterAccountForm
+    private async Task OnValidSubmit(EditContext context)
     {
-        [System.ComponentModel.DataAnnotations.Required]
-        [System.ComponentModel.DataAnnotations.StringLength(8, ErrorMessage = "Name length can't be more than 8.")]
-        public string Username { get; set; }
+        try
+        {
+            // Lógica para realizar la actualización del usuario
+            // Por ejemplo:
+            API.UserAPI api = new API.UserAPI();
+            await api.Put(UserFixed);
 
-        [System.ComponentModel.DataAnnotations.Required]
-        [System.ComponentModel.DataAnnotations.EmailAddress]
-        public string Email { get; set; }
+            // Si la actualización es exitosa, puedes mostrar un mensaje de éxito
+            // y realizar otras acciones si es necesario
+            success = true;
+            await Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            // Si ocurre algún error durante la actualización, puedes manejarlo aquí
+            // y mostrar un mensaje de error o realizar cualquier otra acción necesaria
+            // Por ejemplo:
+            // Mostrar un mensaje de error en el formulario
+            success = false;
+            Console.WriteLine(ex.Message);
+            await Task.CompletedTask;
+            // Agregar el error al ValidationSummary
+            //context.AddFailure(new ValidationFailure("", ex.Message));
+        }
 
-        [System.ComponentModel.DataAnnotations.Required]
-        [System.ComponentModel.DataAnnotations.StringLength(30, ErrorMessage = "Password must be at least 8 characters long.", MinimumLength = 8)]
-        public string Password { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Required]
-        [System.ComponentModel.DataAnnotations.Compare(nameof(Password))]
-        public string Password2 { get; set; }
-
-    }
-
-    private void OnValidSubmit(EditContext context)
-    {
-        success = true;
+        //success = true;
         StateHasChanged();
+        await Task.CompletedTask;
     }
 
     protected override async Task OnInitializedAsync()
     {
         MultiAvatarUserName = CurrentUser.Nombre;
+
+        UserFixed = new JavascriptUser
+        {
+            ID = CurrentUser.ID,
+            Nombre = CurrentUser.Nombre,
+            Apellido = CurrentUser.Apellido,
+            Edad = CurrentUser.Edad,
+            Sexo = CurrentUser.Sexo.ToString(),
+            Email = CurrentUser.Email,
+            Telefono = CurrentUser.Telefono,    
+            authorize = new Authorize() { Name = CurrentUser.Nombre, Password = CurrentUser.Passwordseguro },
+            Roles_idroles = CurrentUser.Roles_idroles
+        };
+        StateHasChanged();        
         await Task.CompletedTask;
     }
+    
 }

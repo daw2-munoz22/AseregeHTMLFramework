@@ -38,7 +38,8 @@ namespace AseregeBarcelonaWeb.API
                 await result.DisposeAsync();
                 return Ok(user);
             }           
-            await result.DisposeAsync();                           
+            await result.DisposeAsync();  
+             
             return BadRequest();                        
         }
 
