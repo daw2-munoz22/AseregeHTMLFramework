@@ -44,17 +44,18 @@
                                   For="@(() => UserFixed.Telefono)"
                                   InputType="InputType.Telephone" />
 
-                    <MudTextField Label="Password"
-                                  HelperText="Choose a strong password"
+                    <MudTextField Label="Contraseña"
+                                  HelperText="Please, write a valid password"
                                   Class="mt-3"
-                                  @bind-Value="UserFixed.Passwordseguro"
-                                  For="@(() => UserFixed.Passwordseguro)"
+                                  @bind-Value="UserPassword"
+                                  For="@(() => UserPassword)"
                                   InputType="InputType.Password" />
-                    <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
-                                  @bind-Value="UserFixed.Passwordseguro" For="@(() => UserFixed.Passwordseguro)" InputType="InputType.Password" />
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton OnClick="@(async(e) => await OnValidSubmit(context))" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Actualizar</MudButton>
+                    @if (!string.IsNullOrWhiteSpace(UserPassword))
+                    {
+                        <MudButton OnClick="@(async(e) => await OnValidSubmit(context))" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Actualizar</MudButton>
+                    }                    
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -83,46 +84,61 @@
 @code
 {
     [Parameter] public User CurrentUser { get; set; }
+    [Parameter] public EventCallback<string> OnRegister { get; set; } //definimos la variable OnRegister (es de tipo EventCallback) y la seteamos
+
     public JavascriptUser UserFixed { get; set; } = new JavascriptUser();
     private string MultiAvatarUserName { get; set; } = "UKNOWN";    
+    private string UserPassword { get; set; } = "";
     bool success;
     private async Task OnValidSubmit(EditContext context)
     {
+        UserFixed.Passwordseguro = UserPassword;
+        UserFixed.authorize.Password = UserPassword;
         try
         {
             // Lógica para realizar la actualización del usuario
             // Por ejemplo:
             API.UserAPI api = new API.UserAPI();
-            await api.Put(UserFixed);
+            IActionResult result = await api.Put(UserFixed); //llamamos a la función PUT de la api UserAPI
 
-            // Si la actualización es exitosa, puedes mostrar un mensaje de éxito
-            // y realizar otras acciones si es necesario
-            success = true;
-            await Task.CompletedTask;
+            if (result is OkObjectResult) // Si el ObjectResult es de tipo OK  
+            {
+                await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Name");
+                await jsRuntime.InvokeAsync<string>("localStorage.removeItem", "Password");
+                SnackbarService.Add("Usuario modificado con existo", Severity.Success); 
+                // Si la actualización es exitosa, puedes mostrar un mensaje de éxito
+                // // y realizar otras acciones si es necesario
+                success = true;
+                await OnRegister.InvokeAsync("login");
+            } 
+            else if (result is UnauthorizedObjectResult || result is NoContentResult) //Si el ObjectResult es de tipo Unauthorized o está vacío 
+            {
+                SnackbarService.Add("Error al actualizar el campo. La contraseña es incorrecta", Severity.Error);
+                success = false;
+                
+            }                                     
+            await Task.CompletedTask;                        
         }
         catch (Exception ex)
         {
             // Si ocurre algún error durante la actualización, puedes manejarlo aquí
             // y mostrar un mensaje de error o realizar cualquier otra acción necesaria
             // Por ejemplo:
-            // Mostrar un mensaje de error en el formulario
-            success = false;
+            // Mostrar un mensaje de error en el formulario            
             Console.WriteLine(ex.Message);
             await Task.CompletedTask;
-            // Agregar el error al ValidationSummary
-            //context.AddFailure(new ValidationFailure("", ex.Message));
         }
 
         //success = true;
         StateHasChanged();
         await Task.CompletedTask;
     }
-
+    
     protected override async Task OnInitializedAsync()
     {
         MultiAvatarUserName = CurrentUser.Nombre;
 
-        UserFixed = new JavascriptUser
+        UserFixed = new JavascriptUser //convertimos el objeto User a un objeto JavascriptUser
         {
             ID = CurrentUser.ID,
             Nombre = CurrentUser.Nombre,
@@ -131,7 +147,8 @@
             Sexo = CurrentUser.Sexo.ToString(),
             Email = CurrentUser.Email,
             Telefono = CurrentUser.Telefono,    
-            authorize = new Authorize() { Name = CurrentUser.Nombre, Password = CurrentUser.Passwordseguro },
+            Passwordseguro = CurrentUser.Passwordseguro,
+            authorize = new Authorize() { Name = CurrentUser.Nombre, Password = CurrentUser.Passwordseguro },                
             Roles_idroles = CurrentUser.Roles_idroles
         };
         StateHasChanged();        

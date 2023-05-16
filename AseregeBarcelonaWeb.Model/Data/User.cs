@@ -21,8 +21,7 @@
         [System.ComponentModel.DataAnnotations.Required]
         [System.ComponentModel.DataAnnotations.Phone(ErrorMessage = "Please enter a valid phone number.")]
         public string Telefono { get; set; }
-        [System.ComponentModel.DataAnnotations.Required]
-        [System.ComponentModel.DataAnnotations.StringLength(8, MinimumLength = 8, ErrorMessage = "Password must be 8 characters long.")]
+     
         public string Passwordseguro { get; set; }
         public int Roles_idroles { get; set; }        
     }

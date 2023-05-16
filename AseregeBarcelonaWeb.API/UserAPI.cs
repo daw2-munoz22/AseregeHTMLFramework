@@ -49,8 +49,7 @@ namespace AseregeBarcelonaWeb.API
         {
             using (MySQLManager manager = new MySQLManager())
             {
-                model.authorize.Password = CryptographyManager.GeneratePasswordHash(model.Passwordseguro);
-                
+                model.authorize.Password = CryptographyManager.GeneratePasswordHash(model.authorize.Password);                           
 
                 /*INICIAR SESION*/
                 User user = manager.GetUser(model.authorize);

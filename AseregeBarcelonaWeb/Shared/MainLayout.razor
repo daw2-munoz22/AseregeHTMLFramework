@@ -109,7 +109,7 @@
             <QuienesSomos></QuienesSomos>
             break;
         case "profile":
-                <VerPerfil CurrentUser="@currentUser"></VerPerfil>
+                <VerPerfil CurrentUser="@currentUser" OnRegister="HandleEvent"></VerPerfil>
                 break;
             case "admin":
                 if (currentUser.Roles_idroles == (int)UserRole.Administrator)
