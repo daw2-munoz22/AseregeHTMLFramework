@@ -42,8 +42,8 @@
       <FileName>UserAPI.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Microsoft.AspNetCore.Mvc.ControllerBase">
-    <Position X="5.75" Y="5.25" Width="3.25" />
+  <Class Name="Microsoft.AspNetCore.Mvc.ControllerBase" Collapsed="true">
+    <Position X="5.5" Y="5.25" Width="3.5" />
     <TypeIdentifier />
   </Class>
   <Font Name="Segoe UI" Size="9" />
