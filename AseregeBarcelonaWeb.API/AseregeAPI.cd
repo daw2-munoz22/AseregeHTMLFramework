@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AseregeBarcelonaWeb.API.ImageAPI">
+    <Position X="1.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>ImageAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AseregeBarcelonaWeb.API.LoginAPI">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>LoginAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AseregeBarcelonaWeb.API.PasswordRestoreAPI">
+    <Position X="10" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PasswordRestoreAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AseregeBarcelonaWeb.API.PictureAPI">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PictureAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AseregeBarcelonaWeb.API.RolesAPI">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>RolesAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AseregeBarcelonaWeb.API.UserAPI">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACAEAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>UserAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Mvc.ControllerBase">
+    <Position X="5.75" Y="5.25" Width="3.25" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

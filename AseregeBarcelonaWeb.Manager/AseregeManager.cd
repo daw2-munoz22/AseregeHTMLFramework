@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AseregeBarcelonaWeb.Manager.PasswordSecurity">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CheckPasswordSecurity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AseregeBarcelonaWeb.Manager.CryptographyManager">
+    <Position X="1" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAQAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>CryptographyManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AseregeBarcelonaWeb.Manager.MySQLManager" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAIAAAAASAQIcBABAABNAAAAAABAAAAEAAQBBQAAAA=</HashCode>
+      <FileName>MySQLManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="2.709" />
+  </Class>
+  <Class Name="AseregeBarcelonaWeb.Manager.PostJsonManager">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PostJsonManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object">
+    <Position X="3.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Enum Name="AseregeBarcelonaWeb.Manager.Enums.PasswordSecurityLevel">
+    <Position X="9.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAEIAA=</HashCode>
+      <FileName>Enums\PasswordSecurityLevel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AseregeBarcelonaWeb.Manager.Enums.UserRole">
+    <Position X="9.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABACAAAAAAAAAAAQAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums\UserRole.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
