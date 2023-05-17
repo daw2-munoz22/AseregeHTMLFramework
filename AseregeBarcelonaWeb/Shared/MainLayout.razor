@@ -6,6 +6,7 @@
 <MudLayout Style="background-color: #b5f3f3; ">
     <MudAppBar Class="pb-sm-2" style="background-color:black;" Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+            <MudText Style="margin-left: 20px;" Typo="Typo.h5">Descubre Barcelona</MudText>
         <MudSpacer />
         <MudChipSet Class="d-none d-sm-block" @bind-SelectedChip="selected" SelectedValuesChanged="SelectedValuesChanged" Filter="true" Mandatory="true">
 

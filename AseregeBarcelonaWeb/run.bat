@@ -1,0 +1,1 @@
+"../../dotnet/dotnet.exe" watch run

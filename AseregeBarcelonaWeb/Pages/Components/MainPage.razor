@@ -67,7 +67,7 @@
         <MudPaper Elevation="25">
             <MudToolBar>
                 <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Class="mr-5" />
-                <MudIconButton Icon="@Icons.Material.Outlined.Add" />
+                <MudIconButton OnClick="async(e) => await AddTab()" Icon="@Icons.Material.Outlined.Add" />
                 <MudIconButton OnClick="async(e) => await SwapEditorMode()" Icon="@Icons.Material.Outlined.Edit" />
                 <MudSpacer />
                 <MudIconButton OnClick="async(e) => await RegisterData()" Icon="@Icons.Material.Outlined.PeopleAlt" />
@@ -79,7 +79,26 @@
 
 @if (collection == null || collection.Length < 1)
 {
-    <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />      
+    <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />   
+    <MudGrid>
+    @for (int i = 0; i < 2; i++)
+    {  
+        <MudItem xs="12" sm="12" md="12" lg="6">
+            <MudCard>        
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px"/>
+                <MudCardContent>
+                    <MudSkeleton Width="30%" Height="42px;" />
+                    <MudSkeleton Width="80%" />
+                    <MudSkeleton Width="100%" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudSkeleton Width="64px" Height="40px" Class="ml-2" />
+                    <MudSkeleton Width="105px" Height="40px" Class="ml-3" />
+                </MudCardActions>
+            </MudCard>
+        </MudItem>        
+    }      
+    </MudGrid>
 }
 else
 {        
@@ -102,7 +121,7 @@ else
                                             Label="Load picture" for="@context" />
                                 </ButtonTemplate>
                             </MudFileUpload>
-                            <MudButton Class="mb-2 ml-4" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+                            <MudButton Class="mb-2 ml-4" Variant="Variant.Filled" OnClick="async (e) => await DeleteImage(item)" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
                         </MudToolBar/>
                     </MudPaper>                    
                 }
@@ -111,8 +130,6 @@ else
         
     </MudGrid>
 }
-
-
 
 
 @code
@@ -128,7 +145,7 @@ else
                 using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
                 {
                     ms.Position = 0;
-                        
+
                     await file.OpenReadStream(8388608, default).CopyToAsync(ms);
 
                     ms.Position = 0;
@@ -190,47 +207,55 @@ else
         collection = Pictures.ToArray();
 
         await manager.DisposeAsync();
-        
+
         selectedIndex = 1;
         await base.OnInitializedAsync();
-    }          
-        
-    /*private async Task HandleSeleccionArchivo(InputFileChangeEventArgs e)        
+    }
+    private async Task AddTab()
     {
-        foreach (IBrowserFile file in e.GetMultipleFiles())
+        // Logic to add a new tab with image and information
+        // Example code:
+
+        Manager.MySQLManager manager = new MySQLManager();
+        int LastId = (int)await manager.SelectCountImages() + 1;
+        
+        
+        Picture newPicture = new Picture()
         {
-            if (file.ContentType.StartsWith("image/"))
+            Authorize = new Authorize() 
             {
-                using (Manager.MySQLManager manager = new Manager.MySQLManager())
-                {
-                    //escribe en el memory stream ms el fichero recibido y máximo 8MB
-                    using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
-                    {
-                        ms.Position = 0;
-                        
-                        await file.OpenReadStream(8388608, default).CopyToAsync(ms);
+                Name = CurrentUser.Nombre, 
+                Password = CurrentUser.Passwordseguro 
+            },            
+            Id = LastId,
+            Name="",
+        };
 
-                        ms.Position = 0;
-                        DateTime Date = DateTime.Now;
-                        //escribir en la base de datos el stream procesado en la RAM
+        await manager.InsertFile(newPicture);
+        
+        //Pictures.Add(newPicture);
+        //collection = Pictures.ToArray();
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
 
-                        Picture picture = new Picture()
-                        {
-                            Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name),
-                            Format = file.ContentType,
-                            Date = file.LastModified.ToLocalTime().DateTime,
-                            Data = Convert.ToBase64String(ms.ToArray()),
-                            Authorize = new Authorize()
-                            {
-                                Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
-                                Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
-                            }
-                        };
-                        await manager.InsertFile(picture);
-                        await Task.CompletedTask;
-                    }
-                }
-            }
+    private async Task DeleteImage(Picture item)
+    {
+        // Logic to delete the image
+        // Example code:
+        if (item != null)
+        {
+            using (Manager.MySQLManager manager = new Manager.MySQLManager())
+            {
+                // Delete the image from the database
+                await manager.DeleteImageAsync(item.Id, item.Name);
+
+                // Remove the image from the collection
+                Pictures.Remove(item);
+                collection = Pictures.ToArray();
+            }           
+            StateHasChanged();
+            await Task.CompletedTask;
         }
-    }*/
+    }
 }

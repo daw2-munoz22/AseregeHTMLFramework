@@ -1,0 +1,18 @@
+﻿<MudDialog>
+    <DialogContent>
+        <div class="d-flex flex-column py-1">
+            <MudImage Fluid="true" Src="images/iceland.jpg" Alt="Swedish Farm House" Class="rounded-lg" />
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code
+{
+    private async Task Close()
+    {
+
+        await Task.CompletedTask;
+    }
+}
