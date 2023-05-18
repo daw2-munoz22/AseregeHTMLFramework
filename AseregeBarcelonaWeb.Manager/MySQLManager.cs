@@ -1,11 +1,13 @@
 ﻿using AseregeBarcelonaWeb.Model.Data;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AseregeBarcelonaWeb.Manager
@@ -55,9 +57,19 @@ namespace AseregeBarcelonaWeb.Manager
                 $"nombre VARCHAR(256) NULL," +
                 $"type INT NULL," +
                 $"PRIMARY KEY (idroles)," +
-                $"UNIQUE INDEX idroles_UNIQUE (idroles ASC) VISIBLE);" +
+            $"UNIQUE INDEX idroles_UNIQUE (idroles ASC) VISIBLE);" +
 
-                $"CREATE TABLE IF NOT EXISTS {database}.usuarios (idUsers INT NOT NULL AUTO_INCREMENT," +
+            
+
+
+
+            $"INSERT INTO roles(idroles, nombre, type) SELECT 1, 'Administrador', 1 WHERE NOT EXISTS(SELECT 1 FROM roles WHERE idroles = 1);" +
+            $"INSERT INTO roles(idroles, nombre, type) SELECT 2, 'Usuario', 2 WHERE NOT EXISTS(SELECT 2 FROM roles WHERE idroles = 2);" +
+            $"INSERT INTO roles(idroles, nombre, type) SELECT 3, 'Special', 3 WHERE NOT EXISTS(SELECT 3 FROM roles WHERE idroles = 3);" +
+            $"INSERT INTO usuarios (idUsers, nombre, apellido, edad, sexo, email, telefono, passwordseguro, roles_idroles) SELECT 1, 'Administrador', 'Muñoz', 21, 'M', 'edgarmunozmanjon@outlook.com', '+34684401735', 'b03ddf3ca2e714a6548e7495e2a03f5e824eaac9837cd7f159c67b90fb4b7342', 1 WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE idUsers = 1);" +
+
+
+            $"CREATE TABLE IF NOT EXISTS {database}.usuarios (idUsers INT NOT NULL AUTO_INCREMENT," +
                 $"nombre VARCHAR(256) NOT NULL," +
                 $"apellido VARCHAR(256) NOT NULL, edad INT NOT NULL, " +
                 $"sexo VARCHAR(256) NOT NULL," +

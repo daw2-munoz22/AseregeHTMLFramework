@@ -1,18 +1,90 @@
 ﻿<MudDialog>
     <DialogContent>
         <div class="d-flex flex-column py-1">
-            <MudImage Fluid="true" Src="images/iceland.jpg" Alt="Swedish Farm House" Class="rounded-lg" />
+            <MudTextField @bind-Value="@picture.TextInfo" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
+            <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                <ButtonTemplate>
+                    <MudFab HtmlTag="label"
+                            Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.Image"
+                            Label="Load picture"                            
+                            for="@context" />
+                </ButtonTemplate>
+            </MudFileUpload>
+            @if (!string.IsNullOrWhiteSpace(PictureURI))
+            {
+                <MudImage Fluid="true" Src="@PictureURI" Alt="@picture.Name" Class="rounded-lg" />
+            }            
         </div>
     </DialogContent>
-    <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+    <DialogActions>        
+        <MudButton Color="Color.Surface" OnClick="Close">Cancelar</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Send">Ok</MudButton>
     </DialogActions>
 </MudDialog>
 @code
 {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public User CurrentUser { get; set; }
+
+    private string PictureURI { get; set; } = string.Empty;
+    private Picture picture { get; set; } = new Picture();  
+
+    private async Task UploadFiles(IBrowserFile file)
+    {
+        if (file.ContentType.StartsWith("image/"))
+        {
+            using (Manager.MySQLManager manager = new Manager.MySQLManager())
+            {
+                //escribe en el memory stream ms el fichero recibido y máximo 8MB
+                using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+                {
+                    ms.Position = 0;
+
+                    await file.OpenReadStream(8388608, default).CopyToAsync(ms);
+
+                    ms.Position = 0;
+                    DateTime Date = DateTime.Now;
+                    //escribir en la base de datos el stream procesado en la RAM
+
+                    picture.Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name);
+                    picture.Format = file.ContentType;
+                    picture.Date = file.LastModified.ToLocalTime().DateTime;
+                    picture.Data = Convert.ToBase64String(ms.ToArray());
+                    picture.Authorize = new Authorize()
+                    {
+                        Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
+                        Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
+                    };
+                }                
+
+                PictureURI = $"data:{picture.Format};base64,{picture.Data}";                    
+                StateHasChanged();                    
+                await Task.CompletedTask;                
+            }
+        }
+        await Task.CompletedTask;
+    }
+
+    private async Task Send()
+    {
+        // Logic to add a new tab with image and information
+        // Example code:
+
+        Manager.MySQLManager manager = new MySQLManager();
+        int LastId = (int)await manager.SelectCountImages() + 1;
+        picture.Id = LastId;       
+        await manager.InsertFile(picture);
+        //await manager.InsertFile(newPicture);
+
+        //Pictures.Add(newPicture);
+        //collection = Pictures.ToArray();
+        StateHasChanged();
+        await Close();
+    }
     private async Task Close()
     {
-
+        MudDialog.Cancel();
         await Task.CompletedTask;
     }
 }

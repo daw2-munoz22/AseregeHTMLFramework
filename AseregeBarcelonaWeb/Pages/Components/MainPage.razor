@@ -111,16 +111,7 @@ else
                 @if (EditorEnabled && CurrentUser.Roles_idroles == (int)UserRole.Administrator)            
                 {                  
                     <MudPaper Elevation="25">
-                        <MudToolBar>
-                            <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
-                                <ButtonTemplate>
-                                    <MudFab HtmlTag="label"
-                                            Class="mb-4"
-                                            Color="Color.Secondary"
-                                            StartIcon="@Icons.Material.Filled.Image"
-                                            Label="Load picture" for="@context" />
-                                </ButtonTemplate>
-                            </MudFileUpload>
+                        <MudToolBar>                          
                             <MudButton Class="mb-2 ml-4" Variant="Variant.Filled" OnClick="async (e) => await DeleteImage(item)" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
                         </MudToolBar/>
                     </MudPaper>                    
@@ -134,45 +125,6 @@ else
 
 @code
 {
-
-    private async Task  UploadFiles(IBrowserFile file)
-    {        
-        if (file.ContentType.StartsWith("image/"))
-        {
-            using (Manager.MySQLManager manager = new Manager.MySQLManager())
-            {
-                //escribe en el memory stream ms el fichero recibido y máximo 8MB
-                using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
-                {
-                    ms.Position = 0;
-
-                    await file.OpenReadStream(8388608, default).CopyToAsync(ms);
-
-                    ms.Position = 0;
-                    DateTime Date = DateTime.Now;
-                    //escribir en la base de datos el stream procesado en la RAM
-
-                    Picture picture = new Picture()
-                    {
-                        Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name),
-                        Format = file.ContentType,
-                        Date = file.LastModified.ToLocalTime().DateTime,
-                        Data = Convert.ToBase64String(ms.ToArray()),
-                        Authorize = new Authorize()
-                        {
-                            Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
-                            Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
-                        }
-                    };
-                    await manager.InsertFile(picture);
-                    await Task.CompletedTask;
-                }
-            }
-        }        
-        await Task.CompletedTask;
-    }
-
-
     [Parameter] public EventCallback<string> OnRegister { get; set; }
     private async Task RegisterData()
     {        
@@ -194,8 +146,10 @@ else
         StateHasChanged();
         await Task.CompletedTask;
     }
-    protected override async Task OnInitializedAsync()
-    {                
+    private async Task GetPicture()
+    {
+        collection = null;
+        Pictures = new List<Picture>();
         Manager.MySQLManager manager = new Manager.MySQLManager();
 
         long count = await manager.SelectCountImages();        
@@ -209,34 +163,32 @@ else
         await manager.DisposeAsync();
 
         selectedIndex = 1;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await GetPicture();
         await base.OnInitializedAsync();
     }
     private async Task AddTab()
     {
-        // Logic to add a new tab with image and information
-        // Example code:
 
-        Manager.MySQLManager manager = new MySQLManager();
-        int LastId = (int)await manager.SelectCountImages() + 1;
-        
-        
-        Picture newPicture = new Picture()
-        {
-            Authorize = new Authorize() 
+        //abrir ventana dialogo
+        DialogResult result = await DialogService.Show<AddPictureDialog>("Añadir Imagen", new DialogParameters() 
+        { 
             {
-                Name = CurrentUser.Nombre, 
-                Password = CurrentUser.Passwordseguro 
-            },            
-            Id = LastId,
-            Name="",
-        };
+                "CurrentUser", CurrentUser 
+            }
+        },
+        new DialogOptions() 
+        {
+            CloseOnEscapeKey = true 
+        }).Result;  
 
-        await manager.InsertFile(newPicture);
-        
-        //Pictures.Add(newPicture);
-        //collection = Pictures.ToArray();
-        StateHasChanged();
         await Task.CompletedTask;
+        if (result.Canceled)
+        {
+            await GetPicture();
+        }
     }
 
     private async Task DeleteImage(Picture item)
