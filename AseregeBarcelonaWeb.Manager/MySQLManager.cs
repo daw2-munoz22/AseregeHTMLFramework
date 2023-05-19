@@ -57,17 +57,7 @@ namespace AseregeBarcelonaWeb.Manager
                 $"nombre VARCHAR(256) NULL," +
                 $"type INT NULL," +
                 $"PRIMARY KEY (idroles)," +
-            $"UNIQUE INDEX idroles_UNIQUE (idroles ASC) VISIBLE);" +
-
-            
-
-
-
-            $"INSERT INTO roles(idroles, nombre, type) SELECT 1, 'Administrador', 1 WHERE NOT EXISTS(SELECT 1 FROM roles WHERE idroles = 1);" +
-            $"INSERT INTO roles(idroles, nombre, type) SELECT 2, 'Usuario', 2 WHERE NOT EXISTS(SELECT 2 FROM roles WHERE idroles = 2);" +
-            $"INSERT INTO roles(idroles, nombre, type) SELECT 3, 'Special', 3 WHERE NOT EXISTS(SELECT 3 FROM roles WHERE idroles = 3);" +
-            $"INSERT INTO usuarios (idUsers, nombre, apellido, edad, sexo, email, telefono, passwordseguro, roles_idroles) SELECT 1, 'Administrador', 'Muñoz', 21, 'M', 'edgarmunozmanjon@outlook.com', '+34684401735', 'b03ddf3ca2e714a6548e7495e2a03f5e824eaac9837cd7f159c67b90fb4b7342', 1 WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE idUsers = 1);" +
-
+            $"UNIQUE INDEX idroles_UNIQUE (idroles ASC) VISIBLE);" +                       
 
             $"CREATE TABLE IF NOT EXISTS {database}.usuarios (idUsers INT NOT NULL AUTO_INCREMENT," +
                 $"nombre VARCHAR(256) NOT NULL," +
@@ -86,8 +76,15 @@ namespace AseregeBarcelonaWeb.Manager
                 $"CREATE TABLE IF NOT EXISTS {database}.resources (idResources INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
                 $"name VARCHAR(255) NOT NULL," +                
                 $"format VARCHAR(255) NOT NULL," +
+                $"title LONGTEXT NOT NULL," +
                 $"textinfo LONGTEXT NOT NULL," +
-                $"date DATETIME NOT NULL);";
+                $"date DATETIME NOT NULL);"+
+
+                 
+                $"INSERT INTO roles(idroles, nombre, type) SELECT 1, 'Administrador', 1 WHERE NOT EXISTS(SELECT 1 FROM roles WHERE idroles = 1);" +           
+                $"INSERT INTO roles(idroles, nombre, type) SELECT 2, 'Usuario', 2 WHERE NOT EXISTS(SELECT 2 FROM roles WHERE idroles = 2);" +            
+                $"INSERT INTO roles(idroles, nombre, type) SELECT 3, 'Special', 3 WHERE NOT EXISTS(SELECT 3 FROM roles WHERE idroles = 3);" +            
+                $"INSERT INTO usuarios (idUsers, nombre, apellido, edad, sexo, email, telefono, passwordseguro, roles_idroles) SELECT 1, 'Administrador', 'Muñoz', 21, 'M', 'edgarmunozmanjon@outlook.com', '+34684401735', 'b03ddf3ca2e714a6548e7495e2a03f5e824eaac9837cd7f159c67b90fb4b7342', 1 WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE idUsers = 1);";
 
 
             MySqlCommand command = new MySqlCommand(query, connection);//preparar la query
@@ -416,13 +413,14 @@ namespace AseregeBarcelonaWeb.Manager
         {
             CreateTables();
 
-            string query = "INSERT INTO resources (name, format, date, textinfo) VALUES (@name, @format, @date, @textinfo)";
+            string query = "INSERT INTO resources (name, format, date, title, textinfo) VALUES (@name, @format, @date, @title, @textinfo)";
             MySqlCommand command = new MySqlCommand(query, connection);
 
 
             command.Parameters.AddWithValue("@name", picture.Name);            
             command.Parameters.AddWithValue("@format", picture.Format);
             command.Parameters.AddWithValue("@date", picture.Date);
+            command.Parameters.AddWithValue("@title", picture.Title);
             command.Parameters.AddWithValue("@textinfo", picture.TextInfo);
 
             try
@@ -444,7 +442,7 @@ namespace AseregeBarcelonaWeb.Manager
         //esta funcion permite obtener la imagen o video cuyo identificador sea el que el usuario le pida
         public async Task<Picture> SelectPicturesByIDAsync(int id) //API
         {
-            string query = "SELECT format, name, textinfo, date FROM resources where idResources=@id;";
+            string query = "SELECT format, name, title, textinfo, date FROM resources where idResources=@id;";
             await connection.OpenAsync();
 
             MySqlCommand command = new MySqlCommand(query, connection);
@@ -459,9 +457,10 @@ namespace AseregeBarcelonaWeb.Manager
                 while (await reader.ReadAsync()) //leer de manera asincronica
                 {
                     string format = (string)reader[0];// tipo de fichero                   
-                    string name = (string)reader[1];//datos                   
-                    string textinfo = (string)reader[2];//datos
-                    DateTime date = (DateTime)reader[3];//datos
+                    string name = (string)reader[1];//datos
+                    string title = (string)reader[2];
+                    string textinfo = (string)reader[3];//datos
+                    DateTime date = (DateTime)reader[4];//datos
 
                     string route = $"wwwroot/images/{name}";
                     byte[] rawImage = null;
@@ -476,6 +475,7 @@ namespace AseregeBarcelonaWeb.Manager
                             Name = name,
                             Data = file64,
                             Date = date,
+                            Title = title,
                             Format = format,
                             TextInfo = textinfo
                         };
@@ -488,7 +488,7 @@ namespace AseregeBarcelonaWeb.Manager
 
         public async Task<Picture[]> SelectPicturesAsync() //Interfaz
         {
-            string query = "SELECT idResources, format, name, textinfo, date FROM resources;";
+            string query = "SELECT idResources, format, name, title, textinfo, date FROM resources;";
             await connection.OpenAsync();
             
             MySqlCommand command = new MySqlCommand(query, connection);
@@ -501,9 +501,10 @@ namespace AseregeBarcelonaWeb.Manager
                 {                    
                     int idResources = (int)reader[0];// tipo de fichero                   
                     string format = (string)reader[1];// tipo de fichero                   
-                    string name = (string)reader[2];//datos                   
-                    string textinfo = (string)reader[3];//datos
-                    DateTime date = (DateTime)reader[4];//datos
+                    string name = (string)reader[2];//datos
+                    string title = (string)reader[3];
+                    string textinfo = (string)reader[4];//datos
+                    DateTime date = (DateTime)reader[5];//datos
 
                     string route = $"wwwroot/images/{name}";
                     
@@ -517,6 +518,7 @@ namespace AseregeBarcelonaWeb.Manager
                             Id = idResources,
                             Name = name,
                             Data = file64,
+                            Title = title,
                             Date = date,
                             Format = format,
                             TextInfo = textinfo

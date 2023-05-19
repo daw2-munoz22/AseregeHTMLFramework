@@ -107,8 +107,8 @@ else
 {        
     <MudGrid> 
         @foreach (Picture item in collection)
-        {            
-            MarkupString Text = new MarkupString(item.TextInfo);
+        {
+            MarkupString Text = new MarkupString($"<h2>{System.Net.WebUtility.HtmlEncode(item.Title)}</h2><p>{System.Net.WebUtility.HtmlEncode(item.TextInfo)}</p>");
             <MudItem xs="12" sm="12" md="12" lg="6">
                 <PictureCard Image="@item.Data" Text="@Text" />
                 @if (EditorEnabled && CurrentUser.Roles_idroles == (int)UserRole.Administrator)            
@@ -120,8 +120,7 @@ else
                     </MudPaper>                    
                 }
             </MudItem>        
-        }
-        
+        }        
     </MudGrid>
 }
 

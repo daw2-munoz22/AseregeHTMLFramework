@@ -2,7 +2,8 @@
     <DialogContent>
         <div class="d-flex flex-column py-1">
 
-            <MudTextField @bind-Value="@picture.TextInfo" Label="Texto de la imagen" Variant="Variant.Outlined"></MudTextField>
+            <MudTextField @bind-Value="@picture.Title" Label="Titulo" Variant="Variant.Outlined"></MudTextField>
+            <MudTextField @bind-Value="@picture.TextInfo" Label="Texto" Variant="Variant.Outlined"></MudTextField>
             <MudFileUpload Class="mt-2" T="IBrowserFile" FilesChanged="UploadFiles">
                 <ButtonTemplate>
                     <MudFab HtmlTag="label"
@@ -28,7 +29,7 @@
 {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public User CurrentUser { get; set; }
-
+  
     private string PictureURI { get; set; } = string.Empty;
     private Picture picture { get; set; } = new Picture();  
 
