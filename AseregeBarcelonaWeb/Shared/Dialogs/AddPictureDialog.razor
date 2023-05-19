@@ -1,11 +1,13 @@
 ﻿<MudDialog>
     <DialogContent>
         <div class="d-flex flex-column py-1">
-            <MudTextField @bind-Value="@picture.TextInfo" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
-            <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+
+            <MudTextField @bind-Value="@picture.TextInfo" Label="Texto de la imagen" Variant="Variant.Outlined"></MudTextField>
+            <MudFileUpload Class="mt-2" T="IBrowserFile" FilesChanged="UploadFiles">
                 <ButtonTemplate>
                     <MudFab HtmlTag="label"
                             Color="Color.Primary"
+                            Class="mt-2"
                             StartIcon="@Icons.Material.Filled.Image"
                             Label="Load picture"                            
                             for="@context" />
@@ -13,7 +15,7 @@
             </MudFileUpload>
             @if (!string.IsNullOrWhiteSpace(PictureURI))
             {
-                <MudImage Fluid="true" Src="@PictureURI" Alt="@picture.Name" Class="rounded-lg" />
+                <MudImage Fluid="true" Src="@PictureURI" Alt="@picture.Name" Class="rounded-lg mt-4" />
             }            
         </div>
     </DialogContent>
@@ -67,18 +69,10 @@
     }
 
     private async Task Send()
-    {
-        // Logic to add a new tab with image and information
-        // Example code:
-
-        Manager.MySQLManager manager = new MySQLManager();
-        int LastId = (int)await manager.SelectCountImages() + 1;
-        picture.Id = LastId;       
+    {     
+        Manager.MySQLManager manager = new MySQLManager();    
         await manager.InsertFile(picture);
-        //await manager.InsertFile(newPicture);
 
-        //Pictures.Add(newPicture);
-        //collection = Pictures.ToArray();
         StateHasChanged();
         await Close();
     }

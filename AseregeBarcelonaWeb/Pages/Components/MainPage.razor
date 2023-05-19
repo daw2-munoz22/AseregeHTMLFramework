@@ -44,19 +44,22 @@
 </style>
 
 <MudCarousel Class="mud-width-full" Style="height:200px;" ShowArrows="true" @bind-SelectedIndex="selectedIndex" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="false" TData="object">
-    @foreach (Picture item in Pictures.ToArray())        
+    @if(collection !=null)
     {
-        <MudCarouselItem Transition="Transition.Slide" Color="@Color.Primary">        
-            <div class="d-flex justify-center">
-                <MudImage
-                    ObjectFit="ObjectFit.Fill"
-                    Height="300" Width="1920"
-                    Src="@item.Data" 
-                    Alt="@item.TextInfo"
-                    Elevation="25" 
-                    Class="rounded-lg" />
-            </div>           
-        </MudCarouselItem>    
+        foreach (Picture item in collection)    
+        {
+            <MudCarouselItem Transition="Transition.Slide" Color="@Color.Primary">        
+                <div class="d-flex justify-center">
+                    <MudImage
+                        ObjectFit="ObjectFit.Fill"
+                        Height="300" Width="1920"
+                        Src="@item.Data" 
+                        Alt="@item.TextInfo"
+                        Elevation="25" 
+                        Class="rounded-lg" />
+                </div>           
+            </MudCarouselItem>    
+        }
     }
 </MudCarousel>
 
@@ -102,10 +105,10 @@
 }
 else
 {        
-    <MudGrid>
+    <MudGrid> 
         @foreach (Picture item in collection)
-        {
-            string Text = $"{item.TextInfo}";
+        {            
+            MarkupString Text = new MarkupString(item.TextInfo);
             <MudItem xs="12" sm="12" md="12" lg="6">
                 <PictureCard Image="@item.Data" Text="@Text" />
                 @if (EditorEnabled && CurrentUser.Roles_idroles == (int)UserRole.Administrator)            
@@ -131,34 +134,24 @@ else
         await OnRegister.InvokeAsync("admin");
     }
 
-    private bool EditorEnabled = false;    
-    private List<Picture> Pictures = new List<Picture>();
+    private bool EditorEnabled = false;       
     [Parameter] public User CurrentUser { get; set; }
     private int selectedIndex = 1;
-
-    /*ESTE ES LA GALERIA A DIBUJAR*/
+    
     private Picture[] collection;
 
     private async Task SwapEditorMode()
     {
         EditorEnabled = !EditorEnabled;
-
         StateHasChanged();
         await Task.CompletedTask;
     }
     private async Task GetPicture()
     {
-        collection = null;
-        Pictures = new List<Picture>();
+        collection = null;        
         Manager.MySQLManager manager = new Manager.MySQLManager();
-
-        long count = await manager.SelectCountImages();        
-        for (int i = 1; i < count+1; i++)
-        {
-            Picture element = await manager.SelectPicturesByIDAsync(i);
-            Pictures.Add(element);
-        }  
-        collection = Pictures.ToArray();
+        
+        collection = await manager.SelectPicturesAsync();               
 
         await manager.DisposeAsync();
 
@@ -199,13 +192,12 @@ else
         {
             using (Manager.MySQLManager manager = new Manager.MySQLManager())
             {
-                // Delete the image from the database
+                // Delete the image from the database                                
                 await manager.DeleteImageAsync(item.Id, item.Name);
 
-                // Remove the image from the collection
-                Pictures.Remove(item);
-                collection = Pictures.ToArray();
-            }           
+                // Remove the image from the collection                               
+            }              
+            await GetPicture();
             StateHasChanged();
             await Task.CompletedTask;
         }

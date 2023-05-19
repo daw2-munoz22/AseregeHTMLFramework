@@ -442,11 +442,11 @@ namespace AseregeBarcelonaWeb.Manager
         }
 
         //esta funcion permite obtener la imagen o video cuyo identificador sea el que el usuario le pida
-        public async Task<Picture> SelectPicturesByIDAsync(int id)
+        public async Task<Picture> SelectPicturesByIDAsync(int id) //API
         {
             string query = "SELECT format, name, textinfo, date FROM resources where idResources=@id;";
             await connection.OpenAsync();
-            
+
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@id", id);
 
@@ -479,11 +479,54 @@ namespace AseregeBarcelonaWeb.Manager
                             Format = format,
                             TextInfo = textinfo
                         };
-                    }                                   
+                    }
                 }
             }
             await connection.CloseAsync();
             return picture;
+        }
+
+        public async Task<Picture[]> SelectPicturesAsync() //Interfaz
+        {
+            string query = "SELECT idResources, format, name, textinfo, date FROM resources;";
+            await connection.OpenAsync();
+            
+            MySqlCommand command = new MySqlCommand(query, connection);
+           
+            List<Picture> pictures = new List<Picture>();
+            
+            using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync()) //leer de manera asincronica
+                {                    
+                    int idResources = (int)reader[0];// tipo de fichero                   
+                    string format = (string)reader[1];// tipo de fichero                   
+                    string name = (string)reader[2];//datos                   
+                    string textinfo = (string)reader[3];//datos
+                    DateTime date = (DateTime)reader[4];//datos
+
+                    string route = $"wwwroot/images/{name}";
+                    
+
+                    if (File.Exists(route))
+                    {
+                        byte[] rawImage = await File.ReadAllBytesAsync(route);
+                        string file64 = $"data:{format};base64,{Convert.ToBase64String(rawImage)}"; //fichero en texto uri base64
+
+                        pictures.Add(new Picture() {
+                            Id = idResources,
+                            Name = name,
+                            Data = file64,
+                            Date = date,
+                            Format = format,
+                            TextInfo = textinfo
+
+                        });                                                   
+                    }                                   
+                }
+            }
+            await connection.CloseAsync();
+            return pictures.ToArray();
         }
         //devolver el numero de imagenes que hay almacenadas en la base de datos
         public async Task<long> SelectCountImages()
