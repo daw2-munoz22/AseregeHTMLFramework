@@ -30,7 +30,7 @@ namespace AseregeBarcelonaWeb.API
             {
                 if (user.Roles_idroles == (int)UserRole.Administrator || user.Roles_idroles == (int)UserRole.User)
                 {
-                    await manager.InsertFile(model);
+                    await manager.InsertFileAsync(model);
                 }
                 await manager.DisposeAsync();
                 await Task.CompletedTask;

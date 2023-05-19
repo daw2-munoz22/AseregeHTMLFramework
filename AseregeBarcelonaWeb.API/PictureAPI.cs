@@ -45,7 +45,7 @@ namespace AseregeBarcelonaWeb.API
                 User user = result.GetUser(model.Authorize);
                 if (user != null)
                 {
-                    uri = await result.InsertFile(model);
+                    uri = await result.InsertFileAsync(model);
                     await result.DisposeAsync();
                     await Task.CompletedTask;
                     return Ok(uri);

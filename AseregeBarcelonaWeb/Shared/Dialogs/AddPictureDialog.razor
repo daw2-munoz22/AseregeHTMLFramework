@@ -22,17 +22,23 @@
     </DialogContent>
     <DialogActions>        
         <MudButton Color="Color.Surface" OnClick="Close">Cancelar</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Send">Ok</MudButton>
+        
+        @if (!string.IsNullOrWhiteSpace(picture.Title) && !string.IsNullOrWhiteSpace(picture.TextInfo) && !string.IsNullOrWhiteSpace(PictureURI))
+        {
+            <MudButton Color="Color.Primary" OnClick="Send">Ok</MudButton>
+        }
     </DialogActions>
 </MudDialog>
 @code
 {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public User CurrentUser { get; set; }
-  
-    private string PictureURI { get; set; } = string.Empty;
-    private Picture picture { get; set; } = new Picture();  
+    [Parameter] public bool NewResource { get; set; } = true;
 
+    private string PictureURI { get; set; } = string.Empty;
+    [Parameter] public Picture picture { get; set; } = new Picture();
+
+    //descargar las imagenes recibidas por el cliente 
     private async Task UploadFiles(IBrowserFile file)
     {
         if (file.ContentType.StartsWith("image/"))
@@ -61,25 +67,31 @@
                     };
                 }                
 
-                PictureURI = $"data:{picture.Format};base64,{picture.Data}";                    
+                PictureURI = $"data:{picture.Format};base64,{picture.Data}";  //devolver la imagen                  
                 StateHasChanged();                    
                 await Task.CompletedTask;                
             }
         }
         await Task.CompletedTask;
     }
-
+    //botón OK para enviar los datos
     private async Task Send()
     {     
-        Manager.MySQLManager manager = new MySQLManager();    
-        await manager.InsertFile(picture);
-
+        Manager.MySQLManager manager = new MySQLManager();
+        await (NewResource ? manager.InsertFileAsync(picture) : manager.UpdateFileAsync(picture));
+        await Task.CompletedTask;
         StateHasChanged();
         await Close();
     }
+    //boton de cerrar
     private async Task Close()
     {
         MudDialog.Cancel();
         await Task.CompletedTask;
     }
+  /*  protected override async Task OnInitializedAsync()
+    {
+        
+        await base.OnInitializedAsync();
+    }    */
 }

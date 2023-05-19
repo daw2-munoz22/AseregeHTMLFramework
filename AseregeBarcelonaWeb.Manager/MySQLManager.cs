@@ -409,7 +409,7 @@ namespace AseregeBarcelonaWeb.Manager
             }
         }
         //insertar imagenes o ficheros
-        public async Task<string> InsertFile(Picture picture)
+        public async Task<string> InsertFileAsync(Picture picture)
         {
             CreateTables();
 
@@ -430,11 +430,46 @@ namespace AseregeBarcelonaWeb.Manager
                 await DisposeAsync();
                 byte[] image = Convert.FromBase64String(picture.Data); //guardo en la variable image el recurso convertido en Base64 (hash)
                 await File.WriteAllBytesAsync($"wwwroot/images/{picture.Name}", image); //escribir la imagen en el directorio que está definido
+                await Task.CompletedTask;
                 return "OK";
             }
             catch (MySqlException ex)
             {
                 await DisposeAsync();
+                await Task.CompletedTask;
+                return $"Error inserting the Resource File: {ex.Message}";
+            }
+        }
+
+        public async Task<string> UpdateFileAsync(Picture picture)
+        {
+            CreateTables();
+
+            string query = "UPDATE resources SET name = @name, format = @format, date = @date, title = @title, textinfo = @textinfo WHERE idResources = @idResources;";
+            MySqlCommand command = new MySqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@name", picture.Name);
+            command.Parameters.AddWithValue("@format", picture.Format);
+            command.Parameters.AddWithValue("@date", picture.Date);
+            command.Parameters.AddWithValue("@title", picture.Title);
+            command.Parameters.AddWithValue("@textinfo", picture.TextInfo);
+            command.Parameters.AddWithValue("@idResources", picture.Id);
+            
+
+            try
+            {
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync(); //ignorar la query
+                await DisposeAsync();
+                byte[] image = Convert.FromBase64String(picture.Data); //guardo en la variable image el recurso convertido en Base64 (hash)
+                await File.WriteAllBytesAsync($"wwwroot/images/{picture.Name}", image); //escribir la imagen en el directorio que está definido
+                await Task.CompletedTask;
+                return "OK";
+            }
+            catch (MySqlException ex)
+            {
+                await DisposeAsync();
+                await Task.CompletedTask;
                 return $"Error inserting the Resource File: {ex.Message}";
             }
         }

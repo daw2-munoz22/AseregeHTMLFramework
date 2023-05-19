@@ -105,6 +105,7 @@
 }
 else
 {        
+   
     <MudGrid> 
         @foreach (Picture item in collection)
         {
@@ -114,7 +115,8 @@ else
                 @if (EditorEnabled && CurrentUser.Roles_idroles == (int)UserRole.Administrator)            
                 {                  
                     <MudPaper Elevation="25">
-                        <MudToolBar>                          
+                        <MudToolBar> 
+                            <MudIconButton OnClick="async(e) => await EditPicture(item)" Icon="@Icons.Material.Outlined.Edit" />
                             <MudButton Class="mb-2 ml-4" Variant="Variant.Filled" OnClick="async (e) => await DeleteImage(item)" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
                         </MudToolBar/>
                     </MudPaper>                    
@@ -136,9 +138,8 @@ else
     private bool EditorEnabled = false;       
     [Parameter] public User CurrentUser { get; set; }
     private int selectedIndex = 1;
-    
-    private Picture[] collection;
 
+    private Picture[] collection;    
     private async Task SwapEditorMode()
     {
         EditorEnabled = !EditorEnabled;
@@ -149,7 +150,7 @@ else
     {
         collection = null;        
         Manager.MySQLManager manager = new Manager.MySQLManager();
-        
+
         collection = await manager.SelectPicturesAsync();               
 
         await manager.DisposeAsync();
@@ -166,21 +167,24 @@ else
 
         //abrir ventana dialogo
         DialogResult result = await DialogService.Show<AddPictureDialog>("Añadir Imagen", new DialogParameters() 
-        { 
-            {
-                "CurrentUser", CurrentUser 
+        {             
+            {                
+                "CurrentUser", CurrentUser
+            },
+            {                
+                "NewResource", true
             }
         },
         new DialogOptions() 
         {
             CloseOnEscapeKey = true 
         }).Result;  
-
-        await Task.CompletedTask;
+        
         if (result.Canceled)
         {
             await GetPicture();
         }
+        await Task.CompletedTask;
     }
 
     private async Task DeleteImage(Picture item)
@@ -200,5 +204,34 @@ else
             StateHasChanged();
             await Task.CompletedTask;
         }
+    }
+    private async Task EditPicture(Picture item)
+    {
+        Picture selectedPicture = item;  
+
+        DialogResult result = await DialogService.Show<AddPictureDialog>("Editar Imagen", new DialogParameters() 
+        {             
+            {                
+                "CurrentUser", CurrentUser
+            },
+            {                
+                "picture", item
+            },
+            {                
+                "NewResource", false
+            }
+        },
+        new DialogOptions() 
+        {
+            CloseOnEscapeKey = true 
+        }).Result;  
+        
+        if (result.Canceled)
+        {
+            await GetPicture();
+        }
+
+        StateHasChanged();
+        await Task.CompletedTask;
     }
 }

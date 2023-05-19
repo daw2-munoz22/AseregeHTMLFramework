@@ -100,7 +100,7 @@ else
                                 Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
                             }
                         };
-                        await manager.InsertFile(picture);
+                        await manager.InsertFileAsync(picture);
                         await Task.CompletedTask;
                     }
                 }                                
