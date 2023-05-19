@@ -151,8 +151,8 @@ else
         collection = null;        
         Manager.MySQLManager manager = new Manager.MySQLManager();
 
-        collection = await manager.SelectPicturesAsync();               
-
+        Picture[] pictures = await manager.SelectPicturesAsync();               
+        collection = pictures.Where(p => p.Owner == 1).ToArray();
         await manager.DisposeAsync();
 
         selectedIndex = 1;

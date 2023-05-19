@@ -23,9 +23,9 @@
                       OnAdornmentClick="OnPasswordVisibleClick" 
                       AdornmentAriaLabel="Mostrar contraseña">
         </MudTextField>
-        
-        <MudTextField @bind-Value="PasswordRepeat" T="string" Label="Repetir Contraseña" />    
-        <MudProgressLinear Color="@SecurityLevelColor" Rounded="true" Size="Size.Large" Value="@SecurityLevelPassword" />
+
+    <MudTextField InputType="InputType.Password" @bind-Value="PasswordRepeat" T="string" Label="Repetir Contraseña" />
+    <MudProgressLinear Color="@SecurityLevelColor" Rounded="true" Size="Size.Large" Value="@SecurityLevelPassword" />
     
         @if (user.Nombre != null || user.Apellido != null || user.Edad < 1 || !string.IsNullOrWhiteSpace(Sexo) || user.Email != null || user.Telefono != null || user.Passwordseguro != PasswordRepeat)    
         {                        

@@ -38,7 +38,10 @@
     private string PictureURI { get; set; } = string.Empty;
     [Parameter] public Picture picture { get; set; } = new Picture();
 
-    //descargar las imagenes recibidas por el cliente 
+    //descargar las imagenes recibidas por el cliente
+    //Esta función almacena los archivos y lo guarda en un MemoryStream. Luego, accede a la primera posición y escribe los bytes a partir de esa posición
+    //Crea una instancia a la base de datos y guardo el hash del archivo. Una vez acabado, saltará a la instrucción Task.CompletedTask;
+    // para comprobar que se ha acabado la tarea
     private async Task UploadFiles(IBrowserFile file)
     {
         if (file.ContentType.StartsWith("image/"))
@@ -60,6 +63,7 @@
                     picture.Format = file.ContentType;
                     picture.Date = file.LastModified.ToLocalTime().DateTime;
                     picture.Data = Convert.ToBase64String(ms.ToArray());
+                    picture.Owner = CurrentUser.ID;
                     picture.Authorize = new Authorize()
                     {
                         Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
@@ -78,6 +82,7 @@
     private async Task Send()
     {     
         Manager.MySQLManager manager = new MySQLManager();
+        //insertamos o actualizamos segun el parametro NewResource (true or false)
         await (NewResource ? manager.InsertFileAsync(picture) : manager.UpdateFileAsync(picture));
         await Task.CompletedTask;
         StateHasChanged();
@@ -89,9 +94,4 @@
         MudDialog.Cancel();
         await Task.CompletedTask;
     }
-  /*  protected override async Task OnInitializedAsync()
-    {
-        
-        await base.OnInitializedAsync();
-    }    */
 }

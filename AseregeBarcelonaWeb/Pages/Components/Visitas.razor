@@ -1,111 +1,169 @@
 ﻿@using System.IO;
-<MudText Class="pt-4 mt-4" Typo="Typo.h4">Visitas</MudText>
+<MudText Class="pt-4 mt-4" Typo="Typo.h4">Visitas</MudText>           
 
-       
+<iframe class="pb-4" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d79965.21656046658!2d2.07023247507779!3d41.39017125657571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona!5e0!3m2!1ses!2ses!4v1681565921119!5m2!1ses!2ses" 
+width="600" 
+height="450" 
+style="border:0;"
+allowfullscreen="" 
+loading="lazy"
+referrerpolicy="no-referrer-when-downgrade" />
 
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d79965.21656046658!2d2.07023247507779!3d41.39017125657571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona!5e0!3m2!1ses!2ses!4v1681565921119!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>    
-@if (CurrentUser != null && CurrentUser.Roles_idroles == (int)UserRole.Administrator)
-{
- 
-}
-else
-{
+@if (ChatImages != null && UserList != null && UserList.Count > 0)
+{    
+    @foreach (Picture picture in ChatImages) //ChatImages es el array y la variable picture es la imagen
+    {
+        User PublishUser = UserList.FirstOrDefault(p => p.ID == picture.Owner);
+        string postedName = PublishUser?.Nombre ?? "UKNOWN";
+        MarkupString Text = new MarkupString($"<h2>{System.Net.WebUtility.HtmlEncode(picture.Title)}</h2><p>{System.Net.WebUtility.HtmlEncode(picture.TextInfo)}</p>");
+
+        <MudCard Class="mt-4 pt-4">
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <Multiavatar Width="48px" Height="48px" AvatarId="@postedName" />
+                </CardHeaderAvatar>
+                <CardHeaderContent>                    
+                    <MudText Typo="Typo.body1">@postedName</MudText>
+                    <MudText Typo="Typo.body2">@picture.Date</MudText>                                       
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    @if (picture.Owner == CurrentUser.ID || CurrentUser.ID == (int)UserRole.Administrator)
+                    {
+                        <MudIconButton OnClick="async(e) => await ToolbarEdit(picture)" Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />                        
+                    }
+                    
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardMedia Image="@picture.Data" Height="250" />            
+            <MudCardContent>              
+                <MudText Typo="Typo.body2">@Text</MudText>
+            </MudCardContent>
+            <MudCardActions>
+                @if (picture.Owner == CurrentUser.ID || CurrentUser.ID == (int)UserRole.Administrator)
+                {
+                    <MudButton Class="mb-2 ml-4" Variant="Variant.Filled" OnClick="async (e) => await DeleteImage(picture)" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Eliminar</MudButton>
+                }
+                <MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Default" />
+            </MudCardActions>
+        </MudCard>
+    }
+    <MudPaper @onclick="ToolbarAdd" Elevation="4" Class="mt-4 py-8 px-10">
+        <MudIconButton OnClick="ToolbarAdd" Icon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" />       
+    </MudPaper>
     
 }
-<!--<img src="@PictureImage" />-->
-<MudCard>
-    <MudCardHeader>
-        <CardHeaderAvatar>
-            <Multiavatar Width="48px" Height="48px" AvatarId="@MultiAvatarUserName" />
-        </CardHeaderAvatar>
-        <CardHeaderContent>
-            @if(CurrentUser !=null)
-            {
-                <MudText Typo="Typo.body1">@CurrentUser.Nombre</MudText>                
-            }
-            @if (PictureImage != null)
-            {
-                <MudText Typo="Typo.body2">@PictureImage.Date</MudText>
-            }            
-        </CardHeaderContent>
-        <CardHeaderActions>
-            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
-        </CardHeaderActions>
-    </MudCardHeader>
-    @if (PictureImage != null)
-    {
-        <MudCardMedia Image="@PictureImage.Data" Height="250" />
-    }    
-    <MudCardContent>
-        <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
-    </MudCardContent>
-    <MudCardActions>
-        <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" />
-        <MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Default" />
-    </MudCardActions>
-</MudCard>
+else
+{   
+    <MudProgressLinear Color="Color.Error" Indeterminate="true" Class="my-7" />
+    <MudGrid>
+        @for (int i = 0; i < 2; i++)
+        {
+            <MudItem xs="12" sm="12" md="12" lg="6">
+                <MudCard>
+                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px" />
+                    <MudCardContent>
+                        <MudSkeleton Width="30%" Height="42px;" />
+                        <MudSkeleton Width="80%" />
+                        <MudSkeleton Width="100%" />
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudSkeleton Width="64px" Height="40px" Class="ml-2" />
+                        <MudSkeleton Width="105px" Height="40px" Class="ml-3" />
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+}
 <MudPaper Class="pa-2 pt-2 mt-4" Elevation="3"><iframe src="https://www.youtube.com/embed/u5-kia2bzpQ" /></MudPaper>
-
-<InputFile OnChange="HandleSeleccionArchivo" multiple />
 
 @code
 {
-
     [Parameter] public User CurrentUser { get; set; }
-    private string MultiAvatarUserName { get; set; } = "UKNOWN";
-
+   
     private string PictureUri { get; set; }
-    private Picture PictureImage { get; set; }
+    private Picture[] ChatImages { get; set; }
+    private List<User> UserList { get; set; } = new List<User>();
 
-    protected override async Task OnInitializedAsync()
-    {
-        MultiAvatarUserName = CurrentUser.Nombre;
+    private async Task GetPicture()
+    {        
         using (Manager.MySQLManager manager = new Manager.MySQLManager())
         {
-            PictureImage = await manager.SelectPicturesByIDAsync(3);
-            PictureUri = PictureImage.Data;
+            ChatImages = await manager.SelectChatAsync();
+            UserList = await manager.SelectUsersAsync();
         };
         await Task.CompletedTask;
     }
-    //Esta función almacena los archivos y lo guarda en un MemoryStream. Luego, accede a la primera posición y escribe los bytes a partir de esa posición
-    //Crea una instancia a la base de datos y guardo el hash del archivo. Una vez acabado, saltará a la instrucción Task.CompletedTask; 
-    // para comprobar que se ha acabado la tarea    
-    private async Task HandleSeleccionArchivo(InputFileChangeEventArgs e)
-    {        
-        foreach (IBrowserFile file in e.GetMultipleFiles())
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetPicture();
+        StateHasChanged();
+    }
+
+    private async Task DeleteImage(Picture item)
+    {
+        // Logic to delete the image
+        // Example code:
+        if (item != null)
         {
-            if (file.ContentType.StartsWith("image/"))
+            using (Manager.MySQLManager manager = new Manager.MySQLManager())
             {
-                using (Manager.MySQLManager manager = new Manager.MySQLManager())
-                {       
-                    using (MemoryStream ms = new MemoryStream())
-                    {                        
-                        ms.Position = 0;                    
-                        await file.OpenReadStream(8388608, default).CopyToAsync(ms);
+                // Delete the image from the database
+                await manager.DeleteImageAsync(item.Id, item.Name);
 
-
-                        ms.Position = 0;               
-                        DateTime Date = DateTime.Now;
-                        //escribir en la base de datos el stream procesado en la RAM                        
-                        
-                        Picture picture = new Picture()
-                        {                                                                
-                            Name = Manager.CryptographyManager.GenerateHash(Date.ToString(), file.Name),
-                            Format = file.ContentType,
-                            Date = file.LastModified.ToLocalTime().DateTime,
-                                Data = Convert.ToBase64String(ms.ToArray()),
-                            Authorize = new Authorize()
-                            {
-                                Name = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Name"),
-                                Password = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "Password")
-                            }
-                        };
-                        await manager.InsertFileAsync(picture);
-                        await Task.CompletedTask;
-                    }
-                }                                
+                // Remove the image from the collection
             }
+            await GetPicture();
+            StateHasChanged();
+            await Task.CompletedTask;
         }
-    }    
+    }
+    private async Task ToolbarAdd()
+    {
+        DialogResult result = await DialogService.Show<AddPictureDialog>("Añadir Imagen", new DialogParameters()
+        {
+            {
+                "CurrentUser", CurrentUser
+            },            
+            {
+                "NewResource", true
+            }
+        },
+        new DialogOptions()
+            {
+                CloseOnEscapeKey = true
+            }).Result;
+        if (result.Canceled)
+        {
+            await GetPicture();
+        }
+        await Task.CompletedTask;
+    }
+
+    private async Task ToolbarEdit(Picture item)
+    {
+        DialogResult result = await DialogService.Show<AddPictureDialog>("Editar Imagen", new DialogParameters()
+        {
+            {
+                "CurrentUser", CurrentUser
+            },
+            {
+                "picture", item
+            },
+            {
+                "NewResource", false
+            }
+        },
+        new DialogOptions()
+        {
+            CloseOnEscapeKey = true
+        }).Result;
+        if (result.Canceled)
+        {
+            await GetPicture();
+        }
+        await Task.CompletedTask;
+    }
 }
 

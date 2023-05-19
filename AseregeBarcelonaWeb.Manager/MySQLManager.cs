@@ -1,13 +1,12 @@
 ﻿using AseregeBarcelonaWeb.Model.Data;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Utilities.Collections;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AseregeBarcelonaWeb.Manager
@@ -78,7 +77,8 @@ namespace AseregeBarcelonaWeb.Manager
                 $"format VARCHAR(255) NOT NULL," +
                 $"title LONGTEXT NOT NULL," +
                 $"textinfo LONGTEXT NOT NULL," +
-                $"date DATETIME NOT NULL);"+
+                $"date DATETIME NOT NULL," +
+                $"owner INT NOT NULL);"+
 
                  
                 $"INSERT INTO roles(idroles, nombre, type) SELECT 1, 'Administrador', 1 WHERE NOT EXISTS(SELECT 1 FROM roles WHERE idroles = 1);" +           
@@ -386,8 +386,6 @@ namespace AseregeBarcelonaWeb.Manager
             }
         }
 
-
-
         //Función para la query de eliminar usuarios
         //CACA public async void DeleteUserAsync(int id)
         //GOOD private void DeleteUser(int id)
@@ -413,7 +411,7 @@ namespace AseregeBarcelonaWeb.Manager
         {
             CreateTables();
 
-            string query = "INSERT INTO resources (name, format, date, title, textinfo) VALUES (@name, @format, @date, @title, @textinfo)";
+            string query = "INSERT INTO resources (name, format, date, title, textinfo, owner) VALUES (@name, @format, @date, @title, @textinfo, @owner)";
             MySqlCommand command = new MySqlCommand(query, connection);
 
 
@@ -422,6 +420,7 @@ namespace AseregeBarcelonaWeb.Manager
             command.Parameters.AddWithValue("@date", picture.Date);
             command.Parameters.AddWithValue("@title", picture.Title);
             command.Parameters.AddWithValue("@textinfo", picture.TextInfo);
+            command.Parameters.AddWithValue("@owner", picture.Owner);
 
             try
             {
@@ -440,7 +439,7 @@ namespace AseregeBarcelonaWeb.Manager
                 return $"Error inserting the Resource File: {ex.Message}";
             }
         }
-
+        //esta funcion permite actualizar los recursos (subir imagenes con titulo y textinfo)
         public async Task<string> UpdateFileAsync(Picture picture)
         {
             CreateTables();
@@ -520,10 +519,10 @@ namespace AseregeBarcelonaWeb.Manager
             await connection.CloseAsync();
             return picture;
         }
-
+        //esta funcion nos devuelve las imagenes seleccionadas
         public async Task<Picture[]> SelectPicturesAsync() //Interfaz
-        {
-            string query = "SELECT idResources, format, name, title, textinfo, date FROM resources;";
+        { 
+            string query = "SELECT idResources, format, name, title, textinfo, date, owner FROM resources;";
             await connection.OpenAsync();
             
             MySqlCommand command = new MySqlCommand(query, connection);
@@ -540,7 +539,7 @@ namespace AseregeBarcelonaWeb.Manager
                     string title = (string)reader[3];
                     string textinfo = (string)reader[4];//datos
                     DateTime date = (DateTime)reader[5];//datos
-
+                    int owner = (int)reader[6];//datos
                     string route = $"wwwroot/images/{name}";
                     
 
@@ -556,8 +555,8 @@ namespace AseregeBarcelonaWeb.Manager
                             Title = title,
                             Date = date,
                             Format = format,
-                            TextInfo = textinfo
-
+                            TextInfo = textinfo,
+                            Owner = owner
                         });                                                   
                     }                                   
                 }
@@ -638,6 +637,50 @@ namespace AseregeBarcelonaWeb.Manager
                 await DisposeAsync();
                 return $"Error inserting the Resource File: {ex.Message}";
             }            
+        }
+        public async Task<Picture[]> SelectChatAsync() //Interfaz       
+        {            
+            string query = "SELECT idResources, name, format, title, textinfo, date, owner FROM resources WHERE owner <> 1 ORDER BY date ASC;";
+            await connection.OpenAsync();
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+
+            List<Picture> pictures = new List<Picture>();
+
+            using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync()) //leer de manera asincronica
+                {
+                    int idResources = (int)reader[0];// tipo de fichero                   
+                    string name = (string)reader[1];//datos
+                    string format = (string)reader[2];// tipo de fichero                                       
+                    string title = (string)reader[3];
+                    string textinfo = (string)reader[4];//datos
+                    DateTime date = (DateTime)reader[5];//datos
+                    int owner = (int)reader[6];//datos
+                    
+                    string route = $"wwwroot/images/{name}";
+                    if (File.Exists(route))
+                    {
+                        byte[] rawImage = await File.ReadAllBytesAsync(route);
+                        string file64 = $"data:{format};base64,{Convert.ToBase64String(rawImage)}"; //fichero en texto uri base64
+
+                        pictures.Add(new Picture()
+                        {
+                            Id = idResources,
+                            Name = name,
+                            Data = file64,
+                            Title = title,
+                            Date = date,
+                            Format = format,
+                            TextInfo = textinfo,
+                            Owner = owner
+                        });
+                    }
+                }
+            }
+            await connection.CloseAsync();
+            return pictures.ToArray();
         }
     }
 }
