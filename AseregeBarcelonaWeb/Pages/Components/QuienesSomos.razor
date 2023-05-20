@@ -1,30 +1,40 @@
-﻿<MudText Class="pt-4 mt-4" Typo="Typo.h4">Quienes Somos?</MudText>
+﻿@if (Textos != null || Textos.Count > 0)
+{	
+	<MudGrid Class="pt-4 mt-4">
+		<MudItem xs="12" md="6">			
+			@foreach (MarkupString texto in Textos)
+			{
+				<MudPaper Class="pa-16 ma-2" Elevation="3">@texto</MudPaper>
+			}			
+		</MudItem>
+		<MudItem xs="12" md="6">
+			<MudImage ObjectPosition="ObjectPosition.Center" Fluid="true" Src="./images/foto.png" Alt="Foto el Creador. Se aprecia una foto de carnet con un joven de ojos negros, pelo corto marrón y cara seria. Lleva puesta una camiseta oscura y parece estar algo enfadado" Class="rounded-lg pt-md-2 mt-md-2 pl-8 ml-8" />
+		</MudItem>
+	</MudGrid>
+}
 
-<MudText Class="mt-2" Typo="Typo.body1">Soy un desarrollador web junior con muchas ganas de progresar y con mucha ambición.</MudText>
+<MudText Class="mt-2" Typo="Typo.body1"></MudText>
 <MudText Class="mt-2" Typo="Typo.body1">
-	El proyecto a realizar es una página web sobre Barcelona. Esta web es
-	una SSR(Server Site Rendering), por lo cual, todas las vistas (páginas)
-	se ejecutan en el servidor, aunque el comportamiento será de una SPA
-	(Single Page Aplication), por lo tanto, se verá como una única página.
-</MudText>
-<MudText Class="mt-2 mb-2" Typo="Typo.body1">
-	Se ha tenido en cuenta que el factor principal ha sido aprender un lenguaje de
-	programación nuevo, en el que me ha servido para poder desarrollar
-	el proyecto de manera cómoda y eficaz. También se ha aprendido en
-	organizar los elementos y en distribuirlos en componentes, puesto
-	que es más rápido para poder realizarlo. Además, poder realizarlo
-	para cualquier plataforma (ordenador, Tablet y móvil), hacer que la
-	página sea segura, accesible y usable, etc.
-</MudText>
 	
-
-<MudImage Fluid="true" Src="./images/foto.png" Alt="Mi Perfil" Class="rounded-lg" />
-<MudText Class="mt-2" Typo="Typo.h5">Qué proporcina la web?</MudText>
-<MudText Class="mt-2" Typo="Typo.body1">La web está enfocada para cualquier turista que quiera visitar Barcelona.</MudText>
-<MudText Class="mt-2" Typo="Typo.body1">
-	Proporciona unos destinos de ejemplo en la página principal, pero en la vista Visitas, proporciona una galería de imagenes,
-	en el que el turista podrá subir fotos para añadirlas en la galaría.
 </MudText>
-@code {
 
+@code 
+{
+	private List<MarkupString> Textos { get; set; } = new List<MarkupString>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		string route = "about.web";
+		if (!System.IO.File.Exists(route))
+		{			
+			string jsonData = "[{\"Value\":\"<h2>TITULO</h2><p>PARAGRAFO EJEMPLO</p>\"}]";
+			await System.IO.File.WriteAllTextAsync(route, jsonData);
+		}		
+		
+		Textos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MarkupString>>(await System.IO.File.ReadAllTextAsync(route));
+		await Task.CompletedTask;
+		await base.OnInitializedAsync();
+	}
+
+	
 }
