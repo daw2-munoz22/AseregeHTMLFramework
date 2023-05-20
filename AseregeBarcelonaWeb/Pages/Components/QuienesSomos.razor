@@ -24,7 +24,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		string route = "about.web";
+		string route = "wwwroot/about.web";
 		if (!System.IO.File.Exists(route))
 		{			
 			string jsonData = "[{\"Value\":\"<h2>TITULO</h2><p>PARAGRAFO EJEMPLO</p>\"}]";
